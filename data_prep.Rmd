@@ -11,6 +11,7 @@ output:
 
 ```{r include=FALSE}
 library(lavaan)
+library(semTools)
 ```
 
 
@@ -33,6 +34,12 @@ EWCS_EU28$coutnid <- droplevels(EWCS_EU28$countid)
 #year
 EWCS_EU28$t <- as.numeric(EWCS_EU28$wave)
 
+#yeardummies
+d <- as.data.frame(model.matrix( ~ wave - 1, data=EWCS_EU28 ))
+colnames(d) <- c("w2000","w2005","w2010","w2015")
+EWCS_EU28 <- cbind(EWCS_EU28,d)
+rm(d)
+
 #Age
 EWCS_EU28$age <- as.numeric(levels(EWCS_EU28$y15_Q2b))[EWCS_EU28$y15_Q2b]
 
@@ -53,7 +60,7 @@ EWCS_EU28$y15_isco_08_1 <- factor(EWCS_EU28$y15_isco_08_1, levels=c("Managers","
 #EWCS_EU28$y15_ISCED_lt
 
 #Frequent disruptive interruptions
-#EWCS_EU28$freq_dis_int
+EWCS_EU28$freq_dis_int <- as.ordered(EWCS_EU28$freq_dis_int)
 
 #High speed
 EWCS_EU28$y15_Q49a <- factor(EWCS_EU28$y15_Q49a, 
@@ -64,7 +71,7 @@ EWCS_EU28$y15_Q49a <- factor(EWCS_EU28$y15_Q49a,
                                       "Around ¾ of the time   ",
                                       "Almost all of the time ",
                                       "All of the time        "), 
-                             ordered=T)
+                             ordered=TRUE)
 
 #Tight deadlines
 EWCS_EU28$y15_Q49b <- factor(EWCS_EU28$y15_Q49b, 
@@ -75,32 +82,91 @@ EWCS_EU28$y15_Q49b <- factor(EWCS_EU28$y15_Q49b,
                                       "Around ¾ of the time   ",
                                       "Almost all of the time ",
                                       "All of the time        "), 
-                             ordered=T)
+                             ordered=TRUE)
 
 #Not enough time to get the job done
 EWCS_EU28$y15_Q61g <- factor(EWCS_EU28$y15_Q61g, 
-                             levels=c("Never                        ",
-                                      "Rarely                       ",
-                                      "Sometimes                    ",
+                             levels=c("Always                       ",
                                       "Most of the time             ",
-                                      "Always                       ")
-                             , ordered=T)
+                                      "Sometimes                    ",
+                                      "Rarely                       ",
+                                      "Never                        ")
+                             , ordered=TRUE)
+
+#Working hours
+#totalhour
+
+#long working days
+EWCS_EU28$long_wd <- ordered(EWCS_EU28$long_wd)
+#y15_q37dr
+
+#Work in free time
+EWCS_EU28$y15_Q46_r <- factor(EWCS_EU28$y15_Q46, 
+                              levels=c("Never                        ",
+                                       "Less often                   ",
+                                       "Several times a month        ",
+                                       "Several times a week         ",
+                                       "Daily                        ")
+                              , ordered=TRUE)
+
+#Autonomy
+EWCS_EU28$y15_Q54a <- factor(EWCS_EU28$y15_Q54a, 
+                             levels=c("No                        ",
+                                                          "Yes                       "), 
+                             ordered=TRUE)
+EWCS_EU28$y15_Q54b <- factor(EWCS_EU28$y15_Q54b, 
+                             levels=c("No                        ",
+                                                          "Yes                       "), 
+                             ordered=TRUE)
+EWCS_EU28$y15_Q54c <- factor(EWCS_EU28$y15_Q54c, 
+                             levels=c("No                        ",
+                                                          "Yes                       "), 
+                             ordered=TRUE)
+
+EWCS_EU28$y15_Q61e <- factor(EWCS_EU28$y15_Q61e, levels=rev(levels(EWCS_EU28$y15_Q61e)), ordered=TRUE)
 
 ```
 
 #Check the reliability of the indexes
 
-Quantitative demands index. Following the 6th EWCS overview report 
+Quantitative demands index. Following the 6th EWCS overview report. The fit seems to be very good if allowing for covariance between Q49a and b. The argument is that these questions are asked in the same way after one another so that could cause straightlining. 
 
 ```{r}
 
+model <- 'QD =~ y15_Q49a + y15_Q49b + y15_Q61g + freq_dis_int
 
-model <- 'QD =~ y15_Q49a + y15_Q49b + freq_dis_int + y15_Q61g
-          QD ~ t'  
+          y15_Q49a ~~ y15_Q49b
 
-fit <- sem(model, data=EWCS_EU28)
+'  
+
+fit <- sem(model, data=subset(EWCS_EU28,year>=2005))
 summary(fit, fit.measures=TRUE, rsquare=TRUE, standardized =TRUE)
+
 ```
+
+Using multiple waves of the survey may cause measurement invariance. The increase in the fit measures due to assuming measurement invariance are minimal, so safe to assume. 
+
+```{r}
+
+measurementInvariance(model= model, 
+                      data = subset(EWCS_EU28,year>=2005), 
+                      group = "wave")
+
+```
+
+Autonomy, based on the EWCS6 overview report. Very good fit.
+
+```{r}
+
+model <- 'AUT =~ y15_Q54a + y15_Q54b + y15_Q54c + y15_Q61e '  
+
+fit <- sem(model, data=subset(EWCS_EU28,year>=2005))
+summary(fit, fit.measures=TRUE, rsquare=TRUE, standardized =TRUE)
+
+```
+
+
+
 
 ```{r}
 
