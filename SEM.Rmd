@@ -1,0 +1,172 @@
+---
+title: "SEM ICT and health"
+author: "Mathijn Wilkens"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  html_document: 
+    css: custom.css
+    toc: true
+    toc_float: true
+---
+
+```{r include=FALSE}
+library(lavaan)
+library(semTools)
+library(semPlot)
+```
+
+#Index check
+
+##Quantiative demands
+
+Quantitative demands index. Following the 6th EWCS overview report. The fit seems to be very good if allowing for covariance between Q49a and b. However, the reliability is low, so relying only on 49a and 49b. 
+
+```{r}
+
+QD_m <- 'QD =~ y15_Q49a + y15_Q49b '  
+
+#+ y15_Q61g freq_dis_int
+
+#fit <- sem(QD_m, data=subset(EWCS_EU28,year>=2005))
+#summary(fit, fit.measures=TRUE, rsquare=TRUE, standardized =TRUE)
+#reliability(fit)
+```
+
+
+##Autonomy
+
+Autonomy, based on the EWCS6 overview report, except for having a say because that lowers model fit. 
+
+```{r}
+
+AUT_m <- 'AUT =~ y15_Q54a + y15_Q54b + y15_Q54c'  
+
+fit <- sem(AUT_m, data=subset(EWCS_EU28,year>=2005))
+summary(fit, fit.measures=TRUE, rsquare=TRUE, standardized =TRUE)
+reliability(fit)
+```
+
+
+##Cognitive dimension
+
+Based on EWCS6 overview report job quality index. The fit indexes are good; the RMSEA is a bit on the high side if we include ability to apply own ideas so that item is dropped. 
+
+```{r}
+
+CD_m <- 'CD =~ y15_Q53c + y15_Q53e + y15_Q53f'  
+
+fit <- sem(CD_m, data=subset(EWCS_EU28,year>=2005))
+summary(fit, fit.measures=TRUE, rsquare=TRUE, standardized =TRUE)
+reliability(fit)
+
+```
+
+
+##Social support
+This index consists of 2 items, so it cannot be identified in isolation.
+
+```{r}
+
+SS_m <- 'SS =~ y15_Q61a + y15_Q61b'  
+
+```
+
+
+##WHO5
+
+```{r}
+WHO5 <- 'WHO5 =~ y15_Q87a + y15_Q87b + y15_Q87c + y15_Q87d + y15_Q87e'
+
+fit <- sem(WHO5, data=subset(EWCS_EU28,year>=2005))
+summary(fit, fit.measures=TRUE, rsquare=TRUE, standardized =TRUE)
+reliability(fit)
+```
+
+#Structural models
+
+```{r}
+
+sm1a <- '#Measurement models
+           QD =~ y15_Q49a + y15_Q49b
+           AUT =~ y15_Q54a + y15_Q54b + y15_Q54c
+           CD =~ y15_Q53c + y15_Q53e + y15_Q53f
+           SS =~ y15_Q61a + y15_Q61b
+           WHO5 =~ y15_Q87a + y15_Q87b + y15_Q87c + y15_Q87d + y15_Q87e 
+    
+         #JDR regressions
+           QD ~ computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+           AUT ~ computer  + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+           CD ~ computer  + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+           SS ~ computer  + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+           freq_dis_int ~ computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+           totalhour ~ computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+           y15_Q47 ~ computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+    
+         #outcome regressions
+           WHO5 ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47
+           y15_Q75 ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47
+           anxiety ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47
+           fatigue ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47
+           stress ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47
+           absenteeism ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47
+           presenteeism ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47
+    
+         #Covariances
+           WHO5 ~~ y15_Q75 + anxiety + fatigue + stress + absenteeism + presenteeism
+           y15_Q75 ~~ anxiety + fatigue + stress + absenteeism + presenteeism
+           anxiety ~~ fatigue + stress + absenteeism + presenteeism
+           fatigue ~~ stress + absenteeism + presenteeism
+           stress ~~ absenteeism + presenteeism
+           absenteeism ~~ presenteeism  
+
+'
+
+fit1a <- sem(sm1a, data=subset(EWCS_EU28,year>=2010))
+fitmeasures(fit1a,fit.measures=c("cfi","tli","rmsea"))
+#summary(fit1a, fit.measures=TRUE, rsquare=TRUE, standardized =TRUE)
+
+```
+
+```{r}
+
+
+sm1b <- '#Measurement models
+           QD =~ y15_Q49a + y15_Q49b
+           AUT =~ y15_Q54a + y15_Q54b + y15_Q54c
+           CD =~ y15_Q53c + y15_Q53e + y15_Q53f
+           SS =~ y15_Q61a + y15_Q61b
+           WHO5 =~ y15_Q87a + y15_Q87b + y15_Q87c + y15_Q87d + y15_Q87e 
+    
+         #JDR regressions
+           QD ~ computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+           AUT ~ computer  + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+           CD ~ computer  + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+           SS ~ computer  + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+           freq_dis_int ~ computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+           totalhour ~ computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+           y15_Q47 ~ computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high
+    
+         #outcome regressions
+           WHO5 ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47 + computer
+           y15_Q75 ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47 + computer
+           anxiety ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47 + computer
+           fatigue ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47 + computer
+           stress ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47 + computer
+           absenteeism ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47 + computer
+           presenteeism ~ QD + AUT + CD + SS + freq_dis_int + totalhour + y15_Q47 + computer
+    
+         #Covariances
+           WHO5 ~~ y15_Q75 + anxiety + fatigue + stress + absenteeism + presenteeism
+           y15_Q75 ~~ anxiety + fatigue + stress + absenteeism + presenteeism
+           anxiety ~~ fatigue + stress + absenteeism + presenteeism
+           fatigue ~~ stress + absenteeism + presenteeism
+           stress ~~ absenteeism + presenteeism
+           absenteeism ~~ presenteeism  
+
+'
+
+fit1b <- sem(sm1b, data=subset(EWCS_EU28,year>=2010))
+fitmeasures(fit1b,fit.measures=c("cfi","tli","rmsea"))
+#summary(fit1a, fit.measures=TRUE, rsquare=TRUE, standardized =TRUE)
+
+```

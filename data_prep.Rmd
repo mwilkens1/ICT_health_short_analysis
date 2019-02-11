@@ -12,8 +12,8 @@ output:
 ```{r include=FALSE}
 library(lavaan)
 library(semTools)
+library(semPlot)
 ```
-
 
 #Subsetting data
 Dataset 'EWCS' created with 'import_data.R'. The analysis will not cover any years before 2000 so that data can be excluded. It will also only cover the EU28 of 2015.
@@ -24,7 +24,7 @@ load("data/EWCS.Rda")
 EWCS_EU28 <- subset(EWCS, EU_x==1 & as.numeric(wave)>=3)
 
 EWCS_EU28$wave <- droplevels(EWCS_EU28$wave)
-EWCS_EU28$coutnid <- droplevels(EWCS_EU28$countid)
+EWCS_EU28$countid <- droplevels(EWCS_EU28$countid)
 
 ```
 
@@ -40,6 +40,10 @@ colnames(d) <- c("w2000","w2005","w2010","w2015")
 EWCS_EU28 <- cbind(EWCS_EU28,d)
 rm(d)
 
+#working with computers
+EWCS_EU28$y15_Q30i <- ordered(EWCS_EU28$y15_Q30i, levels=rev(levels(EWCS_EU28$y15_Q30i)))
+EWCS_EU28$computer <- as.numeric(EWCS_EU28$y15_Q30i)
+
 #Age
 EWCS_EU28$age <- as.numeric(levels(EWCS_EU28$y15_Q2b))[EWCS_EU28$y15_Q2b]
 
@@ -49,15 +53,32 @@ EWCS_EU28$woman <- as.numeric(EWCS_EU28$y15_Q2a)-1
 #ISCO08_1d (2010 & 2005)
 EWCS_EU28$y15_isco_08_1 <- factor(EWCS_EU28$y15_isco_08_1, levels=c("Managers","Professionals","Technicians and associate professionals","Clerical support workers","Service and sales workers","Skilled agricultural, forestry and fishery workers","Craft and related trades workers","Plant and machine operators, and assemblers","Elementary occupations","Armed forces occupations"))
 
+EWCS_EU28$ISCO_d1[EWCS_EU28$y15_isco_08_1=="Managers"] <- 1
+EWCS_EU28$ISCO_d1[EWCS_EU28$y15_isco_08_1!="Managers"] <- 0
+EWCS_EU28$ISCO_d2[EWCS_EU28$y15_isco_08_1=="Professionals"] <- 1
+EWCS_EU28$ISCO_d2[EWCS_EU28$y15_isco_08_1!="Professionals"] <- 0
+EWCS_EU28$ISCO_d3[EWCS_EU28$y15_isco_08_1=="Technicians and associate professionals"] <- 1
+EWCS_EU28$ISCO_d3[EWCS_EU28$y15_isco_08_1!="Technicians and associate professionals"] <- 0
+EWCS_EU28$ISCO_d4[EWCS_EU28$y15_isco_08_1=="Clerical support workers"] <- 1
+EWCS_EU28$ISCO_d4[EWCS_EU28$y15_isco_08_1!="Clerical support workers"] <- 0
+EWCS_EU28$ISCO_d5[EWCS_EU28$y15_isco_08_1=="Service and sales workers"] <- 1
+EWCS_EU28$ISCO_d5[EWCS_EU28$y15_isco_08_1!="Service and sales workers"] <- 0
+EWCS_EU28$ISCO_d6[EWCS_EU28$y15_isco_08_1=="Skilled agricultural, forestry and fishery workers"] <- 1
+EWCS_EU28$ISCO_d6[EWCS_EU28$y15_isco_08_1!="Skilled agricultural, forestry and fishery workers"] <- 0
+EWCS_EU28$ISCO_d7[EWCS_EU28$y15_isco_08_1=="Craft and related trades workers"] <- 1
+EWCS_EU28$ISCO_d7[EWCS_EU28$y15_isco_08_1!="Craft and related trades workers"] <- 0
+EWCS_EU28$ISCO_d8[EWCS_EU28$y15_isco_08_1=="Plant and machine operators, and assemblers"] <- 1
+EWCS_EU28$ISCO_d8[EWCS_EU28$y15_isco_08_1!="Plant and machine operators, and assemblers"] <- 0
+EWCS_EU28$ISCO_d9[EWCS_EU28$y15_isco_08_1=="Elementary occupations"] <- 1
+EWCS_EU28$ISCO_d9[EWCS_EU28$y15_isco_08_1!="Elementary occupations"] <- 0
+
 #ISCO88 (2000)
 #EWCS_EU28$y15_ISCO_88_1
 #EWCS_EU28$y15_ISCO_88_2
 
-#Second job
-#EWCS_EU28$secondjob
-
 #Education
-#EWCS_EU28$y15_ISCED_lt
+EWCS_EU28$edu_low <- as.numeric(EWCS_EU28$education=="primary")
+EWCS_EU28$edu_high <- as.numeric(EWCS_EU28$education=="tertiary")
 
 #Frequent disruptive interruptions
 EWCS_EU28$freq_dis_int <- as.ordered(EWCS_EU28$freq_dis_int)
@@ -96,10 +117,6 @@ EWCS_EU28$y15_Q61g <- factor(EWCS_EU28$y15_Q61g,
 #Working hours
 #totalhour
 
-#long working days
-EWCS_EU28$long_wd <- ordered(EWCS_EU28$long_wd)
-#y15_q37dr
-
 #Work in free time
 EWCS_EU28$y15_Q46_r <- factor(EWCS_EU28$y15_Q46, 
                               levels=c("Never                        ",
@@ -108,6 +125,9 @@ EWCS_EU28$y15_Q46_r <- factor(EWCS_EU28$y15_Q46,
                                        "Several times a week         ",
                                        "Daily                        ")
                               , ordered=TRUE)
+
+#Hour or two off
+EWCS_EU28$y15_Q47 <- ordered(EWCS_EU28$y15_Q47, levels=rev(levels(EWCS_EU28$y15_Q47)))
 
 #Autonomy
 EWCS_EU28$y15_Q54a <- factor(EWCS_EU28$y15_Q54a, 
@@ -125,354 +145,49 @@ EWCS_EU28$y15_Q54c <- factor(EWCS_EU28$y15_Q54c,
 
 EWCS_EU28$y15_Q61e <- factor(EWCS_EU28$y15_Q61e, levels=rev(levels(EWCS_EU28$y15_Q61e)), ordered=TRUE)
 
-```
+#Cognitive dimension
+#Solving unforeseen problems
+EWCS_EU28$y15_Q53c <- ordered(EWCS_EU28$y15_Q53c, levels=rev(levels(EWCS_EU28$y15_Q53c)))
 
-#Check the reliability of the indexes
+#Carrying out complex tasks
+EWCS_EU28$y15_Q53e <- ordered(EWCS_EU28$y15_Q53e, levels=rev(levels(EWCS_EU28$y15_Q53e)))
 
-Quantitative demands index. Following the 6th EWCS overview report. The fit seems to be very good if allowing for covariance between Q49a and b. The argument is that these questions are asked in the same way after one another so that could cause straightlining. 
+#Learning new things
+EWCS_EU28$y15_Q53f <- ordered(EWCS_EU28$y15_Q53f, levels=rev(levels(EWCS_EU28$y15_Q53f)))
 
-```{r}
+#apply own ideas
+EWCS_EU28$y15_Q61i <- ordered(EWCS_EU28$y15_Q61i, levels=rev(levels(EWCS_EU28$y15_Q61i)))
 
-model <- 'QD =~ y15_Q49a + y15_Q49b + y15_Q61g + freq_dis_int
-
-          y15_Q49a ~~ y15_Q49b
-
-'  
-
-fit <- sem(model, data=subset(EWCS_EU28,year>=2005))
-summary(fit, fit.measures=TRUE, rsquare=TRUE, standardized =TRUE)
-
-```
-
-Using multiple waves of the survey may cause measurement invariance. The increase in the fit measures due to assuming measurement invariance are minimal, so safe to assume. 
-
-```{r}
-
-measurementInvariance(model= model, 
-                      data = subset(EWCS_EU28,year>=2005), 
-                      group = "wave")
-
-```
-
-Autonomy, based on the EWCS6 overview report. Very good fit.
-
-```{r}
-
-model <- 'AUT =~ y15_Q54a + y15_Q54b + y15_Q54c + y15_Q61e '  
-
-fit <- sem(model, data=subset(EWCS_EU28,year>=2005))
-summary(fit, fit.measures=TRUE, rsquare=TRUE, standardized =TRUE)
-
-```
-
-
-
-
-```{r}
-
-#Hour off
-EWCS_EU28$y15_Q47_r <- as.numeric(EWCS_EU28$y15_Q47)*-1+4
-
-cols <- "y15_Q47"
-EWCS_EU28[cols] <- lapply(EWCS_EU28[cols], 
-                     function(var) {
-                     #  var <- recode(var ,"c('DK/no opinion (spontaneous)','Refusal (spontaneous)')=NA")
-                       var <- ordered(var, levels=c("Very difficult              ","Fairly difficult            ","Fairly easy                 ","Very easy                   "))
-                     })
-levels(EWCS_EU28$y15_Q47) <- trimws(levels(EWCS_EU28$y15_Q47), which = "right")
-
-EWCS_EU28$Q47_fairlydif <- as.numeric(EWCS_EU28$y15_Q47=="Fairly difficult")
-EWCS_EU28$Q47_fairlyeas <- as.numeric(EWCS_EU28$y15_Q47=="Fairly easy")
-EWCS_EU28$Q47_veryyeas <- as.numeric(EWCS_EU28$y15_Q47=="Very easy")
-
-#Working time arrangements
-EWCS_EU28$fixedsched[EWCS_EU28$y15_Q42=="You can choose between several fixed working schedules determined by the company/organisation"] <- 1
-EWCS_EU28$fixedsched[EWCS_EU28$y15_Q42!="You can choose between several fixed working schedules determined by the company/organisation"] <- 0
-
-EWCS_EU28$adaptlimits[EWCS_EU28$y15_Q42=="You can adapt your working hours within certain limits (e.g. flextime)                       "] <- 1
-EWCS_EU28$adaptlimits[EWCS_EU28$y15_Q42!="You can adapt your working hours within certain limits (e.g. flextime)                       "] <- 0
-
-EWCS_EU28$entirelyself[EWCS_EU28$y15_Q42=="Your working hours are entirely determined by yourself                                       "] <- 1
-EWCS_EU28$entirelyself[EWCS_EU28$y15_Q42!="Your working hours are entirely determined by yourself                                       "] <- 0
-
-levels(EWCS_EU28$y15_Q42) <- c("Completely fixed","Choose between schedules","Flexible","Completely choose")
-
-#Work at home
-EWCS_EU28$workathome_less_often <- as.numeric(EWCS_EU28$y15_Q35e=="Less often             ")
-EWCS_EU28$workathome_sevmonth <- as.numeric(EWCS_EU28$y15_Q35e=="Several times a month  ")
-EWCS_EU28$workathome_sevweek <- as.numeric(EWCS_EU28$y15_Q35e=="Several times a week   ")
-EWCS_EU28$workathome_daily <- as.numeric(EWCS_EU28$y15_Q35e=="Daily                  ")
-
-EWCS_EU28$y15_Q35e <- factor(EWCS_EU28$y15_Q35e, levels=c("Never                  ","Less often             ",
-                                                                            "Several times a month  ","Several times a week   ",
-                                                                            "Daily                  "))
-levels(EWCS_EU28$y15_Q35e) <- trimws(levels(EWCS_EU28$y15_Q35e), which = "right")
-
-#Household
-EWCS_EU28$hh_singlepar <- as.numeric(EWCS_EU28$hh_type_ext_v2=="Single parent, no others")
-EWCS_EU28$hh_couplenochil <- as.numeric(EWCS_EU28$hh_type_ext_v2== "Couple, no children, no others")
-EWCS_EU28$hh_couplewichil <- as.numeric(EWCS_EU28$hh_type_ext_v2== "Couple with children, no others")
-EWCS_EU28$hh_wioth <- as.numeric(EWCS_EU28$hh_type_ext_v2== "Household with others")
-
-#Regularity
-EWCS_EU28$mediumregularity <- as.numeric(EWCS_EU28$regularity=="medium regularity")
-EWCS_EU28$highregularity <- as.numeric(EWCS_EU28$regularity=="high regularity")
-
-#Country
-EWCS_EU28$countid <- droplevels(EWCS_EU28$countid)
-temp <- as.data.frame(model.matrix( ~ countid - 1, data=EWCS_EU28 ))
-names(temp) <- gsub(" ", "_", names(temp))
-EWCS_EU28 <- cbind(EWCS_EU28,temp )
-rm(temp)
-
-#Autonomy
-EWCS_EU28$y15_Q54a <- factor(EWCS_EU28$y15_Q54a, levels=c("No                        ","Yes                       "), ordered=T) 
-EWCS_EU28$y15_Q54b <- factor(EWCS_EU28$y15_Q54b, levels=c("No                        ","Yes                       "), ordered=T) 
-EWCS_EU28$y15_Q54c <- factor(EWCS_EU28$y15_Q54c, levels=c("No                        ","Yes                       "), ordered=T)
-levels(EWCS_EU28$y15_Q54a) <- trimws(levels(EWCS_EU28$y15_Q54a), which = "right")
-levels(EWCS_EU28$y15_Q54b) <- trimws(levels(EWCS_EU28$y15_Q54b), which = "right")
-levels(EWCS_EU28$y15_Q54c) <- trimws(levels(EWCS_EU28$y15_Q54c), which = "right")
-
-#Work in free time
-EWCS_EU28$q46_daily <- as.numeric(EWCS_EU28$y15_Q46=="Daily                        ")
-EWCS_EU28$q46_sevweek <- as.numeric(EWCS_EU28$y15_Q46=="Several times a week         ")
-EWCS_EU28$q46_sevmonth <- as.numeric(EWCS_EU28$y15_Q46=="Several times a month        ")
-EWCS_EU28$q46_lessoften <- as.numeric(EWCS_EU28$y15_Q46=="Less often                   ")
-
-EWCS_EU28$y15_Q46_r <- factor(EWCS_EU28$y15_Q46, levels=c("Never                        ","Less often                   ",
-                                                                            "Several times a month        ","Several times a week         ",
-                                                                            "Daily                        "))
-levels(EWCS_EU28$y15_Q46_r) <- trimws(levels(EWCS_EU28$y15_Q46_r), which = "right")
-
-#Fit work life balance
-EWCS_EU28$y15_Q44 <- factor(EWCS_EU28$y15_Q44, levels=c("Not at all well             ","Not very well               ","Well                        ","Very well                   "), ordered=T)
-levels(EWCS_EU28$y15_Q44) <- trimws(levels(EWCS_EU28$y15_Q44), which="right")
-EWCS_EU28$y15_Q44_num <- as.numeric(EWCS_EU28$y15_Q44)-1
-
-#ISCO
-EWCS_EU28$y15_isco_08_1 <- factor(EWCS_EU28$y15_isco_08_1, levels=c("Managers","Professionals","Technicians and associate professionals","Clerical support workers","Service and sales workers","Skilled agricultural, forestry and fishery workers","Craft and related trades workers","Plant and machine operators, and assemblers","Elementary occupations","Armed forces occupations"))
-
-#Care
-EWCS_EU28$care_all <- as.numeric(EWCS_EU28$y15_Q95c=="Daily                       " | EWCS_EU28$y15_Q95c=="Several times a week        "  | EWCS_EU28$y15_Q95e=="Daily                       " | EWCS_EU28$y15_Q95e=="Several times a week        " )
-EWCS_EU28$care_child <- as.numeric(EWCS_EU28$y15_Q95c=="Daily                       " | EWCS_EU28$y15_Q95c=="Several times a week        ")  
-EWCS_EU28$care_rel <- as.numeric(EWCS_EU28$y15_Q95e=="Daily                       " | EWCS_EU28$y15_Q95e=="Several times a week        " )                              
-
-#Shortnotice
-EWCS_EU28$shortnotice <- as.numeric(as.numeric(EWCS_EU28$y15_Q40)<4)
-
-#Conflict
-EWCS_EU28$y15_Q45a <- factor(EWCS_EU28$y15_Q45a, levels=c("Never                        ","Rarely                       ","Sometimes                    ",
-                                          "Most of the time             ","Always                       "), ordered=T)
-EWCS_EU28$y15_Q45b <- factor(EWCS_EU28$y15_Q45b, levels=c("Never                        ","Rarely                       ","Sometimes                    ",
-                                           "Most of the time             ","Always                       "), ordered=T)
-EWCS_EU28$y15_Q45c <- factor(EWCS_EU28$y15_Q45c, levels=c("Never                        ","Rarely                       ","Sometimes                    ",
-                                         "Most of the time             ","Always                       "), ordered=T)
-EWCS_EU28$y15_Q45d <- factor(EWCS_EU28$y15_Q45d, levels=c("Never                        ","Rarely                       ","Sometimes                    ",
-                                          "Most of the time             ","Always                       "), ordered=T)
-EWCS_EU28$y15_Q45e <- factor(EWCS_EU28$y15_Q45e, levels=c("Never                        ","Rarely                       ","Sometimes                    ",
-                                            "Most of the time             ","Always                       "), ordered=T)
-
-levels(EWCS_EU28$y15_Q45a) <- trimws(levels(EWCS_EU28$y15_Q45a), which="right")
-levels(EWCS_EU28$y15_Q45b) <- trimws(levels(EWCS_EU28$y15_Q45b), which="right")
-levels(EWCS_EU28$y15_Q45c) <- trimws(levels(EWCS_EU28$y15_Q45c), which="right")
-levels(EWCS_EU28$y15_Q45d) <- trimws(levels(EWCS_EU28$y15_Q45d), which="right")
-levels(EWCS_EU28$y15_Q45e) <- trimws(levels(EWCS_EU28$y15_Q45e), which="right")
-
-#Engagement
-EWCS_EU28$y15_Q90a <- factor(EWCS_EU28$y15_Q90a, levels=c("Never                        ","Rarely                       ","Sometimes                    ",
-                                            "Most of the time             ","Always                       "), ordered=T)
-EWCS_EU28$y15_Q90b <- factor(EWCS_EU28$y15_Q90b, levels=c("Never                        ","Rarely                       ","Sometimes                    ",
-                                            "Most of the time             ","Always                       "), ordered=T)
-EWCS_EU28$y15_Q90c <- factor(EWCS_EU28$y15_Q90c, levels=c("Never                        ","Rarely                       ","Sometimes                    ",
-                                            "Most of the time             ","Always                       "), ordered=T)
-EWCS_EU28$y15_Q90d <- factor(EWCS_EU28$y15_Q90d, levels=c("Always                       ","Most of the time             ","Sometimes                    ",
-                                            "Rarely                       ","Never                        "), ordered=T)
-EWCS_EU28$y15_Q90e <- factor(EWCS_EU28$y15_Q90e, levels=c("Always                       ","Most of the time             ","Sometimes                    ",
-                                                "Rarely                       ","Never                        "), ordered=T)
-levels(EWCS_EU28$y15_Q90a) <- trimws(levels(EWCS_EU28$y15_Q90a), which="right")
-levels(EWCS_EU28$y15_Q90b) <- trimws(levels(EWCS_EU28$y15_Q90a), which="right")
-levels(EWCS_EU28$y15_Q90c) <- trimws(levels(EWCS_EU28$y15_Q90a), which="right")
-levels(EWCS_EU28$y15_Q90d) <- trimws(levels(EWCS_EU28$y15_Q90a), which="right")
-levels(EWCS_EU28$y15_Q90e) <- trimws(levels(EWCS_EU28$y15_Q90a), which="right")
+#Social support
+EWCS_EU28$y15_Q61a <- ordered(EWCS_EU28$y15_Q61a, levels=rev(levels(EWCS_EU28$y15_Q61a)))
+EWCS_EU28$y15_Q61b <- ordered(EWCS_EU28$y15_Q61b, levels=rev(levels(EWCS_EU28$y15_Q61b)))
 
 #WHO5
-cols <- c("y15_Q87a","y15_Q87b","y15_Q87c","y15_Q87d","y15_Q87e")
-EWCS_EU28[cols] <- lapply(EWCS_EU28[cols], 
-                     function(var) {
-                     #  var <- recode(var ,"c('DK (spontaneous)','Refusal (spontaneous)')=NA")
-                       var <- factor(var,levels=c("At no time","Some of the time","Less than half of the time","More than half of the time","Most of the time","All of the time"),ordered=T)
-                     })
+EWCS_EU28$y15_Q87a <- ordered(EWCS_EU28$y15_Q87a, levels=rev(levels(EWCS_EU28$y15_Q87a)))
+EWCS_EU28$y15_Q87b <- ordered(EWCS_EU28$y15_Q87b, levels=rev(levels(EWCS_EU28$y15_Q87b)))
+EWCS_EU28$y15_Q87c <- ordered(EWCS_EU28$y15_Q87c, levels=rev(levels(EWCS_EU28$y15_Q87c)))
+EWCS_EU28$y15_Q87d <- ordered(EWCS_EU28$y15_Q87d, levels=rev(levels(EWCS_EU28$y15_Q87d)))
+EWCS_EU28$y15_Q87e <- ordered(EWCS_EU28$y15_Q87e, levels=rev(levels(EWCS_EU28$y15_Q87e)))
 
-#Other outcome indicators
-EWCS_EU28$y15_Q88 <- factor(EWCS_EU28$y15_Q88, levels=c("Not at all satisfied        ","Not very satisfied          ","Satisfied                   ","Very satisfied              "), ordered=T)
-EWCS_EU28$y15_Q93 <- factor(EWCS_EU28$y15_Q93, levels=c("No                         ","Yes                        "), ordered=T)
-EWCS_EU28$y15_Q75 <- factor(EWCS_EU28$y15_Q75, levels=c("Very bad                    ","Bad                         ","Fair                        ","Good                        ","Very good                   "), ordered=T)
-EWCS_EU28$y15_Q100 <- factor(EWCS_EU28$y15_Q100, levels=c("With great difficulty       ","With difficulty             ","With some difficulty        ","Fairly easily               ","Easily                      ","Very easily                 "), ordered=T)
+#health in general
+EWCS_EU28$y15_Q75 <- ordered(EWCS_EU28$y15_Q75, levels=rev(levels(EWCS_EU28$y15_Q75)))
 
-#Adverse social behaviour
-EWCS_EU28$ASB_d <- as.numeric(EWCS_EU28$ASB_d)-1
+#Anxiety
+EWCS_EU28$anxiety <- ordered(EWCS_EU28$y15_Q78h_lt, levels=levels(EWCS_EU28$y15_Q78h_lt))
 
-#Social support 
-EWCS_EU28$colsup <- (as.numeric(EWCS_EU28$y15_Q61a)-5)*-1
-EWCS_EU28$mansup <- (as.numeric(EWCS_EU28$y15_Q61b)-5)*-1
+#Fatigue
+EWCS_EU28$fatigue <- ordered(EWCS_EU28$y15_Q78i_lt, levels=rev(levels(EWCS_EU28$y15_Q78i_lt)))
 
-```
+#headache/eyestrain
+EWCS_EU28$headeye <- ordered(EWCS_EU28$y15_Q78f_lt, levels=rev(levels(EWCS_EU28$y15_Q78f_lt)))
 
-#Recodes EQLS 
+#Stress
+EWCS_EU28$stress  <- ordered(EWCS_EU28$y15_Q61m, levels=rev(levels(EWCS_EU28$y15_Q61m)))
 
-```{r}
+#absenteeism /presenteeism
+EWCS_EU28$absenteeism <- ordered(EWCS_EU28$absenteeism)
 
-#Working hours
-EQLS_EU28$secjobhour <- EQLS_EU28$Y16_Q16
-EQLS_EU28$secjobhour[EQLS_EU28$Y16_Q16>200] <- NA
-EQLS_EU28$secjobhour[!is.na(EQLS_EU28$Y16_Q14)] <- 0
-EQLS_EU28$totalhour <- EQLS_EU28$Y16_Q14 + EQLS_EU28$secjobhour
-
-#Commuting
-EQLS_EU28$commute <- EQLS_EU28$Y16_Q57
-
-#Age
-EQLS_EU28$age <- EQLS_EU28$Y16_HH2b
-
-#Help around the house
-EQLS_EU28$help_house_fam <- as.numeric(EQLS_EU28$Y16_Q40a=="A member of your family / relative")
-EQLS_EU28$help_house_friend <- as.numeric(EQLS_EU28$Y16_Q40a=="A friend, neighbour, or someone else, who does not belong")
-EQLS_EU28$help_house_service <- as.numeric(EQLS_EU28$Y16_Q40a=="A service provider, institution or organisation")
-EQLS_EU28$help_house <- (EQLS_EU28$help_house_fam + EQLS_EU28$help_house_friend + EQLS_EU28$help_house_service) > 0
-
-#help with children only asked to people with children
-EQLS_EU28$help_child_fam <- as.numeric(EQLS_EU28$Y16_Q40f=="A member of your family / relative" & EQLS_EU28$haschild==1)
-EQLS_EU28$help_child_friend <- as.numeric(EQLS_EU28$Y16_Q40f=="A friend, neighbour, or someone else, who does not belong" & EQLS_EU28$haschild==1)
-EQLS_EU28$help_child_service <- as.numeric(EQLS_EU28$Y16_Q40f=="A service provider, institution or organisation" & EQLS_EU28$haschild==1)
-EQLS_EU28$help_child_nobody <- as.numeric(EQLS_EU28$Y16_Q40f=="Nobody" & EQLS_EU28$haschild==1)
-
-#Rating of services
-EQLS_EU28$childcare_rating <- as.numeric(EQLS_EU28$Y16_Q58d)
-EQLS_EU28$LTC_rating <- as.numeric(EQLS_EU28$Y16_Q58e)
-
-#Use of services
-EQLS_EU28$Y16_Q68a <- factor(EQLS_EU28$Y16_Q68a, levels=c("Nobody used it","Somebody in household ised it","Respondent used it","Both respondent and somebody in household ised it"))
-EQLS_EU28$Y16_Q68b <- factor(EQLS_EU28$Y16_Q68b, levels=c("Nobody used it","Somebody in household ised it","Respondent used it","Both respondent and somebody in household ised it"))
-EQLS_EU28$Y16_Q68c <- factor(EQLS_EU28$Y16_Q68c, levels=c("Nobody used it","Somebody in household ised it","Respondent used it","Both respondent and somebody in household ised it"))
-
-#Carer
-EQLS_EU28$carer_child_grandchild[EQLS_EU28$haschild==0] <- 0
-EQLS_EU28$haschild_12 <- as.numeric(!is.na(EQLS_EU28$Y16_Q77_1))
-
-#Use of childcare
-EQLS_EU28$childcare <- as.numeric(EQLS_EU28$Y16_Q77_4=="Not Mentioned")
-
-#Conflict
-cols <- c("Y16_Q20a","Y16_Q20b","Y16_Q20c")
-EQLS_EU28[cols] <- lapply(EQLS_EU28[cols], 
-                     function(var) {
-                       #var <- recode(var,'"Every day (option added in 4th EQLS)"="Several times a week"')
-                       var <- ordered(var,levels=c("Never","Less often/rarely","Several times a year",
-                                                   "Several times a month","Several times a week"))
-                     })
-
-#Fit
-EQLS_EU28$Y16_Q19 <- factor(EQLS_EU28$Y16_Q19, levels=c("Not at all well","Rather not well","Rather well","Very well"), ordered=T)
-
-#Satisfaction
-EQLS_EU28$jobsat <- as.numeric(EQLS_EU28$Y16_Q6b)
-EQLS_EU28$famsat <- as.numeric(EQLS_EU28$Y16_Q6e)
-EQLS_EU28$happy  <- as.numeric(EQLS_EU28$Y16_Q5)
-EQLS_EU28$satisfaction  <- as.numeric(EQLS_EU28$Y16_Q4)
-
-
-##For the trend data
-
-#Years
-EQLS$Y2003 <- EQLS$Wave=="1st EQLS (2003)"
-EQLS$Y2007 <- EQLS$Wave=="2nd EQLS (2007)"
-EQLS$Y2011 <- EQLS$Wave=="3rd EQLS (2011)"
-EQLS$Y2016 <- EQLS$Wave=="4th EQLS (2016)"
-
-#Satisfactions and happiness
-EQLS$jobsat <- as.numeric(EQLS$Y16_Q6b)
-EQLS$famsat <- as.numeric(EQLS$Y16_Q6e)
-EQLS$happy  <- as.numeric(EQLS$Y16_Q5)
-EQLS$satisfaction  <- as.numeric(EQLS$Y16_Q4)
-
-EQLS$satbal <- EQLS$jobsat/EQLS$famsat
-
-EQLS$sat_equal[EQLS$satbal==1] <- 1
-EQLS$sat_equal[EQLS$satbal!=1] <- 0
-
-EQLS$sat_equal <- factor(EQLS$sat_equal, levels=c("0","1"), ordered=T)
-
-EQLS$satbal2 <- sqrt((EQLS$jobsat/EQLS$famsat - 1)^2)
-
-#Country
-EQLS$Y16_Country <- droplevels(EQLS$Y16_Country)
-temp <- as.data.frame(model.matrix( ~ Y16_Country - 1, data=EQLS ))
-names(temp) <- gsub(" ", "_", names(temp))
-EQLS <- cbind(EQLS,temp )
-rm(temp)
-
-#Household
-EQLS$couplenochild <- as.numeric(EQLS$hhstructure=="Couple")
-EQLS$couplewichild <- as.numeric(EQLS$hhstructure=="Couple with children")
-EQLS$singlepar <- as.numeric(EQLS$hhstructure=="Single with children")
-EQLS$other <- as.numeric(EQLS$hhstructure=="Other")
-
-#Working hours
-EQLS$secjobhour <- as.numeric(levels(EQLS$Y16_Q16))[EQLS$Y16_Q16]
-EQLS$secjobhour[as.numeric(levels(EQLS$Y16_Q16))[EQLS$Y16_Q16]] <- NA
-EQLS$secjobhour[!is.na(EQLS$Y16_Q14)] <- 0
-EQLS$totalhour <- as.numeric(levels(EQLS$Y16_Q14))[EQLS$Y16_Q14] + EQLS$secjobhour
-
-#Commuting
-EQLS$commute <- as.numeric(levels(EQLS$Y16_Q57))[EQLS$Y16_Q57]
-
-#Age
-EQLS$age <- EQLS$Y16_HH2b
-
-#conflict
-cols <- c("Y16_Q20a","Y16_Q20b","Y16_Q20c")
-EQLS[cols] <- lapply(EQLS[cols], 
-                     function(var) {
-                       #var <- recode(var,'"Every day (option added in 4th EQLS)"="Several times a week"')
-                       var <- ordered(var,levels=c("Never","Less often/rarely","Several times a year",
-                                                   "Several times a month","Several times a week"))
-                     })
-
+EWCS_EU28$presenteeism <- ordered(EWCS_EU28$presenteeism)
 
 ```
 
-```{r}
-save(EWCS_EU28, file="EWCS_EU28.Rda")
-save(EQLS_EU28, file="EQLS_EU28.Rda")
-save(EQLS, file="EQLS_r.Rda")
-```
-
-title: "Data prep"
-author: "Mathijn Wilkens"
-date: "7 February 2019"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
