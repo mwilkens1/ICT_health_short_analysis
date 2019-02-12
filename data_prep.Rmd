@@ -12,7 +12,6 @@ output:
 ```{r include=FALSE}
 library(lavaan)
 library(semTools)
-library(semPlot)
 ```
 
 #Subsetting data
@@ -39,6 +38,13 @@ d <- as.data.frame(model.matrix( ~ wave - 1, data=EWCS_EU28 ))
 colnames(d) <- c("w2000","w2005","w2010","w2015")
 EWCS_EU28 <- cbind(EWCS_EU28,d)
 rm(d)
+
+#Country
+EWCS_EU28$countid <- droplevels(EWCS_EU28$countid)
+temp <- as.data.frame(model.matrix( ~ countid - 1, data=EWCS_EU28 ))
+names(temp) <- gsub(" ", "_", names(temp))
+EWCS_EU28 <- cbind(EWCS_EU28,temp )
+rm(temp)
 
 #working with computers
 EWCS_EU28$y15_Q30i <- ordered(EWCS_EU28$y15_Q30i, levels=rev(levels(EWCS_EU28$y15_Q30i)))
@@ -173,7 +179,7 @@ EWCS_EU28$y15_Q87e <- ordered(EWCS_EU28$y15_Q87e, levels=rev(levels(EWCS_EU28$y1
 EWCS_EU28$y15_Q75 <- ordered(EWCS_EU28$y15_Q75, levels=rev(levels(EWCS_EU28$y15_Q75)))
 
 #Anxiety
-EWCS_EU28$anxiety <- ordered(EWCS_EU28$y15_Q78h_lt, levels=levels(EWCS_EU28$y15_Q78h_lt))
+EWCS_EU28$anxiety <- ordered(EWCS_EU28$y15_Q78h_lt, levels=rev(levels(EWCS_EU28$y15_Q78h_lt)))
 
 #Fatigue
 EWCS_EU28$fatigue <- ordered(EWCS_EU28$y15_Q78i_lt, levels=rev(levels(EWCS_EU28$y15_Q78i_lt)))
@@ -189,5 +195,9 @@ EWCS_EU28$absenteeism <- ordered(EWCS_EU28$absenteeism)
 
 EWCS_EU28$presenteeism <- ordered(EWCS_EU28$presenteeism)
 
+```
+
+```{r}
+save(EWCS_EU28,file="data/EWCS_EU28.Rda")
 ```
 
