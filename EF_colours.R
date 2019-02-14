@@ -11,8 +11,8 @@ EF_yellow   <-      rgb(255,215,  0, maxColorValue = 255)
 
 EF_5c <- c(EF_blue,EF_orange,EF_green,EF_teal,EF_pink)
 EF_4c <- c(EF_blue,EF_orange,EF_green,EF_teal)
-EF_3c <- c(EF_teal,EF_pink,EF_green)
-EF_2c <- c(EF_teal,EF_green)
+EF_3c <- c(EF_blue,EF_orange,EF_green)
+EF_2c <- c(EF_blue,EF_orange)
 
 #Set fontsize parameters
 fontsize1 <- 20

@@ -195,6 +195,17 @@ EWCS_EU28$absenteeism <- ordered(EWCS_EU28$absenteeism)
 
 EWCS_EU28$presenteeism <- ordered(EWCS_EU28$presenteeism)
 
+#Engagement
+EWCS_EU28$y15_Q90a <- ordered(EWCS_EU28$y15_Q90a, levels=rev(levels(EWCS_EU28$y15_Q90a )))
+EWCS_EU28$y15_Q90b <- ordered(EWCS_EU28$y15_Q90b, levels=rev(levels(EWCS_EU28$y15_Q90b )))
+EWCS_EU28$y15_Q90c <- ordered(EWCS_EU28$y15_Q90c, levels=rev(levels(EWCS_EU28$y15_Q90c )))
+
+#Burnout
+EWCS_EU28$y15_Q90d <- ordered(EWCS_EU28$y15_Q90d, levels=rev(levels(EWCS_EU28$y15_Q90d )))
+EWCS_EU28$y15_Q90e <- ordered(EWCS_EU28$y15_Q90e, levels=rev(levels(EWCS_EU28$y15_Q90e )))
+EWCS_EU28$y15_Q90f <- ordered(EWCS_EU28$y15_Q90f, levels=levels(EWCS_EU28$y15_Q90f))
+
+
 ```
 
 ```{r}
