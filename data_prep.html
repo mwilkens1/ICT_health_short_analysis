@@ -219,7 +219,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Data prep</h1>
 <h4 class="author"><em>Mathijn Wilkens</em></h4>
-<h4 class="date"><em>14 February, 2019</em></h4>
+<h4 class="date"><em>27 February, 2019</em></h4>
 
 </div>
 
@@ -409,7 +409,19 @@ EWCS_EU28$y15_Q90c &lt;- ordered(EWCS_EU28$y15_Q90c, levels=rev(levels(EWCS_EU28
 #Burnout
 EWCS_EU28$y15_Q90d &lt;- ordered(EWCS_EU28$y15_Q90d, levels=rev(levels(EWCS_EU28$y15_Q90d )))
 EWCS_EU28$y15_Q90e &lt;- ordered(EWCS_EU28$y15_Q90e, levels=rev(levels(EWCS_EU28$y15_Q90e )))
-EWCS_EU28$y15_Q90f &lt;- ordered(EWCS_EU28$y15_Q90f, levels=levels(EWCS_EU28$y15_Q90f))</code></pre>
+EWCS_EU28$y15_Q90f &lt;- ordered(EWCS_EU28$y15_Q90f, levels=levels(EWCS_EU28$y15_Q90f))
+
+#ICT mobile workers
+EWCS$NoICTmob &lt;- (EWCS$ICTmob-1)*-1
+#alwaysoffice
+#alwaysofficeICT
+#teleworker
+#highmob=1 
+#lowmob=1
+#AlwaysOfficeSE
+#HomeBasedSE
+#HighMobSE
+#LowMobSE</code></pre>
 <pre class="r"><code>save(EWCS_EU28,file=&quot;data/EWCS_EU28.Rda&quot;)</code></pre>
 </div>
 

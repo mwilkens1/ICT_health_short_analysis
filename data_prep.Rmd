@@ -168,6 +168,8 @@ EWCS_EU28$y15_Q61i <- ordered(EWCS_EU28$y15_Q61i, levels=rev(levels(EWCS_EU28$y1
 EWCS_EU28$y15_Q61a <- ordered(EWCS_EU28$y15_Q61a, levels=rev(levels(EWCS_EU28$y15_Q61a)))
 EWCS_EU28$y15_Q61b <- ordered(EWCS_EU28$y15_Q61b, levels=rev(levels(EWCS_EU28$y15_Q61b)))
 
+EWCS_EU28$SS <- (as.numeric(EWCS_EU28$y15_Q61a)-5)*-1
+
 #WHO5
 EWCS_EU28$y15_Q87a <- ordered(EWCS_EU28$y15_Q87a, levels=rev(levels(EWCS_EU28$y15_Q87a)))
 EWCS_EU28$y15_Q87b <- ordered(EWCS_EU28$y15_Q87b, levels=rev(levels(EWCS_EU28$y15_Q87b)))
@@ -205,6 +207,17 @@ EWCS_EU28$y15_Q90d <- ordered(EWCS_EU28$y15_Q90d, levels=rev(levels(EWCS_EU28$y1
 EWCS_EU28$y15_Q90e <- ordered(EWCS_EU28$y15_Q90e, levels=rev(levels(EWCS_EU28$y15_Q90e )))
 EWCS_EU28$y15_Q90f <- ordered(EWCS_EU28$y15_Q90f, levels=levels(EWCS_EU28$y15_Q90f))
 
+#ICT mobile workers
+EWCS$NoICTmob <- (EWCS$ICTmob-1)*-1
+#alwaysoffice
+#alwaysofficeICT
+#teleworker
+#highmob=1 
+#lowmob=1
+#AlwaysOfficeSE
+#HomeBasedSE
+#HighMobSE
+#LowMobSE
 
 ```
 
