@@ -219,7 +219,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Data prep</h1>
 <h4 class="author"><em>Mathijn Wilkens</em></h4>
-<h4 class="date"><em>27 February, 2019</em></h4>
+<h4 class="date"><em>28 February, 2019</em></h4>
 
 </div>
 
@@ -373,6 +373,8 @@ EWCS_EU28$y15_Q61i &lt;- ordered(EWCS_EU28$y15_Q61i, levels=rev(levels(EWCS_EU28
 #Social support
 EWCS_EU28$y15_Q61a &lt;- ordered(EWCS_EU28$y15_Q61a, levels=rev(levels(EWCS_EU28$y15_Q61a)))
 EWCS_EU28$y15_Q61b &lt;- ordered(EWCS_EU28$y15_Q61b, levels=rev(levels(EWCS_EU28$y15_Q61b)))
+
+EWCS_EU28$SS &lt;- (as.numeric(EWCS_EU28$y15_Q61a)-5)*-1
 
 #WHO5
 EWCS_EU28$y15_Q87a &lt;- ordered(EWCS_EU28$y15_Q87a, levels=rev(levels(EWCS_EU28$y15_Q87a)))
