@@ -9,11 +9,6 @@ output:
     toc_float: true
 ---
 
-```{r include=FALSE}
-library(lavaan)
-library(semTools)
-```
-
 #Subsetting data
 Dataset 'EWCS' created with 'import_data.R'. The analysis will not cover any years before 2000 so that data can be excluded. It will also only cover the EU28 of 2015.
 
@@ -208,7 +203,7 @@ EWCS_EU28$y15_Q90e <- ordered(EWCS_EU28$y15_Q90e, levels=rev(levels(EWCS_EU28$y1
 EWCS_EU28$y15_Q90f <- ordered(EWCS_EU28$y15_Q90f, levels=levels(EWCS_EU28$y15_Q90f))
 
 #ICT mobile workers
-EWCS$NoICTmob <- (EWCS$ICTmob-1)*-1
+EWCS_EU28$NoICTmob <- (EWCS_EU28$ICTmob-1)*-1
 #alwaysoffice
 #alwaysofficeICT
 #teleworker
@@ -218,6 +213,24 @@ EWCS$NoICTmob <- (EWCS$ICTmob-1)*-1
 #HomeBasedSE
 #HighMobSE
 #LowMobSE
+
+EWCS_EU28$y15_Q35a <- as.numeric(EWCS_EU28$y15_Q35a)
+EWCS_EU28$y15_Q35b <- as.numeric(EWCS_EU28$y15_Q35b)
+EWCS_EU28$y15_Q35c <- as.numeric(EWCS_EU28$y15_Q35c)
+EWCS_EU28$y15_Q35d <- as.numeric(EWCS_EU28$y15_Q35d)
+EWCS_EU28$y15_Q35e <- as.numeric(EWCS_EU28$y15_Q35e)
+EWCS_EU28$y15_Q35f <- as.numeric(EWCS_EU28$y15_Q35f)
+
+#Mobility
+EWCS_EU28$mob[(EWCS_EU28$y15_Q35b>3 & EWCS_EU28$y15_Q35c>3 & EWCS_EU28$y15_Q35d>3 & EWCS_EU28$y15_Q35e<=3 & EWCS_EU28$y15_Q35f>3) | EWCS_EU28$HomeWorkshop] <- "Homebased telework"
+EWCS_EU28$mob[EWCS_EU28$y15_Q35a<5 & (EWCS_EU28$y15_Q35b==5 & EWCS_EU28$y15_Q35c==5 & EWCS_EU28$y15_Q35d==5 & EWCS_EU28$y15_Q35e==5 & EWCS_EU28$y15_Q35f==5)] <- "Always at employers premises"
+EWCS_EU28$mob[is.na(EWCS_EU28$mob) & ((EWCS_EU28$daily>=1 | EWCS_EU28$sevweek>=2) | (EWCS_EU28$daily==1 & EWCS_EU28$sevweek>=1))] <- "High mobile"
+EWCS_EU28$mob[is.na(EWCS_EU28$mob) & !is.na(EWCS_EU28$y15_Q35a) & !is.na(EWCS_EU28$y15_Q35b) & !is.na(EWCS_EU28$y15_Q35c) & !is.na(EWCS_EU28$y15_Q35d) & !is.na(EWCS_EU28$y15_Q35e) & !is.na(EWCS_EU28$y15_Q35f)] <- "Low mobile"
+
+EWCS_EU28$mob0 <- as.numeric(EWCS_EU28$mob=="Always at employers premises")
+EWCS_EU28$mob1 <- as.numeric(EWCS_EU28$mob=="Low mobile")
+EWCS_EU28$mob2 <- as.numeric(EWCS_EU28$mob=="High mobile")
+EWCS_EU28$mob3 <- as.numeric(EWCS_EU28$mob=="Homebased telework")
 
 ```
 

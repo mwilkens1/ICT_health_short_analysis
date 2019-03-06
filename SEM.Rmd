@@ -468,9 +468,10 @@ df2$Mediator[df2$Mediator=="QD"] <- "Quantitative demands"
 df2$Mediator[df2$Mediator=="freq_dis_int"] <- "Frequent disruptive interruptions"
 df2$Mediator[df2$Mediator=="CD"] <- "Cognitive dimension"
 df2$Mediator[df2$Mediator=="AUT"] <- "Autonomy"
+df2$Mediator[df2$Mediator=="computer"] <- "Computer (direct)"
 
 df2$Mediator <- factor(df2$Mediator, levels=c("Weekly working hours","Quantitative demands","Frequent disruptive interruptions",
-                                    "Take hour off","Cognitive dimension","Autonomy","Social support"))
+                                    "Take hour off","Cognitive dimension","Autonomy","Social support","Computer (direct)"))
 df2$Mediator <- factor(df2$Mediator, levels=rev(levels(df2$Mediator)))
 
 df2$Outcome[df2$Outcome=="y15_Q75"] <- "Self-rated health"
@@ -497,7 +498,29 @@ ggplot(subset(df2,x=="Indirect" | x=="Direct"), aes(x=Outcome, y=est.std, fill=x
 
 ```
 
+The plot below shows the indirect effect of computer use by mediator and by outcome variable. This is thus limited to the effect of computer use mediated through the job demands and resources. Looking under the hood we can see that for most indicators the overall indirect effect is the aggregate of both positive and negative effects. This illustrates that the effect of ICT on health is both positive and negative at the same time. Frequent disruptive interruptions, the cognitive dimension and quantitative demands seem to have the strongest effect on health outcomes. ICT works through the mediators more selectively.  
+
+```{r echo=FALSE, fig.height=4.5, fig.width=8.5}
+
+df2$x2 <- "Direct"
+df2$x2[is.na(df2$x)] <- "Indirect"
+
+ggplot(subset(df2,is.na(x) | Mediator== "Computer (direct)"), aes(x=Mediator, y=est.std, fill=x2)) + 
+  facet_wrap( ~ Outcome , nrow=2  ) +
+  geom_bar(stat="identity") + 
+  scale_fill_manual("Effect", values=EF_2c) +
+  geom_errorbar(aes(ymin=ci.lower, ymax=ci.upper), colour="black", width=.1) +
+  labs(title = "Effect of ICT use mediated through job demands and resources",
+       subtitle = "Standardised coefficients, error bar showing 95% confidence interval",
+       caption = "Source: EWCS 2010 and 2015", 
+       y = "Standardised coefficient") +
+  coord_flip() + 
+  theme_bw() 
+
+```
+
 The next plot shows the effect of the mediator variable on the outcomes in general, regardless of computer use. All variables are of similar size, except for the effects of autonomy. The indicators behave as expected: job resources have a positive effect and job demands a negative effect, supporting the JD-R theory. The exception is the cognitive dimension. The cognitive dimension has a negative connotation, which may reflect the increased responsibility or cognitive demands that come with that. 
+
 
 ```{r echo=FALSE, fig.height=4, fig.width=8}
 
@@ -520,9 +543,10 @@ df3$rhs[df3$rhs=="QD"] <- "Quantitative demands"
 df3$rhs[df3$rhs=="freq_dis_int"] <- "Frequent disruptive interruptions"
 df3$rhs[df3$rhs=="CD"] <- "Cognitive dimension"
 df3$rhs[df3$rhs=="AUT"] <- "Autonomy"
+df3$rhs[df3$rhs=="computer"] <- "Computer (direct)"
 
 df3$rhs <- factor(df3$rhs, levels=c("Weekly working hours","Quantitative demands","Frequent disruptive interruptions",
-                                    "Take hour off","Cognitive dimension","Autonomy","Social support"))
+                                    "Take hour off","Cognitive dimension","Autonomy","Social support","Computer"))
 df3$rhs <- factor(df3$rhs, levels=rev(levels(df3$rhs)))
 
 ggplot(df3, aes(x=rhs, y=est.std)) + 
@@ -538,22 +562,7 @@ ggplot(df3, aes(x=rhs, y=est.std)) +
 
 ```
 
-The plot below shows the indirect effect of computer use by mediator and by outcome variable. This is thus limited to the effect of computer use mediated through the job demands and resources. Looking under the hood we can see that for most indicators the overall indirect effect is the aggregate of both positive and negative effects. This illustrates that the effect of ICT on health is both positive and negative at the same time. Frequent disruptive interruptions, the cognitive dimension and quantitative demands seem to have the strongest effect on health outcomes. ICT works through the mediators more selectively.  
 
-```{r echo=FALSE, fig.height=4, fig.width=8}
-
-ggplot(subset(df2,is.na(x)), aes(x=Mediator, y=est.std)) + 
-  facet_wrap( ~ Outcome , nrow=2  ) +
-  geom_bar(stat="identity", fill=EF_blue) + 
-  geom_errorbar(aes(ymin=ci.lower, ymax=ci.upper), colour="black", width=.1) +
-  labs(title = "Effect of ICT use mediated through job demands and resources",
-       subtitle = "Standardised coefficients, error bar showing 95% confidence interval",
-       caption = "Source: EWCS 2010 and 2015", 
-       y = "Standardised coefficient") +
-  coord_flip() + 
-  theme_bw() 
-
-```
 
 #Index check 2
 
@@ -3561,6 +3570,10 @@ All in all, model 1 appears to better fit the data, for the following reasons
 
 This model takes structural model 1, but then replaces ICT use with the categories of ICT mobile workers. So we are hypothesising that ICT mobile worker categories have an effect on mediators, which in trun have an effect on health outcomes. Also, we hypothesise a direct effect of ICT mobile worker on health in addition. 
 
+```{r echo=FALSE, out.width = "70%"}
+include_graphics("SEM_diagram_ict.png")
+```
+
 
 ```{r}
 EWCS_EU28$alwaysoffice_1 <- as.numeric((EWCS_EU28$cat_ictmob=="Always Office, self-employed" & EWCS_EU28$computer<=5) | EWCS_EU28$cat_ictmob=="Always at employers premise w/o ICT, employee")
@@ -3914,6 +3927,97 @@ sm9  <- '#Measurement models
            T0__total0_headeye      := T0__totalindirect0_headeye      + computer0_headeye
 
 
+          #By ICT mobile group
+           indirect_alwaysoffice0_WHO5         := a0i0*a1 + b0i0*b1 + c0i0*c1 + d0i0*d1 + e0i0*e1 + f0i0*f1 + g0i0*g1
+           indirect_alwaysoffice0_y15_Q75      := a0i0*a2 + b0i0*b2 + c0i0*c2 + d0i0*d2 + e0i0*e2 + f0i0*f2 + g0i0*g2
+           indirect_alwaysoffice0_anxiety      := a0i0*a3 + b0i0*b3 + c0i0*c3 + d0i0*d3 + e0i0*e3 + f0i0*f3 + g0i0*g3
+           indirect_alwaysoffice0_fatigue      := a0i0*a4 + b0i0*b4 + c0i0*c4 + d0i0*d4 + e0i0*e4 + f0i0*f4 + g0i0*g4
+           indirect_alwaysoffice0_stress       := a0i0*a5 + b0i0*b5 + c0i0*c5 + d0i0*d5 + e0i0*e5 + f0i0*f5 + g0i0*g5
+           indirect_alwaysoffice0_absenteeism  := a0i0*a6 + b0i0*b6 + c0i0*c6 + d0i0*d6 + e0i0*e6 + f0i0*f6 + g0i0*g6
+           indirect_alwaysoffice0_presenteeism := a0i0*a7 + b0i0*b7 + c0i0*c7 + d0i0*d7 + e0i0*e7 + f0i0*f7 + g0i0*g7
+           indirect_alwaysoffice0_headeye      := a0i0*a8 + b0i0*b8 + c0i0*c8 + d0i0*d8 + e0i0*e8 + f0i0*f8 + g0i0*g8
+
+           indirect_alwaysofficeICT0_WHO5         := a0i1*a1 + b0i1*b1 + c0i1*c1 + d0i1*d1 + e0i1*e1 + f0i1*f1 + g0i1*g1
+           indirect_alwaysofficeICT0_y15_Q75      := a0i1*a2 + b0i1*b2 + c0i1*c2 + d0i1*d2 + e0i1*e2 + f0i1*f2 + g0i1*g2
+           indirect_alwaysofficeICT0_anxiety      := a0i1*a3 + b0i1*b3 + c0i1*c3 + d0i1*d3 + e0i1*e3 + f0i1*f3 + g0i1*g3
+           indirect_alwaysofficeICT0_fatigue      := a0i1*a4 + b0i1*b4 + c0i1*c4 + d0i1*d4 + e0i1*e4 + f0i1*f4 + g0i1*g4
+           indirect_alwaysofficeICT0_stress       := a0i1*a5 + b0i1*b5 + c0i1*c5 + d0i1*d5 + e0i1*e5 + f0i1*f5 + g0i1*g5
+           indirect_alwaysofficeICT0_absenteeism  := a0i1*a6 + b0i1*b6 + c0i1*c6 + d0i1*d6 + e0i1*e6 + f0i1*f6 + g0i1*g6
+           indirect_alwaysofficeICT0_presenteeism := a0i1*a7 + b0i1*b7 + c0i1*c7 + d0i1*d7 + e0i1*e7 + f0i1*f7 + g0i1*g7
+           indirect_alwaysofficeICT0_headeye      := a0i1*a8 + b0i1*b8 + c0i1*c8 + d0i1*d8 + e0i1*e8 + f0i1*f8 + g0i1*g8
+
+           indirect_teleworker0_WHO5         := a0i2*a1 + b0i2*b1 + c0i2*c1 + d0i2*d1 + e0i2*e1 + f0i2*f1 + g0i2*g1
+           indirect_teleworker0_y15_Q75      := a0i2*a2 + b0i2*b2 + c0i2*c2 + d0i2*d2 + e0i2*e2 + f0i2*f2 + g0i2*g2
+           indirect_teleworker0_anxiety      := a0i2*a3 + b0i2*b3 + c0i2*c3 + d0i2*d3 + e0i2*e3 + f0i2*f3 + g0i2*g3
+           indirect_teleworker0_fatigue      := a0i2*a4 + b0i2*b4 + c0i2*c4 + d0i2*d4 + e0i2*e4 + f0i2*f4 + g0i2*g4
+           indirect_teleworker0_stress       := a0i2*a5 + b0i2*b5 + c0i2*c5 + d0i2*d5 + e0i2*e5 + f0i2*f5 + g0i2*g5
+           indirect_teleworker0_absenteeism  := a0i2*a6 + b0i2*b6 + c0i2*c6 + d0i2*d6 + e0i2*e6 + f0i2*f6 + g0i2*g6
+           indirect_teleworker0_presenteeism := a0i2*a7 + b0i2*b7 + c0i2*c7 + d0i2*d7 + e0i2*e7 + f0i2*f7 + g0i2*g7
+           indirect_teleworker0_headeye      := a0i2*a8 + b0i2*b8 + c0i2*c8 + d0i2*d8 + e0i2*e8 + f0i2*f8 + g0i2*g8
+
+           indirect_highmob0_WHO5         := a0i3*a1 + b0i3*b1 + c0i3*c1 + d0i3*d1 + e0i3*e1 + f0i3*f1 + g0i3*g1
+           indirect_highmob0_y15_Q75      := a0i3*a2 + b0i3*b2 + c0i3*c2 + d0i3*d2 + e0i3*e2 + f0i3*f2 + g0i3*g2
+           indirect_highmob0_anxiety      := a0i3*a3 + b0i3*b3 + c0i3*c3 + d0i3*d3 + e0i3*e3 + f0i3*f3 + g0i3*g3
+           indirect_highmob0_fatigue      := a0i3*a4 + b0i3*b4 + c0i3*c4 + d0i3*d4 + e0i3*e4 + f0i3*f4 + g0i3*g4
+           indirect_highmob0_stress       := a0i3*a5 + b0i3*b5 + c0i3*c5 + d0i3*d5 + e0i3*e5 + f0i3*f5 + g0i3*g5
+           indirect_highmob0_absenteeism  := a0i3*a6 + b0i3*b6 + c0i3*c6 + d0i3*d6 + e0i3*e6 + f0i3*f6 + g0i3*g6
+           indirect_highmob0_presenteeism := a0i3*a7 + b0i3*b7 + c0i3*c7 + d0i3*d7 + e0i3*e7 + f0i3*f7 + g0i3*g7
+           indirect_highmob0_headeye      := a0i3*a8 + b0i3*b8 + c0i3*c8 + d0i3*d8 + e0i3*e8 + f0i3*f8 + g0i3*g8
+
+           indirect_lowmob0_WHO5         := a0i4*a1 + b0i4*b1 + c0i4*c1 + d0i4*d1 + e0i4*e1 + f0i4*f1 + g0i4*g1
+           indirect_lowmob0_y15_Q75      := a0i4*a2 + b0i4*b2 + c0i4*c2 + d0i4*d2 + e0i4*e2 + f0i4*f2 + g0i4*g2
+           indirect_lowmob0_anxiety      := a0i4*a3 + b0i4*b3 + c0i4*c3 + d0i4*d3 + e0i4*e3 + f0i4*f3 + g0i4*g3
+           indirect_lowmob0_fatigue      := a0i4*a4 + b0i4*b4 + c0i4*c4 + d0i4*d4 + e0i4*e4 + f0i4*f4 + g0i4*g4
+           indirect_lowmob0_stress       := a0i4*a5 + b0i4*b5 + c0i4*c5 + d0i4*d5 + e0i4*e5 + f0i4*f5 + g0i4*g5
+           indirect_lowmob0_absenteeism  := a0i4*a6 + b0i4*b6 + c0i4*c6 + d0i4*d6 + e0i4*e6 + f0i4*f6 + g0i4*g6
+           indirect_lowmob0_presenteeism := a0i4*a7 + b0i4*b7 + c0i4*c7 + d0i4*d7 + e0i4*e7 + f0i4*f7 + g0i4*g7
+           indirect_lowmob0_headeye      := a0i4*a8 + b0i4*b8 + c0i4*c8 + d0i4*d8 + e0i4*e8 + f0i4*f8 + g0i4*g8
+
+           direct_alwaysoffice0_WHO5          := h1i0
+           direct_alwaysoffice0_y15_Q75       := h2i0
+           direct_alwaysoffice0_anxiety       := h3i0
+           direct_alwaysoffice0_fatigue       := h4i0
+           direct_alwaysoffice0_stress        := h5i0
+           direct_alwaysoffice0_absenteeism   := h6i0
+           direct_alwaysoffice0_presenteeism  := h7i0
+           direct_alwaysoffice0_headeye       := h8i0
+           
+           direct_alwaysofficeICT0_WHO5          := h1i1
+           direct_alwaysofficeICT0_y15_Q75       := h2i1
+           direct_alwaysofficeICT0_anxiety       := h3i1
+           direct_alwaysofficeICT0_fatigue       := h4i1
+           direct_alwaysofficeICT0_stress        := h5i1
+           direct_alwaysofficeICT0_absenteeism   := h6i1
+           direct_alwaysofficeICT0_presenteeism  := h7i1
+           direct_alwaysofficeICT0_headeye       := h8i1
+           
+           direct_teleworker0_WHO5          := h1i2
+           direct_teleworker0_y15_Q75       := h2i2
+           direct_teleworker0_anxiety       := h3i2
+           direct_teleworker0_fatigue       := h4i2
+           direct_teleworker0_stress        := h5i2
+           direct_teleworker0_absenteeism   := h6i2
+           direct_teleworker0_presenteeism  := h7i2
+           direct_teleworker0_headeye       := h8i2
+          
+           direct_highmob0_WHO5          := h1i3
+           direct_highmob0_y15_Q75       := h2i3
+           direct_highmob0_anxiety       := h3i3
+           direct_highmob0_fatigue       := h4i3
+           direct_highmob0_stress        := h5i3
+           direct_highmob0_absenteeism   := h6i3
+           direct_highmob0_presenteeism  := h7i3
+           direct_highmob0_headeye       := h8i3
+          
+           direct_lowmob0_WHO5          := h1i4
+           direct_lowmob0_y15_Q75       := h2i4
+           direct_lowmob0_anxiety       := h3i4
+           direct_lowmob0_fatigue       := h4i4
+           direct_lowmob0_stress        := h5i4
+           direct_lowmob0_absenteeism   := h6i4
+           direct_lowmob0_presenteeism  := h7i4
+           direct_lowmob0_headeye       := h8i4
+
 '
 
 fit9 <- sem(sm9, data=subset(EWCS_EU28,year>=2015))
@@ -3921,9 +4025,17 @@ fit9_sol <- standardizedsolution(fit9)
 
 ```
 
+##Model fit
+
+Model fit is good.
+
 ```{r}
 fitmeasures(fit9,fit.measures=c("tli","cfi","rni","rmsea"))
 ```
+
+##Results
+
+The figure below shows the effect of all ICT mobile worker categories taken together relative to the reference category 'other'. Generally the picture looks similar to the chart of the model that was just based on computer use. 
 
 ```{r echo=FALSE, fig.height=3.5, fig.width=8}
 
@@ -3933,6 +4045,8 @@ x <- t(as.data.frame(strsplit(gsub('T0__','', df2$lhs),"0_")))
 df2 <- cbind(df2,as.data.frame(x[,1], stringsAsFactors = FALSE))
 df2 <- cbind(df2,as.data.frame(x[,2], stringsAsFactors = FALSE))
 rm(x)
+
+df2 <- subset(df2, (grepl("indirect_",df2$`x[, 1]`) | grepl("direct_",df2$`x[, 1]`))==FALSE)
 
 colnames(df2)[10] <- "Mediator"
 colnames(df2)[11] <- "Outcome"
@@ -3947,10 +4061,10 @@ df2$Mediator[df2$Mediator=="SS"] <- "Social support"
 df2$Mediator[df2$Mediator=="QD"] <- "Quantitative demands"
 df2$Mediator[df2$Mediator=="freq_dis_int"] <- "Frequent disruptive interruptions"
 df2$Mediator[df2$Mediator=="CD"] <- "Cognitive dimension"
-df2$Mediator[df2$Mediator=="AUT"] <- "Autonomy"
+df2$Mediator[df2$Mediator=="computer"] <- "Computer (direct)"
 
 df2$Mediator <- factor(df2$Mediator, levels=c("Weekly working hours","Quantitative demands","Frequent disruptive interruptions",
-                                    "Take hour off","Cognitive dimension","Autonomy","Social support"))
+                                    "Take hour off","Cognitive dimension","Autonomy","Social support","Computer (direct)"))
 df2$Mediator <- factor(df2$Mediator, levels=rev(levels(df2$Mediator)))
 
 df2$Outcome[df2$Outcome=="y15_Q75"] <- "Self-rated health"
@@ -3977,14 +4091,629 @@ ggplot(subset(df2,x=="Indirect" | x=="Direct"), aes(x=Outcome, y=est.std, fill=x
 
 ```
 
+This chart breaks it down by the different groups 
+
+```{r echo=FALSE, fig.height=4, fig.width=8}
+df3 <- subset(fit9_sol, op==":=")
+
+x <- t(as.data.frame(strsplit(gsub('T0__','', df3$lhs),"0_")))
+df3 <- cbind(df3,as.data.frame(x[,1], stringsAsFactors = FALSE))
+df3 <- cbind(df3,as.data.frame(x[,2], stringsAsFactors = FALSE))
+rm(x)
+
+df3 <- subset(df3, (grepl("indirect_",df3$`x[, 1]`) | grepl("direct_",df3$`x[, 1]`))==TRUE)
+
+df3$group  <- gsub('indirect_','', df3$`x[, 1]`)
+df3$group  <- gsub('direct_','', df3$group)
+df3$group[df3$group=="teleworker"] <- "Teleworker"
+df3$group[df3$group=="lowmob"] <- "Low mobile TICTM"
+df3$group[df3$group=="highmob"] <- "High mobile TICTM"
+df3$group[df3$group=="alwaysofficeICT"] <- "Always at the office with ICT"
+df3$group[df3$group=="alwaysoffice"] <- "Always at the office without ICT"
+
+df3$effect <- ""
+df3$effect[grepl("indirect_",df3$`x[, 1]`)==TRUE] <- "Indirect"
+df3$effect[grepl("direct_",df3$`x[, 1]`)==TRUE & df3$effect!="Indirect"] <- "Direct"
+
+colnames(df3)[11] <- "Outcome"
+df3$Outcome[df3$Outcome=="y15_Q75"] <- "Self-rated health"
+df3$Outcome[df3$Outcome=="anxiety"] <- "Anxiety"
+df3$Outcome[df3$Outcome=="fatigue"] <- "Fatigue"
+df3$Outcome[df3$Outcome=="stress"] <- "Stress"
+df3$Outcome[df3$Outcome=="absenteeism"] <- "Absenteeism"
+df3$Outcome[df3$Outcome=="presenteeism"] <- "Presenteeism"
+df3$Outcome[df3$Outcome=="headeye"] <- "Headache / eyestrain"
+
+ggplot(df3, aes(x=group, y=est.std, fill=effect)) + 
+  facet_wrap( ~ Outcome , nrow=2  ) +
+  geom_bar(stat="identity") + 
+  scale_fill_manual("Effect", values=EF_2c) +
+  labs(title = "Effect of ICT mobile work",
+       subtitle = "Standardised coefficients, error bar showing 95% confidence interval",
+       caption = "Source: EWCS 2015", 
+       y = "Standardised coefficient") +
+  coord_flip() + 
+  theme_bw() 
+
+```
+
+Chart below shows the effect of the groups taken together, by their mediation variables. 
+
 ```{r echo=FALSE, fig.height=4, fig.width=8}
 
-ggplot(subset(df2,is.na(x)), aes(x=Mediator, y=est.std)) + 
+df2$x2 <- "Direct"
+df2$x2[is.na(df2$x)] <- "Indirect"
+
+ggplot(subset(df2,is.na(x)), aes(x=Mediator, y=est.std, fill=x2)) + 
   facet_wrap( ~ Outcome , nrow=2  ) +
-  geom_bar(stat="identity", fill=EF_blue) + 
+  geom_bar(stat="identity") + 
+  scale_fill_manual("Effect", values=EF_2c) +
   geom_errorbar(aes(ymin=ci.lower, ymax=ci.upper), colour="black", width=.1) +
   labs(title = "Effect of ICT mobile work mediated through job demands and resources",
        subtitle = "Standardised coefficients, error bar showing 95% confidence interval",
+       caption = "Source: EWCS 2015", 
+       y = "Standardised coefficient") +
+  coord_flip() + 
+  theme_bw() 
+
+```
+
+#Model with mobility
+
+The final model does not really on the groups of ICT mobile workers, but instead looks at computer use and at mobility as a seperate variable. Mobility is actually measured by 3 binary variables: low mobility, high mobility and homebased. The idea of this analysis is to disentangle the effect of computer use from mobility. 
+
+```{r echo=FALSE, out.width = "70%"}
+include_graphics("SEM_diagram_mobility.png")
+```
+
+```{r}
+
+sm10  <- '#Measurement models
+           QD   =~ y15_Q49a + y15_Q49b
+           AUT  =~ y15_Q54a + y15_Q54b + y15_Q54c
+           CD   =~ y15_Q53c + y15_Q53e + y15_Q53f
+           WHO5 =~ y15_Q87a + y15_Q87b + y15_Q87c + y15_Q87d + y15_Q87e 
+     
+         #JDR regressions
+           QD           ~ a0*computer + am1*mob1 + am2*mob2 + am3*mob3 + 
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+           AUT          ~ b0*computer + bm1*mob1 + bm2*mob2 + bm3*mob3 + 
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+           CD           ~ c0*computer + cm1*mob1 + cm2*mob2 + cm3*mob3 + 
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+           SS           ~ d0*computer + dm1*mob1 + dm2*mob2 + dm3*mob3 + 
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+           freq_dis_int ~ e0*computer + em1*mob1 + em2*mob2 + em3*mob3 + 
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+           totalhour    ~ f0*computer + fm1*mob1 + fm2*mob2 + fm3*mob3 + 
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+           y15_Q47      ~ g0*computer + + gm1*mob1 + gm2*mob2 + gm3*mob3 + 
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+    
+         #outcome regressions 
+
+           WHO5         ~ a1*QD + b1*AUT + c1*CD + d1*SS + e1*freq_dis_int + f1*totalhour + g1*y15_Q47 + h1*computer + i1*mob1 + j1*mob2 + k1*mob3 +
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+           y15_Q75      ~ a2*QD + b2*AUT + c2*CD + d2*SS + e2*freq_dis_int + f2*totalhour + g2*y15_Q47 + h2*computer + i2*mob1 + j2*mob2 + k2*mob3 +
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+           anxiety      ~ a3*QD + b3*AUT + c3*CD + d3*SS + e3*freq_dis_int + f3*totalhour + g3*y15_Q47 + h3*computer + i3*mob1 + j3*mob2 + k3*mob3 +
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+           fatigue      ~ a4*QD + b4*AUT + c4*CD + d4*SS + e4*freq_dis_int + f4*totalhour + g4*y15_Q47 + h4*computer + i4*mob1 + j4*mob2 + k4*mob3 + 
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+           stress       ~ a5*QD + b5*AUT + c5*CD + d5*SS + e5*freq_dis_int + f5*totalhour + g5*y15_Q47 + h5*computer + i5*mob1 + j5*mob2 + k5*mob3 + 
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+           absenteeism  ~ a6*QD + b6*AUT + c6*CD + d6*SS + e6*freq_dis_int + f6*totalhour + g6*y15_Q47 + h6*computer + i6*mob1 + j6*mob2 + k6*mob3 +
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+           presenteeism ~ a7*QD + b7*AUT + c7*CD + d7*SS + e7*freq_dis_int + f7*totalhour + g7*y15_Q47 + h7*computer + i7*mob1 + j7*mob2 + k7*mob3 +
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+    
+           headeye      ~ a8*QD + b8*AUT + c8*CD + d8*SS + e8*freq_dis_int + f8*totalhour + g8*y15_Q47 + h8*computer + i8*mob1 + j8*mob2 + k8*mob3 +
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
+                          countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
+                          countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
+                          countidHungary + countidMalta + countidNetherlands + countidAustria +
+                          countidPoland + countidPortugal + countidRomania + countidSlovenia +
+                          countidSlovakia + countidFinland + countidSweden + countidUnited_Kingdom +
+                          countidCroatia 
+
+         #Covariances
+           #Allow the outcomes to correlate with each other
+           headeye     ~~ WHO5 + y15_Q75 + anxiety + fatigue + stress + absenteeism + presenteeism        
+           WHO5        ~~        y15_Q75 + anxiety + fatigue + stress + absenteeism + presenteeism
+           y15_Q75     ~~                  anxiety + fatigue + stress + absenteeism + presenteeism
+           anxiety     ~~                            fatigue + stress + absenteeism + presenteeism
+           fatigue     ~~                                      stress + absenteeism + presenteeism
+           stress      ~~                                               absenteeism + presenteeism
+           absenteeism ~~                                                             presenteeism  
+
+          #Allow the mediators to correlate with each other
+           QD           ~~ AUT + CD + SS + freq_dis_int + totalhour + y15_Q47
+           AUT          ~~ CD + SS + freq_dis_int + totalhour + y15_Q47
+           CD           ~~ SS + freq_dis_int + totalhour + y15_Q47
+           SS           ~~ freq_dis_int + totalhour + y15_Q47
+           freq_dis_int ~~ totalhour + y15_Q47
+           totalhour    ~~ y15_Q47
+
+          #Allow computer use and mobility to correlate
+           computer ~~ mob1 + mob2 + mob3
+           mob1 ~~ mob2 + mob3
+           mob2 ~~ mob3
+
+         #Indirect effects
+           
+           comp_QD0_WHO5         := a0*a1
+           comp_QD0_y15_Q75      := a0*a2
+           comp_QD0_anxiety      := a0*a3
+           comp_QD0_fatigue      := a0*a4
+           comp_QD0_stress       := a0*a5
+           comp_QD0_absenteeism  := a0*a6
+           comp_QD0_presenteeism := a0*a7
+           comp_QD0_headeye      := a0*a8
+
+           mob1_QD0_WHO5         := am1*a1
+           mob1_QD0_y15_Q75      := am1*a2
+           mob1_QD0_anxiety      := am1*a3
+           mob1_QD0_fatigue      := am1*a4
+           mob1_QD0_stress       := am1*a5
+           mob1_QD0_absenteeism  := am1*a6
+           mob1_QD0_presenteeism := am1*a7
+           mob1_QD0_headeye      := am1*a8
+
+           mob2_QD0_WHO5         := am2*a1
+           mob2_QD0_y15_Q75      := am2*a2
+           mob2_QD0_anxiety      := am2*a3
+           mob2_QD0_fatigue      := am2*a4
+           mob2_QD0_stress       := am2*a5
+           mob2_QD0_absenteeism  := am2*a6
+           mob2_QD0_presenteeism := am2*a7
+           mob2_QD0_headeye      := am2*a8
+
+           mob3_QD0_WHO5         := am3*a1
+           mob3_QD0_y15_Q75      := am3*a2
+           mob3_QD0_anxiety      := am3*a3
+           mob3_QD0_fatigue      := am3*a4
+           mob3_QD0_stress       := am3*a5
+           mob3_QD0_absenteeism  := am3*a6
+           mob3_QD0_presenteeism := am3*a7
+           mob3_QD0_headeye      := am3*a8
+
+           comp_AUT0_WHO5         := b0*b1
+           comp_AUT0_y15_Q75      := b0*b2
+           comp_AUT0_anxiety      := b0*b3
+           comp_AUT0_fatigue      := b0*b4
+           comp_AUT0_stress       := b0*b5
+           comp_AUT0_absenteeism  := b0*b6
+           comp_AUT0_presenteeism := b0*b7
+           comp_AUT0_headeye      := b0*b8
+
+           mob1_AUT0_WHO5         := bm1*b1
+           mob1_AUT0_y15_Q75      := bm1*b2
+           mob1_AUT0_anxiety      := bm1*b3
+           mob1_AUT0_fatigue      := bm1*b4
+           mob1_AUT0_stress       := bm1*b5
+           mob1_AUT0_absenteeism  := bm1*b6
+           mob1_AUT0_presenteeism := bm1*b7
+           mob1_AUT0_headeye      := bm1*b8
+
+           mob2_AUT0_WHO5         := bm2*b1
+           mob2_AUT0_y15_Q75      := bm2*b2
+           mob2_AUT0_anxiety      := bm2*b3
+           mob2_AUT0_fatigue      := bm2*b4
+           mob2_AUT0_stress       := bm2*b5
+           mob2_AUT0_absenteeism  := bm2*b6
+           mob2_AUT0_presenteeism := bm2*b7
+           mob2_AUT0_headeye      := bm2*b8
+
+           mob3_AUT0_WHO5         := bm3*b1
+           mob3_AUT0_y15_Q75      := bm3*b2
+           mob3_AUT0_anxiety      := bm3*b3
+           mob3_AUT0_fatigue      := bm3*b4
+           mob3_AUT0_stress       := bm3*b5
+           mob3_AUT0_absenteeism  := bm3*b6
+           mob3_AUT0_presenteeism := bm3*b7
+           mob3_AUT0_headeye      := bm3*b8
+
+           comp_CD0_WHO5         := c0*c1
+           comp_CD0_y15_Q75      := c0*c2
+           comp_CD0_anxiety      := c0*c3
+           comp_CD0_fatigue      := c0*c4
+           comp_CD0_stress       := c0*c5
+           comp_CD0_absenteeism  := c0*c6
+           comp_CD0_presenteeism := c0*c7
+           comp_CD0_headeye      := c0*c8
+
+           mob1_CD0_WHO5         := cm1*c1
+           mob1_CD0_y15_Q75      := cm1*c2
+           mob1_CD0_anxiety      := cm1*c3
+           mob1_CD0_fatigue      := cm1*c4
+           mob1_CD0_stress       := cm1*c5
+           mob1_CD0_absenteeism  := cm1*c6
+           mob1_CD0_presenteeism := cm1*c7
+           mob1_CD0_headeye      := cm1*c8
+
+           mob2_CD0_WHO5         := cm2*c1
+           mob2_CD0_y15_Q75      := cm2*c2
+           mob2_CD0_anxiety      := cm2*c3
+           mob2_CD0_fatigue      := cm2*c4
+           mob2_CD0_stress       := cm2*c5
+           mob2_CD0_absenteeism  := cm2*c6
+           mob2_CD0_presenteeism := cm2*c7
+           mob2_CD0_headeye      := cm2*c8
+
+           mob3_CD0_WHO5         := cm3*c1
+           mob3_CD0_y15_Q75      := cm3*c2
+           mob3_CD0_anxiety      := cm3*c3
+           mob3_CD0_fatigue      := cm3*c4
+           mob3_CD0_stress       := cm3*c5
+           mob3_CD0_absenteeism  := cm3*c6
+           mob3_CD0_presenteeism := cm3*c7
+           mob3_CD0_headeye      := cm3*c8
+
+           comp_SS0_WHO5         := d0*d1
+           comp_SS0_y15_Q75      := d0*d2
+           comp_SS0_anxiety      := d0*d3
+           comp_SS0_fatigue      := d0*d4
+           comp_SS0_stress       := d0*d5
+           comp_SS0_absenteeism  := d0*d6
+           comp_SS0_presenteeism := d0*d7
+           comp_SS0_headeye      := d0*d8
+
+           mob1_SS0_WHO5         := dm1*d1
+           mob1_SS0_y15_Q75      := dm1*d2
+           mob1_SS0_anxiety      := dm1*d3
+           mob1_SS0_fatigue      := dm1*d4
+           mob1_SS0_stress       := dm1*d5
+           mob1_SS0_absenteeism  := dm1*d6
+           mob1_SS0_presenteeism := dm1*d7
+           mob1_SS0_headeye      := dm1*d8
+
+           mob2_SS0_WHO5         := dm2*d1
+           mob2_SS0_y15_Q75      := dm2*d2
+           mob2_SS0_anxiety      := dm2*d3
+           mob2_SS0_fatigue      := dm2*d4
+           mob2_SS0_stress       := dm2*d5
+           mob2_SS0_absenteeism  := dm2*d6
+           mob2_SS0_presenteeism := dm2*d7
+           mob2_SS0_headeye      := dm2*d8
+
+           mob3_SS0_WHO5         := dm3*d1
+           mob3_SS0_y15_Q75      := dm3*d2
+           mob3_SS0_anxiety      := dm3*d3
+           mob3_SS0_fatigue      := dm3*d4
+           mob3_SS0_stress       := dm3*d5
+           mob3_SS0_absenteeism  := dm3*d6
+           mob3_SS0_presenteeism := dm3*d7
+           mob3_SS0_headeye      := dm3*d8
+
+           comp_freq_dis_int0_WHO5         := e0*e1
+           comp_freq_dis_int0_y15_Q75      := e0*e2
+           comp_freq_dis_int0_anxiety      := e0*e3
+           comp_freq_dis_int0_fatigue      := e0*e4
+           comp_freq_dis_int0_stress       := e0*e5
+           comp_freq_dis_int0_absenteeism  := e0*e6
+           comp_freq_dis_int0_presenteeism := e0*e7
+           comp_freq_dis_int0_headeye      := e0*e8
+
+           mob1_freq_dis_int0_WHO5         := em1*e1
+           mob1_freq_dis_int0_y15_Q75      := em1*e2
+           mob1_freq_dis_int0_anxiety      := em1*e3
+           mob1_freq_dis_int0_fatigue      := em1*e4
+           mob1_freq_dis_int0_stress       := em1*e5
+           mob1_freq_dis_int0_absenteeism  := em1*e6
+           mob1_freq_dis_int0_presenteeism := em1*e7
+           mob1_freq_dis_int0_headeye      := em1*e8
+
+           mob2_freq_dis_int0_WHO5         := em2*e1
+           mob2_freq_dis_int0_y15_Q75      := em2*e2
+           mob2_freq_dis_int0_anxiety      := em2*e3
+           mob2_freq_dis_int0_fatigue      := em2*e4
+           mob2_freq_dis_int0_stress       := em2*e5
+           mob2_freq_dis_int0_absenteeism  := em2*e6
+           mob2_freq_dis_int0_presenteeism := em2*e7
+           mob2_freq_dis_int0_headeye      := em2*e8
+
+           mob3_freq_dis_int0_WHO5         := em3*e1
+           mob3_freq_dis_int0_y15_Q75      := em3*e2
+           mob3_freq_dis_int0_anxiety      := em3*e3
+           mob3_freq_dis_int0_fatigue      := em3*e4
+           mob3_freq_dis_int0_stress       := em3*e5
+           mob3_freq_dis_int0_absenteeism  := em3*e6
+           mob3_freq_dis_int0_presenteeism := em3*e7
+           mob3_freq_dis_int0_headeye      := em3*e8
+
+           comp_totalhour0_WHO5         := f0*f1
+           comp_totalhour0_y15_Q75      := f0*f2
+           comp_totalhour0_anxiety      := f0*f3
+           comp_totalhour0_fatigue      := f0*f4
+           comp_totalhour0_stress       := f0*f5
+           comp_totalhour0_absenteeism  := f0*f6
+           comp_totalhour0_presenteeism := f0*f7
+           comp_totalhour0_headeye      := f0*f8
+
+           mob1_totalhour0_WHO5         := fm1*f1
+           mob1_totalhour0_y15_Q75      := fm1*f2
+           mob1_totalhour0_anxiety      := fm1*f3
+           mob1_totalhour0_fatigue      := fm1*f4
+           mob1_totalhour0_stress       := fm1*f5
+           mob1_totalhour0_absenteeism  := fm1*f6
+           mob1_totalhour0_presenteeism := fm1*f7
+           mob1_totalhour0_headeye      := fm1*f8
+
+           mob2_totalhour0_WHO5         := fm2*f1
+           mob2_totalhour0_y15_Q75      := fm2*f2
+           mob2_totalhour0_anxiety      := fm2*f3
+           mob2_totalhour0_fatigue      := fm2*f4
+           mob2_totalhour0_stress       := fm2*f5
+           mob2_totalhour0_absenteeism  := fm2*f6
+           mob2_totalhour0_presenteeism := fm2*f7
+           mob2_totalhour0_headeye      := fm2*f8
+
+           mob3_totalhour0_WHO5         := fm3*f1
+           mob3_totalhour0_y15_Q75      := fm3*f2
+           mob3_totalhour0_anxiety      := fm3*f3
+           mob3_totalhour0_fatigue      := fm3*f4
+           mob3_totalhour0_stress       := fm3*f5
+           mob3_totalhour0_absenteeism  := fm3*f6
+           mob3_totalhour0_presenteeism := fm3*f7
+           mob3_totalhour0_headeye      := fm3*f8
+
+           comp_y15_Q470_WHO5         := g0*g1
+           comp_y15_Q470_y15_Q75      := g0*g2
+           comp_y15_Q470_anxiety      := g0*g3
+           comp_y15_Q470_fatigue      := g0*g4
+           comp_y15_Q470_stress       := g0*g5
+           comp_y15_Q470_absenteeism  := g0*g6
+           comp_y15_Q470_presenteeism := g0*g7
+           comp_y15_Q470_headeye      := g0*g8
+
+           mob1_y15_Q470_WHO5         := gm1*g1
+           mob1_y15_Q470_y15_Q75      := gm1*g2
+           mob1_y15_Q470_anxiety      := gm1*g3
+           mob1_y15_Q470_fatigue      := gm1*g4
+           mob1_y15_Q470_stress       := gm1*g5
+           mob1_y15_Q470_absenteeism  := gm1*g6
+           mob1_y15_Q470_presenteeism := gm1*g7
+           mob1_y15_Q470_headeye      := gm1*g8
+
+           mob2_y15_Q470_WHO5         := gm2*g1
+           mob2_y15_Q470_y15_Q75      := gm2*g2
+           mob2_y15_Q470_anxiety      := gm2*g3
+           mob2_y15_Q470_fatigue      := gm2*g4
+           mob2_y15_Q470_stress       := gm2*g5
+           mob2_y15_Q470_absenteeism  := gm2*g6
+           mob2_y15_Q470_presenteeism := gm2*g7
+           mob2_y15_Q470_headeye      := gm2*g8
+
+           mob3_y15_Q470_WHO5         := gm3*g1
+           mob3_y15_Q470_y15_Q75      := gm3*g2
+           mob3_y15_Q470_anxiety      := gm3*g3
+           mob3_y15_Q470_fatigue      := gm3*g4
+           mob3_y15_Q470_stress       := gm3*g5
+           mob3_y15_Q470_absenteeism  := gm3*g6
+           mob3_y15_Q470_presenteeism := gm3*g7
+           mob3_y15_Q470_headeye      := gm3*g8
+
+         #Direct effects
+           computer0_WHO5         := h1
+           computer0_y15_Q75      := h2
+           computer0_anxiety      := h3
+           computer0_fatigue      := h4
+           computer0_stress       := h5
+           computer0_absenteeism  := h6
+           computer0_presenteeism := h7
+           computer0_headeye      := h8
+
+           mob10_WHO5         := i1
+           mob10_y15_Q75      := i2
+           mob10_anxiety      := i3
+           mob10_fatigue      := i4
+           mob10_stress       := i5
+           mob10_absenteeism  := i6
+           mob10_presenteeism := i7
+           mob10_headeye      := i8
+
+           mob20_WHO5         := j1
+           mob20_y15_Q75      := j2
+           mob20_anxiety      := j3
+           mob20_fatigue      := j4
+           mob20_stress       := j5
+           mob20_absenteeism  := j6
+           mob20_presenteeism := j7
+           mob20_headeye      := j8
+
+           mob30_WHO5         := k1
+           mob30_y15_Q75      := k2
+           mob30_anxiety      := k3
+           mob30_fatigue      := k4
+           mob30_stress       := k5
+           mob30_absenteeism  := k6
+           mob30_presenteeism := k7
+           mob30_headeye      := k8
+
+'
+
+fit10 <- sem(sm10, data=subset(EWCS_EU28,year>=2015))
+fit10_sol <- standardizedsolution(fit10)
+
+```
+
+##Model fit
+
+The fit is again very good. 
+
+```{r}
+fitmeasures(fit10,fit.measures=c("tli","cfi","rni","rmsea"))
+```
+
+##Results
+
+The chart below shows that generally computer usage seems to be more strongly associated with healt outcomes than mobility. The indirect effects of computer use are stronger than for mobility, indicating that the hypothesised model fits better for computer use than for mobility. There are still quite some strong direct effects of mobility, however. Especially presenteeism is interesting. The total (indirect + direct) effect of computer use on presenteeism is stronger, but the direct effect of mobility on presenteeism is very strong. 
+
+```{r echo=FALSE, fig.height=8, fig.width=14 }
+df3 <- subset(fit10_sol, op==":=")
+
+x <- t(as.data.frame(strsplit(gsub('T0__','', df3$lhs),"0_")))
+df3 <- cbind(df3,as.data.frame(x[,1], stringsAsFactors = FALSE))
+df3 <- cbind(df3,as.data.frame(x[,2], stringsAsFactors = FALSE))
+rm(x)
+
+df3$x[grepl("mob1_",df3$`x[, 1]`)==TRUE | grepl("mob2_",df3$`x[, 1]`)==TRUE | grepl("mob3_",df3$`x[, 1]`)==TRUE | grepl("comp_",df3$`x[, 1]`)==TRUE] <- "Indirect"
+df3$x[is.na(df3$x)] <- "Direct"
+
+df3$`x[, 1]` <- gsub('comp_','', df3$`x[, 1]`)
+df3$`x[, 1]` <- gsub('mob1_','', df3$`x[, 1]`)
+df3$`x[, 1]` <- gsub('mob2_','', df3$`x[, 1]`)
+df3$`x[, 1]` <- gsub('mob3_','', df3$`x[, 1]`)
+
+df3$group[grepl("comp",df3$lhs)==TRUE] <- "Computer"
+df3$group[grepl("mob1",df3$lhs)==TRUE] <- "Low mobile"
+df3$group[grepl("mob2",df3$lhs)==TRUE] <- "High mobile"
+df3$group[grepl("mob3",df3$lhs)==TRUE] <- "Homebased"
+
+colnames(df3)[10] <- "Mediator"
+df3$Mediator[df3$Mediator=="y15_Q47"] <- "Take hour off"
+df3$Mediator[df3$Mediator=="totalhour"] <- "Weekly working hours"
+df3$Mediator[df3$Mediator=="SS"] <- "Social support"
+df3$Mediator[df3$Mediator=="QD"] <- "Quantitative demands"
+df3$Mediator[df3$Mediator=="freq_dis_int"] <- "Frequent disruptive interruptions"
+df3$Mediator[df3$Mediator=="CD"] <- "Cognitive dimension"
+df3$Mediator[df3$Mediator=="AUT"] <- "Autonomy"
+df3$Mediator[df3$Mediator=="computer"] <- "Direct effect"
+df3$Mediator[df3$Mediator=="mob1"] <- "Direct effect"
+df3$Mediator[df3$Mediator=="mob2"] <- "Direct effect"
+df3$Mediator[df3$Mediator=="mob3"] <- "Direct effect"
+
+df3$Mediator <- factor(df3$Mediator, levels=c("Weekly working hours","Quantitative demands","Frequent disruptive interruptions",
+                                    "Take hour off","Cognitive dimension","Autonomy","Social support","Direct effect"))
+df3$Mediator <- factor(df3$Mediator, levels=rev(levels(df3$Mediator)))
+
+colnames(df3)[11] <- "Outcome"
+df3$Outcome[df3$Outcome=="y15_Q75"] <- "Self-rated health"
+df3$Outcome[df3$Outcome=="anxiety"] <- "Anxiety"
+df3$Outcome[df3$Outcome=="fatigue"] <- "Fatigue"
+df3$Outcome[df3$Outcome=="stress"] <- "Stress"
+df3$Outcome[df3$Outcome=="absenteeism"] <- "Absenteeism"
+df3$Outcome[df3$Outcome=="presenteeism"] <- "Presenteeism"
+df3$Outcome[df3$Outcome=="headeye"] <- "Headache / eyestrain"
+
+
+ggplot(df3, aes(x=Mediator, y=est.std, fill=x)) + 
+  facet_wrap(group ~ Outcome , ncol=8) +
+  geom_bar(stat="identity") + 
+  scale_fill_manual("Effect", values=EF_2c) +
+  labs(title = "Effect of computer use and mobility on health indicators",
+       subtitle = "Standardised coefficients",
        caption = "Source: EWCS 2015", 
        y = "Standardised coefficient") +
   coord_flip() + 
