@@ -219,7 +219,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Data prep</h1>
 <h4 class="author"><em>Mathijn Wilkens</em></h4>
-<h4 class="date"><em>06 March, 2019</em></h4>
+<h4 class="date"><em>14 March, 2019</em></h4>
 
 </div>
 
@@ -283,6 +283,19 @@ EWCS_EU28$ISCO_d8[EWCS_EU28$y15_isco_08_1==&quot;Plant and machine operators, an
 EWCS_EU28$ISCO_d8[EWCS_EU28$y15_isco_08_1!=&quot;Plant and machine operators, and assemblers&quot;] &lt;- 0
 EWCS_EU28$ISCO_d9[EWCS_EU28$y15_isco_08_1==&quot;Elementary occupations&quot;] &lt;- 1
 EWCS_EU28$ISCO_d9[EWCS_EU28$y15_isco_08_1!=&quot;Elementary occupations&quot;] &lt;- 0
+
+#NACE10 (2010/2015)
+EWCS_EU28$nace_d1  &lt;- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[1])
+EWCS_EU28$nace_d2  &lt;- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[2])
+EWCS_EU28$nace_d3  &lt;- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[3])
+EWCS_EU28$nace_d4  &lt;- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[4])
+EWCS_EU28$nace_d5  &lt;- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[5])
+EWCS_EU28$nace_d6  &lt;- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[6])
+EWCS_EU28$nace_d7  &lt;- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[7])
+EWCS_EU28$nace_d8  &lt;- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[8])
+EWCS_EU28$nace_d9  &lt;- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[9])
+EWCS_EU28$nace_d10 &lt;- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[10])
+
 
 #ISCO88 (2000)
 #EWCS_EU28$y15_ISCO_88_1

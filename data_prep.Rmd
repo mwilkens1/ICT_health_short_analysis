@@ -73,6 +73,19 @@ EWCS_EU28$ISCO_d8[EWCS_EU28$y15_isco_08_1!="Plant and machine operators, and ass
 EWCS_EU28$ISCO_d9[EWCS_EU28$y15_isco_08_1=="Elementary occupations"] <- 1
 EWCS_EU28$ISCO_d9[EWCS_EU28$y15_isco_08_1!="Elementary occupations"] <- 0
 
+#NACE10 (2010/2015)
+EWCS_EU28$nace_d1  <- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[1])
+EWCS_EU28$nace_d2  <- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[2])
+EWCS_EU28$nace_d3  <- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[3])
+EWCS_EU28$nace_d4  <- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[4])
+EWCS_EU28$nace_d5  <- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[5])
+EWCS_EU28$nace_d6  <- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[6])
+EWCS_EU28$nace_d7  <- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[7])
+EWCS_EU28$nace_d8  <- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[8])
+EWCS_EU28$nace_d9  <- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[9])
+EWCS_EU28$nace_d10 <- as.numeric(EWCS_EU28$nace10==levels(EWCS_EU28$nace10)[10])
+
+
 #ISCO88 (2000)
 #EWCS_EU28$y15_ISCO_88_1
 #EWCS_EU28$y15_ISCO_88_2

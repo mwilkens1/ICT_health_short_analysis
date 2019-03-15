@@ -135,7 +135,7 @@ reliability(fit)
 
 ##Model estimation
 
-The graph below shows the struture of the model. The frequency of using computers is hypthesised to have an effect on job demands (above) and job resources (below) which in turn have an effect on a range of health outcomes. Also, we allow for a direct effect of computer use on health outcomes to see if there is still an effect having controlled for all the mediators. It includes (not shown) controls for age, gender, ISCO1, education, year and country. These controls are active in the regressions of the effect of computer use on the mediators, as well as the effect of the mediators on the outcomes.  The data are from 2010 and 2015. 
+The graph below shows the struture of the model. The frequency of using computers is hypthesised to have an effect on job demands (above) and job resources (below) which in turn have an effect on a range of health outcomes. Also, we allow for a direct effect of computer use on health outcomes to see if there is still an effect having controlled for all the mediators. It includes (not shown) controls for age, gender, ISCO1, NACE10, education, year and country. These controls are active in the regressions of the effect of computer use on the mediators, as well as the effect of the mediators on the outcomes.  The data are from 2010 and 2015. 
 
 ```{r echo=FALSE, out.width = "70%"}
 include_graphics("SEM_diagram.png")
@@ -154,6 +154,7 @@ sm1  <- '#Measurement models
      
          #JDR regressions
            QD           ~ a0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -163,6 +164,7 @@ sm1  <- '#Measurement models
                           countidCroatia 
 
            AUT          ~ b0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -172,6 +174,7 @@ sm1  <- '#Measurement models
                           countidCroatia 
 
            CD           ~ c0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -181,6 +184,7 @@ sm1  <- '#Measurement models
                           countidCroatia 
 
            SS           ~ d0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -190,6 +194,7 @@ sm1  <- '#Measurement models
                           countidCroatia 
 
            freq_dis_int ~ e0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -199,6 +204,7 @@ sm1  <- '#Measurement models
                           countidCroatia 
 
            totalhour    ~ f0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -208,6 +214,7 @@ sm1  <- '#Measurement models
                           countidCroatia 
 
            y15_Q47      ~ g0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -220,6 +227,7 @@ sm1  <- '#Measurement models
 
            WHO5         ~ a1*QD + b1*AUT + c1*CD + d1*SS + e1*freq_dis_int + f1*totalhour + g1*y15_Q47 + h1*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -230,6 +238,7 @@ sm1  <- '#Measurement models
 
            y15_Q75      ~ a2*QD + b2*AUT + c2*CD + d2*SS + e2*freq_dis_int + f2*totalhour + g2*y15_Q47 + h2*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -240,6 +249,7 @@ sm1  <- '#Measurement models
 
            anxiety      ~ a3*QD + b3*AUT + c3*CD + d3*SS + e3*freq_dis_int + f3*totalhour + g3*y15_Q47 + h3*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -250,6 +260,7 @@ sm1  <- '#Measurement models
 
            fatigue      ~ a4*QD + b4*AUT + c4*CD + d4*SS + e4*freq_dis_int + f4*totalhour + g4*y15_Q47 + h4*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -260,6 +271,7 @@ sm1  <- '#Measurement models
 
            stress       ~ a5*QD + b5*AUT + c5*CD + d5*SS + e5*freq_dis_int + f5*totalhour + g5*y15_Q47 + h5*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -270,6 +282,7 @@ sm1  <- '#Measurement models
 
            absenteeism  ~ a6*QD + b6*AUT + c6*CD + d6*SS + e6*freq_dis_int + f6*totalhour + g6*y15_Q47 + h6*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -280,6 +293,7 @@ sm1  <- '#Measurement models
 
            presenteeism ~ a7*QD + b7*AUT + c7*CD + d7*SS + e7*freq_dis_int + f7*totalhour + g7*y15_Q47 + h7*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -290,6 +304,7 @@ sm1  <- '#Measurement models
     
            headeye      ~ a8*QD + b8*AUT + c8*CD + d8*SS + e8*freq_dis_int + f8*totalhour + g8*y15_Q47 + h8*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + w2015 +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -640,6 +655,7 @@ sm2  <- '#Measurement models
 
          #JDR regressions
            QD           ~ a0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -649,6 +665,7 @@ sm2  <- '#Measurement models
                           countidCroatia 
 
            AUT          ~ b0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -658,6 +675,7 @@ sm2  <- '#Measurement models
                           countidCroatia 
 
            CD           ~ c0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -667,6 +685,7 @@ sm2  <- '#Measurement models
                           countidCroatia 
 
            SS           ~ d0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -676,6 +695,7 @@ sm2  <- '#Measurement models
                           countidCroatia 
 
            freq_dis_int ~ e0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -685,6 +705,7 @@ sm2  <- '#Measurement models
                           countidCroatia 
 
            totalhour    ~ f0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -694,6 +715,7 @@ sm2  <- '#Measurement models
                           countidCroatia 
 
            y15_Q47      ~ g0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -706,6 +728,7 @@ sm2  <- '#Measurement models
 
                ENG      ~ a1*QD + b1*AUT + c1*CD + d1*SS + e1*freq_dis_int + f1*totalhour + g1*y15_Q47 + h1*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -716,6 +739,7 @@ sm2  <- '#Measurement models
 
               BURN      ~ a2*QD + b2*AUT + c2*CD + d2*SS + e2*freq_dis_int + f2*totalhour + g2*y15_Q47 + h2*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -728,6 +752,7 @@ sm2  <- '#Measurement models
 
           headeye       ~ yy1*ENG + zz1*BURN + aa1*QD + bb1*AUT + cc1*CD + dd1*SS + ee1*freq_dis_int + ff1*totalhour + gg1*y15_Q47 + x1*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -738,6 +763,7 @@ sm2  <- '#Measurement models
 
           WHO5          ~ yy2*ENG + zz2*BURN + aa2*QD + bb2*AUT + cc2*CD + dd2*SS + ee2*freq_dis_int + ff2*totalhour + gg2*y15_Q47 + x2*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -747,6 +773,7 @@ sm2  <- '#Measurement models
                           countidCroatia 
           y15_Q75       ~ yy3*ENG + zz3*BURN + aa3*QD + bb3*AUT + cc3*CD + dd3*SS + ee3*freq_dis_int + ff3*totalhour + gg3*y15_Q47 + x3*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -756,6 +783,7 @@ sm2  <- '#Measurement models
                           countidCroatia 
           anxiety       ~ yy4*ENG + zz4*BURN + aa4*QD + bb4*AUT + cc4*CD + dd4*SS + ee4*freq_dis_int + ff4*totalhour + gg4*y15_Q47 + x4*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -765,6 +793,7 @@ sm2  <- '#Measurement models
                           countidCroatia 
           fatigue       ~ yy5*ENG + zz5*BURN + aa5*QD + bb5*AUT + cc5*CD + dd5*SS + ee5*freq_dis_int + ff5*totalhour + gg5*y15_Q47 + x5*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -774,6 +803,7 @@ sm2  <- '#Measurement models
                           countidCroatia 
           stress        ~ yy6*ENG + zz6*BURN + aa6*QD + bb6*AUT + cc6*CD + dd6*SS + ee6*freq_dis_int + ff6*totalhour + gg6*y15_Q47 + x6*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -783,6 +813,7 @@ sm2  <- '#Measurement models
                           countidCroatia  
           absenteeism   ~ yy7*ENG + zz7*BURN + aa7*QD + bb7*AUT + cc7*CD + dd7*SS + ee7*freq_dis_int + ff7*totalhour + gg7*y15_Q47 + x7*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -792,6 +823,7 @@ sm2  <- '#Measurement models
                           countidCroatia  
           presenteeism  ~ yy8*ENG + zz8*BURN + aa8*QD + bb8*AUT + cc8*CD + dd8*SS + ee8*freq_dis_int + ff8*totalhour + gg8*y15_Q47 + x8*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1140,6 +1172,7 @@ sm3  <- '#Measurement models
 
          #JDR regressions
            QD           ~ a0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1149,6 +1182,7 @@ sm3  <- '#Measurement models
                           countidCroatia 
 
            AUT          ~ b0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1158,6 +1192,7 @@ sm3  <- '#Measurement models
                           countidCroatia 
 
            CD           ~ c0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1167,6 +1202,7 @@ sm3  <- '#Measurement models
                           countidCroatia 
 
            SS           ~ d0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1176,6 +1212,7 @@ sm3  <- '#Measurement models
                           countidCroatia 
 
            freq_dis_int ~ e0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1185,6 +1222,7 @@ sm3  <- '#Measurement models
                           countidCroatia 
 
            totalhour    ~ f0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1194,6 +1232,7 @@ sm3  <- '#Measurement models
                           countidCroatia 
 
            y15_Q47      ~ g0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1206,6 +1245,7 @@ sm3  <- '#Measurement models
 
                ENG      ~ a1*QD + b1*AUT + c1*CD + d1*SS + e1*freq_dis_int + f1*totalhour + g1*y15_Q47 + h1*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1216,6 +1256,7 @@ sm3  <- '#Measurement models
 
               BURN      ~ a2*QD + b2*AUT + c2*CD + d2*SS + e2*freq_dis_int + f2*totalhour + g2*y15_Q47 + h2*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1228,6 +1269,7 @@ sm3  <- '#Measurement models
 
                   headeye       ~ yy1*ENG + zz1*BURN + aa1*QD + bb1*AUT + cc1*CD + dd1*SS + ee1*freq_dis_int + ff1*totalhour + gg1*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1238,6 +1280,7 @@ sm3  <- '#Measurement models
 
           WHO5          ~ yy2*ENG + zz2*BURN + aa2*QD + bb2*AUT + cc2*CD + dd2*SS + ee2*freq_dis_int + ff2*totalhour + gg2*y15_Q47  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1247,6 +1290,7 @@ sm3  <- '#Measurement models
                           countidCroatia 
           y15_Q75       ~ yy3*ENG + zz3*BURN + aa3*QD + bb3*AUT + cc3*CD + dd3*SS + ee3*freq_dis_int + ff3*totalhour + gg3*y15_Q47  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1256,6 +1300,7 @@ sm3  <- '#Measurement models
                           countidCroatia 
           anxiety       ~ yy4*ENG + zz4*BURN + aa4*QD + bb4*AUT + cc4*CD + dd4*SS + ee4*freq_dis_int + ff4*totalhour + gg4*y15_Q47  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1265,6 +1310,7 @@ sm3  <- '#Measurement models
                           countidCroatia 
           fatigue       ~ yy5*ENG + zz5*BURN + aa5*QD + bb5*AUT + cc5*CD + dd5*SS + ee5*freq_dis_int + ff5*totalhour + gg5*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1274,6 +1320,7 @@ sm3  <- '#Measurement models
                           countidCroatia 
           stress        ~ yy6*ENG + zz6*BURN + aa6*QD + bb6*AUT + cc6*CD + dd6*SS + ee6*freq_dis_int + ff6*totalhour + gg6*y15_Q47  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1283,6 +1330,7 @@ sm3  <- '#Measurement models
                           countidCroatia  
           absenteeism   ~ yy7*ENG + zz7*BURN + aa7*QD + bb7*AUT + cc7*CD + dd7*SS + ee7*freq_dis_int + ff7*totalhour + gg7*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1292,6 +1340,7 @@ sm3  <- '#Measurement models
                           countidCroatia  
           presenteeism  ~ yy8*ENG + zz8*BURN + aa8*QD + bb8*AUT + cc8*CD + dd8*SS + ee8*freq_dis_int + ff8*totalhour + gg8*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1558,6 +1607,7 @@ sm4  <- '#Measurement models
 
          #JDR regressions
            QD           ~ a0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1567,6 +1617,7 @@ sm4  <- '#Measurement models
                           countidCroatia 
 
            AUT          ~ b0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1576,6 +1627,7 @@ sm4  <- '#Measurement models
                           countidCroatia 
 
            CD           ~ c0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1585,6 +1637,7 @@ sm4  <- '#Measurement models
                           countidCroatia 
 
            SS           ~ d0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1594,6 +1647,7 @@ sm4  <- '#Measurement models
                           countidCroatia 
 
            freq_dis_int ~ e0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1603,6 +1657,7 @@ sm4  <- '#Measurement models
                           countidCroatia 
 
            totalhour    ~ f0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1612,6 +1667,7 @@ sm4  <- '#Measurement models
                           countidCroatia 
 
            y15_Q47      ~ g0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1624,6 +1680,7 @@ sm4  <- '#Measurement models
 
                ENG      ~ a1*QD + b1*AUT + c1*CD + d1*SS + e1*freq_dis_int + f1*totalhour + g1*y15_Q47 + h1*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1634,6 +1691,7 @@ sm4  <- '#Measurement models
 
               BURN      ~ a2*QD + b2*AUT + c2*CD + d2*SS + e2*freq_dis_int + f2*totalhour + g2*y15_Q47 + h2*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1646,6 +1704,7 @@ sm4  <- '#Measurement models
 
           headeye       ~ yy1*ENG + zz1*BURN  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1656,6 +1715,7 @@ sm4  <- '#Measurement models
 
           WHO5          ~ yy2*ENG + zz2*BURN  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1665,6 +1725,7 @@ sm4  <- '#Measurement models
                           countidCroatia 
           y15_Q75       ~ yy3*ENG + zz3*BURN  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1674,6 +1735,7 @@ sm4  <- '#Measurement models
                           countidCroatia 
           anxiety       ~ yy4*ENG + zz4*BURN  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1683,6 +1745,7 @@ sm4  <- '#Measurement models
                           countidCroatia 
           fatigue       ~ yy5*ENG + zz5*BURN  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1692,6 +1755,7 @@ sm4  <- '#Measurement models
                           countidCroatia 
           stress        ~ yy6*ENG + zz6*BURN + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1701,6 +1765,7 @@ sm4  <- '#Measurement models
                           countidCroatia  
           absenteeism   ~ yy7*ENG + zz7*BURN + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1710,6 +1775,7 @@ sm4  <- '#Measurement models
                           countidCroatia  
           presenteeism  ~ yy8*ENG + zz8*BURN + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1911,6 +1977,7 @@ sm5  <- '#Measurement models
 
          #JDR regressions
            QD           ~ a0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1920,6 +1987,7 @@ sm5  <- '#Measurement models
                           countidCroatia 
 
            AUT          ~ b0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1929,6 +1997,7 @@ sm5  <- '#Measurement models
                           countidCroatia 
 
            CD           ~ c0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1938,6 +2007,7 @@ sm5  <- '#Measurement models
                           countidCroatia 
 
            SS           ~ d0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1947,6 +2017,7 @@ sm5  <- '#Measurement models
                           countidCroatia 
 
            freq_dis_int ~ e0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1956,6 +2027,7 @@ sm5  <- '#Measurement models
                           countidCroatia 
 
            totalhour    ~ f0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1965,6 +2037,7 @@ sm5  <- '#Measurement models
                           countidCroatia 
 
            y15_Q47      ~ g0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1977,6 +2050,7 @@ sm5  <- '#Measurement models
 
                ENG      ~ a1*QD + b1*AUT + c1*CD + d1*SS + e1*freq_dis_int + f1*totalhour + g1*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1987,6 +2061,7 @@ sm5  <- '#Measurement models
 
               BURN      ~ a2*QD + b2*AUT + c2*CD + d2*SS + e2*freq_dis_int + f2*totalhour + g2*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -1999,6 +2074,7 @@ sm5  <- '#Measurement models
 
           headeye       ~ yy1*ENG + zz1*BURN  + x1*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2009,6 +2085,7 @@ sm5  <- '#Measurement models
 
           WHO5          ~ yy2*ENG + zz2*BURN  + x2*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2018,6 +2095,7 @@ sm5  <- '#Measurement models
                           countidCroatia 
           y15_Q75       ~ yy3*ENG + zz3*BURN  + x3*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2027,6 +2105,7 @@ sm5  <- '#Measurement models
                           countidCroatia 
           anxiety       ~ yy4*ENG + zz4*BURN  + x4*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2036,6 +2115,7 @@ sm5  <- '#Measurement models
                           countidCroatia 
           fatigue       ~ yy5*ENG + zz5*BURN  + x5*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2045,6 +2125,7 @@ sm5  <- '#Measurement models
                           countidCroatia 
           stress        ~ yy6*ENG + zz6*BURN + x6*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2054,6 +2135,7 @@ sm5  <- '#Measurement models
                           countidCroatia  
           absenteeism   ~ yy7*ENG + zz7*BURN + x7*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2063,6 +2145,7 @@ sm5  <- '#Measurement models
                           countidCroatia  
           presenteeism  ~ yy8*ENG + zz8*BURN + x8*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2256,6 +2339,7 @@ sm6  <- '#Measurement models
 
          #JDR regressions
            QD           ~ a0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2265,6 +2349,7 @@ sm6  <- '#Measurement models
                           countidCroatia 
 
            AUT          ~ b0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2274,6 +2359,7 @@ sm6  <- '#Measurement models
                           countidCroatia 
 
            CD           ~ c0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2283,6 +2369,7 @@ sm6  <- '#Measurement models
                           countidCroatia 
 
            SS           ~ d0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2292,6 +2379,7 @@ sm6  <- '#Measurement models
                           countidCroatia 
 
            freq_dis_int ~ e0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2301,6 +2389,7 @@ sm6  <- '#Measurement models
                           countidCroatia 
 
            totalhour    ~ f0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2310,6 +2399,7 @@ sm6  <- '#Measurement models
                           countidCroatia 
 
            y15_Q47      ~ g0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2322,6 +2412,7 @@ sm6  <- '#Measurement models
 
                ENG      ~ a1*QD + b1*AUT + c1*CD + d1*SS + e1*freq_dis_int + f1*totalhour + g1*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2332,6 +2423,7 @@ sm6  <- '#Measurement models
 
               BURN      ~ a2*QD + b2*AUT + c2*CD + d2*SS + e2*freq_dis_int + f2*totalhour + g2*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2344,6 +2436,7 @@ sm6  <- '#Measurement models
 
                  headeye       ~ yy1*ENG + zz1*BURN + aa1*QD + bb1*AUT + cc1*CD + dd1*SS + ee1*freq_dis_int + ff1*totalhour + gg1*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2354,6 +2447,7 @@ sm6  <- '#Measurement models
 
           WHO5          ~ yy2*ENG + zz2*BURN + aa2*QD + bb2*AUT + cc2*CD + dd2*SS + ee2*freq_dis_int + ff2*totalhour + gg2*y15_Q47  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2363,6 +2457,7 @@ sm6  <- '#Measurement models
                           countidCroatia 
           y15_Q75       ~ yy3*ENG + zz3*BURN + aa3*QD + bb3*AUT + cc3*CD + dd3*SS + ee3*freq_dis_int + ff3*totalhour + gg3*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2372,6 +2467,7 @@ sm6  <- '#Measurement models
                           countidCroatia 
           anxiety       ~ yy4*ENG + zz4*BURN + aa4*QD + bb4*AUT + cc4*CD + dd4*SS + ee4*freq_dis_int + ff4*totalhour + gg4*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2381,6 +2477,7 @@ sm6  <- '#Measurement models
                           countidCroatia 
           fatigue       ~ yy5*ENG + zz5*BURN + aa5*QD + bb5*AUT + cc5*CD + dd5*SS + ee5*freq_dis_int + ff5*totalhour + gg5*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2399,6 +2496,7 @@ sm6  <- '#Measurement models
                           countidCroatia  
           absenteeism   ~ yy7*ENG + zz7*BURN + aa7*QD + bb7*AUT + cc7*CD + dd7*SS + ee7*freq_dis_int + ff7*totalhour + gg7*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2408,6 +2506,7 @@ sm6  <- '#Measurement models
                           countidCroatia  
           presenteeism  ~ yy8*ENG + zz8*BURN + aa8*QD + bb8*AUT + cc8*CD + dd8*SS + ee8*freq_dis_int + ff8*totalhour + gg8*y15_Q47  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2660,6 +2759,7 @@ sm7  <- '#Measurement models
 
          #JDR regressions
            QD           ~ a0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2669,6 +2769,7 @@ sm7  <- '#Measurement models
                           countidCroatia 
 
            AUT          ~ b0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2678,6 +2779,7 @@ sm7  <- '#Measurement models
                           countidCroatia 
 
            CD           ~ c0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2687,6 +2789,7 @@ sm7  <- '#Measurement models
                           countidCroatia 
 
            SS           ~ d0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2696,6 +2799,7 @@ sm7  <- '#Measurement models
                           countidCroatia 
 
            freq_dis_int ~ e0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2705,6 +2809,7 @@ sm7  <- '#Measurement models
                           countidCroatia 
 
            totalhour    ~ f0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2714,6 +2819,7 @@ sm7  <- '#Measurement models
                           countidCroatia 
 
            y15_Q47      ~ g0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2726,6 +2832,7 @@ sm7  <- '#Measurement models
 
                ENG      ~ a1*QD + b1*AUT + c1*CD + d1*SS + e1*freq_dis_int + f1*totalhour + g1*y15_Q47  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2736,6 +2843,7 @@ sm7  <- '#Measurement models
 
               BURN      ~ a2*QD + b2*AUT + c2*CD + d2*SS + e2*freq_dis_int + f2*totalhour + g2*y15_Q47  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2748,6 +2856,7 @@ sm7  <- '#Measurement models
 
           headeye       ~ yy1*ENG + zz1*BURN + aa1*QD + bb1*AUT + cc1*CD + dd1*SS + ee1*freq_dis_int + ff1*totalhour + gg1*y15_Q47 + x1*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2758,6 +2867,7 @@ sm7  <- '#Measurement models
 
           WHO5          ~ yy2*ENG + zz2*BURN + aa2*QD + bb2*AUT + cc2*CD + dd2*SS + ee2*freq_dis_int + ff2*totalhour + gg2*y15_Q47 + x2*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2767,6 +2877,7 @@ sm7  <- '#Measurement models
                           countidCroatia 
           y15_Q75       ~ yy3*ENG + zz3*BURN + aa3*QD + bb3*AUT + cc3*CD + dd3*SS + ee3*freq_dis_int + ff3*totalhour + gg3*y15_Q47 + x3*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2776,6 +2887,7 @@ sm7  <- '#Measurement models
                           countidCroatia 
           anxiety       ~ yy4*ENG + zz4*BURN + aa4*QD + bb4*AUT + cc4*CD + dd4*SS + ee4*freq_dis_int + ff4*totalhour + gg4*y15_Q47 + x4*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2785,6 +2897,7 @@ sm7  <- '#Measurement models
                           countidCroatia 
           fatigue       ~ yy5*ENG + zz5*BURN + aa5*QD + bb5*AUT + cc5*CD + dd5*SS + ee5*freq_dis_int + ff5*totalhour + gg5*y15_Q47 + x5*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2794,6 +2907,7 @@ sm7  <- '#Measurement models
                           countidCroatia 
           stress        ~ yy6*ENG + zz6*BURN + aa6*QD + bb6*AUT + cc6*CD + dd6*SS + ee6*freq_dis_int + ff6*totalhour + gg6*y15_Q47 + x6*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2803,6 +2917,7 @@ sm7  <- '#Measurement models
                           countidCroatia  
           absenteeism   ~ yy7*ENG + zz7*BURN + aa7*QD + bb7*AUT + cc7*CD + dd7*SS + ee7*freq_dis_int + ff7*totalhour + gg7*y15_Q47 + x7*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -2812,6 +2927,7 @@ sm7  <- '#Measurement models
                           countidCroatia  
           presenteeism  ~ yy8*ENG + zz8*BURN + aa8*QD + bb8*AUT + cc8*CD + dd8*SS + ee8*freq_dis_int + ff8*totalhour + gg8*y15_Q47 + x8*computer + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3071,6 +3187,7 @@ sm8  <- '#Measurement models
 
          #JDR regressions
            QD           ~ a0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3080,6 +3197,7 @@ sm8  <- '#Measurement models
                           countidCroatia 
 
            AUT          ~ b0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3089,6 +3207,7 @@ sm8  <- '#Measurement models
                           countidCroatia 
 
            CD           ~ c0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3098,6 +3217,7 @@ sm8  <- '#Measurement models
                           countidCroatia 
 
            SS           ~ d0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3107,6 +3227,7 @@ sm8  <- '#Measurement models
                           countidCroatia 
 
            freq_dis_int ~ e0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3116,6 +3237,7 @@ sm8  <- '#Measurement models
                           countidCroatia 
 
            totalhour    ~ f0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3125,6 +3247,7 @@ sm8  <- '#Measurement models
                           countidCroatia 
 
            y15_Q47      ~ g0*computer + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3137,6 +3260,7 @@ sm8  <- '#Measurement models
 
                ENG      ~ a1*QD + b1*AUT + c1*CD + d1*SS + e1*freq_dis_int + f1*totalhour + g1*y15_Q47  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3147,6 +3271,7 @@ sm8  <- '#Measurement models
 
               BURN      ~ a2*QD + b2*AUT + c2*CD + d2*SS + e2*freq_dis_int + f2*totalhour + g2*y15_Q47 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3159,6 +3284,7 @@ sm8  <- '#Measurement models
 
           headeye       ~ yy1*ENG + zz1*BURN  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3169,6 +3295,7 @@ sm8  <- '#Measurement models
 
           WHO5          ~ yy2*ENG + zz2*BURN  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3178,6 +3305,7 @@ sm8  <- '#Measurement models
                           countidCroatia 
           y15_Q75       ~ yy3*ENG + zz3*BURN  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3187,6 +3315,7 @@ sm8  <- '#Measurement models
                           countidCroatia 
           anxiety       ~ yy4*ENG + zz4*BURN  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3196,6 +3325,7 @@ sm8  <- '#Measurement models
                           countidCroatia 
           fatigue       ~ yy5*ENG + zz5*BURN  + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3205,6 +3335,7 @@ sm8  <- '#Measurement models
                           countidCroatia 
           stress        ~ yy6*ENG + zz6*BURN + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3223,6 +3354,7 @@ sm8  <- '#Measurement models
                           countidCroatia  
           presenteeism  ~ yy8*ENG + zz8*BURN + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3599,6 +3731,7 @@ sm9  <- '#Measurement models
                           a0i3*highmob_1 +
                           a0i4*lowmob_1 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3613,6 +3746,7 @@ sm9  <- '#Measurement models
                           b0i3*highmob_1 +
                           b0i4*lowmob_1 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3627,6 +3761,7 @@ sm9  <- '#Measurement models
                           c0i3*highmob_1 +
                           c0i4*lowmob_1 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3641,6 +3776,7 @@ sm9  <- '#Measurement models
                           d0i3*highmob_1 +
                           d0i4*lowmob_1 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3655,6 +3791,7 @@ sm9  <- '#Measurement models
                           e0i3*highmob_1 +
                           e0i4*lowmob_1 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3669,6 +3806,7 @@ sm9  <- '#Measurement models
                           f0i3*highmob_1 +
                           f0i4*lowmob_1 +
                           f0i8*LowMobSE + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3683,6 +3821,7 @@ sm9  <- '#Measurement models
                           g0i3*highmob_1 +
                           g0i4*lowmob_1 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3700,6 +3839,7 @@ sm9  <- '#Measurement models
                           h1i3*highmob_1 +
                           h1i4*lowmob_1 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3715,6 +3855,7 @@ sm9  <- '#Measurement models
                           h2i3*highmob_1 +
                           h2i4*lowmob_1 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3730,6 +3871,7 @@ sm9  <- '#Measurement models
                           h3i3*highmob_1 +
                           h3i4*lowmob_1 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3745,6 +3887,7 @@ sm9  <- '#Measurement models
                           h4i3*highmob_1 +
                           h4i4*lowmob_1 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3760,6 +3903,7 @@ sm9  <- '#Measurement models
                           h5i3*highmob_1 +
                           h5i4*lowmob_1 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3775,6 +3919,7 @@ sm9  <- '#Measurement models
                           h6i3*highmob_1 +
                           h6i4*lowmob_1 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3790,6 +3935,7 @@ sm9  <- '#Measurement models
                           h7i3*highmob_1 +
                           h7i4*lowmob_1 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -3805,6 +3951,7 @@ sm9  <- '#Measurement models
                           h8i3*highmob_1 +
                           h8i4*lowmob_1 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4166,7 +4313,7 @@ The final model does not really on the groups of ICT mobile workers, but instead
 include_graphics("SEM_diagram_mobility.png")
 ```
 
-```{r}
+```{r include=FALSE}
 
 sm10  <- '#Measurement models
            QD   =~ y15_Q49a + y15_Q49b
@@ -4177,6 +4324,7 @@ sm10  <- '#Measurement models
          #JDR regressions
            QD           ~ a0*computer + am1*mob1 + am2*mob2 + am3*mob3 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4187,6 +4335,7 @@ sm10  <- '#Measurement models
 
            AUT          ~ b0*computer + bm1*mob1 + bm2*mob2 + bm3*mob3 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4197,6 +4346,7 @@ sm10  <- '#Measurement models
 
            CD           ~ c0*computer + cm1*mob1 + cm2*mob2 + cm3*mob3 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4207,6 +4357,7 @@ sm10  <- '#Measurement models
 
            SS           ~ d0*computer + dm1*mob1 + dm2*mob2 + dm3*mob3 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4217,6 +4368,7 @@ sm10  <- '#Measurement models
 
            freq_dis_int ~ e0*computer + em1*mob1 + em2*mob2 + em3*mob3 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4227,6 +4379,7 @@ sm10  <- '#Measurement models
 
            totalhour    ~ f0*computer + fm1*mob1 + fm2*mob2 + fm3*mob3 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4237,6 +4390,7 @@ sm10  <- '#Measurement models
 
            y15_Q47      ~ g0*computer + + gm1*mob1 + gm2*mob2 + gm3*mob3 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4249,6 +4403,7 @@ sm10  <- '#Measurement models
 
            WHO5         ~ a1*QD + b1*AUT + c1*CD + d1*SS + e1*freq_dis_int + f1*totalhour + g1*y15_Q47 + h1*computer + i1*mob1 + j1*mob2 + k1*mob3 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4259,6 +4414,7 @@ sm10  <- '#Measurement models
 
            y15_Q75      ~ a2*QD + b2*AUT + c2*CD + d2*SS + e2*freq_dis_int + f2*totalhour + g2*y15_Q47 + h2*computer + i2*mob1 + j2*mob2 + k2*mob3 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4269,6 +4425,7 @@ sm10  <- '#Measurement models
 
            anxiety      ~ a3*QD + b3*AUT + c3*CD + d3*SS + e3*freq_dis_int + f3*totalhour + g3*y15_Q47 + h3*computer + i3*mob1 + j3*mob2 + k3*mob3 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4279,6 +4436,7 @@ sm10  <- '#Measurement models
 
            fatigue      ~ a4*QD + b4*AUT + c4*CD + d4*SS + e4*freq_dis_int + f4*totalhour + g4*y15_Q47 + h4*computer + i4*mob1 + j4*mob2 + k4*mob3 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  + 
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4289,6 +4447,7 @@ sm10  <- '#Measurement models
 
            stress       ~ a5*QD + b5*AUT + c5*CD + d5*SS + e5*freq_dis_int + f5*totalhour + g5*y15_Q47 + h5*computer + i5*mob1 + j5*mob2 + k5*mob3 + 
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4309,6 +4468,7 @@ sm10  <- '#Measurement models
 
            presenteeism ~ a7*QD + b7*AUT + c7*CD + d7*SS + e7*freq_dis_int + f7*totalhour + g7*y15_Q47 + h7*computer + i7*mob1 + j7*mob2 + k7*mob3 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4319,6 +4479,7 @@ sm10  <- '#Measurement models
     
            headeye      ~ a8*QD + b8*AUT + c8*CD + d8*SS + e8*freq_dis_int + f8*totalhour + g8*y15_Q47 + h8*computer + i8*mob1 + j8*mob2 + k8*mob3 +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
+                          nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
                           countidCyprus + countidLatvia + countidLithuania + countidLuxembourg +
@@ -4344,11 +4505,6 @@ sm10  <- '#Measurement models
            SS           ~~ freq_dis_int + totalhour + y15_Q47
            freq_dis_int ~~ totalhour + y15_Q47
            totalhour    ~~ y15_Q47
-
-          #Allow computer use and mobility to correlate
-           computer ~~ mob1 + mob2 + mob3
-           mob1 ~~ mob2 + mob3
-           mob2 ~~ mob3
 
          #Indirect effects
            
