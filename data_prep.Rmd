@@ -176,7 +176,7 @@ EWCS_EU28$y15_Q61i <- ordered(EWCS_EU28$y15_Q61i, levels=rev(levels(EWCS_EU28$y1
 EWCS_EU28$y15_Q61a <- ordered(EWCS_EU28$y15_Q61a, levels=rev(levels(EWCS_EU28$y15_Q61a)))
 EWCS_EU28$y15_Q61b <- ordered(EWCS_EU28$y15_Q61b, levels=rev(levels(EWCS_EU28$y15_Q61b)))
 
-EWCS_EU28$SS <- (as.numeric(EWCS_EU28$y15_Q61a)-5)*-1
+EWCS_EU28$SS <- EWCS_EU28$y15_Q61a
 
 #WHO5
 EWCS_EU28$y15_Q87a <- ordered(EWCS_EU28$y15_Q87a, levels=rev(levels(EWCS_EU28$y15_Q87a)))
