@@ -1,18 +1,10 @@
----
-title: "Data prep"
-author: "Mathijn Wilkens"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: 
-  html_document: 
-    css: custom.css
-    toc: true
-    toc_float: true
----
+##################
+#Data preparation#
+##################
 
 #Subsetting data
-Dataset 'EWCS' created with 'import_data.R'. The analysis will not cover any years before 2000 so that data can be excluded. It will also only cover the EU28 of 2015.
+#Dataset 'EWCS' created with 'import_data.R'. The analysis will not cover any years before 2000 so that data can be excluded. It will also only cover the EU28 of 2015.
 
-```{r}
 load("data/EWCS.Rda")
 
 EWCS_EU28 <- subset(EWCS, EU_x==1 & as.numeric(wave)>=3)
@@ -20,11 +12,9 @@ EWCS_EU28 <- subset(EWCS, EU_x==1 & as.numeric(wave)>=3)
 EWCS_EU28$wave <- droplevels(EWCS_EU28$wave)
 EWCS_EU28$countid <- droplevels(EWCS_EU28$countid)
 
-```
 
 #Recodes
 
-```{r}
 #year
 EWCS_EU28$t <- as.numeric(EWCS_EU28$wave)
 
@@ -131,6 +121,9 @@ EWCS_EU28$y15_Q61g <- factor(EWCS_EU28$y15_Q61g,
 #Working hours
 #totalhour
 
+#Working more than 48 hours
+EWCS_EU28$longhour <- ordered(EWCS_EU28$longhour)
+
 #Work in free time
 EWCS_EU28$y15_Q46_r <- factor(EWCS_EU28$y15_Q46, 
                               levels=c("Never                        ",
@@ -146,15 +139,15 @@ EWCS_EU28$y15_Q47 <- ordered(EWCS_EU28$y15_Q47, levels=rev(levels(EWCS_EU28$y15_
 #Autonomy
 EWCS_EU28$y15_Q54a <- factor(EWCS_EU28$y15_Q54a, 
                              levels=c("No                        ",
-                                                          "Yes                       "), 
+                                      "Yes                       "), 
                              ordered=TRUE)
 EWCS_EU28$y15_Q54b <- factor(EWCS_EU28$y15_Q54b, 
                              levels=c("No                        ",
-                                                          "Yes                       "), 
+                                      "Yes                       "), 
                              ordered=TRUE)
 EWCS_EU28$y15_Q54c <- factor(EWCS_EU28$y15_Q54c, 
                              levels=c("No                        ",
-                                                          "Yes                       "), 
+                                      "Yes                       "), 
                              ordered=TRUE)
 
 EWCS_EU28$y15_Q61e <- factor(EWCS_EU28$y15_Q61e, levels=rev(levels(EWCS_EU28$y15_Q61e)), ordered=TRUE)
@@ -245,9 +238,15 @@ EWCS_EU28$mob1 <- as.numeric(EWCS_EU28$mob=="Low mobile")
 EWCS_EU28$mob2 <- as.numeric(EWCS_EU28$mob=="High mobile")
 EWCS_EU28$mob3 <- as.numeric(EWCS_EU28$mob=="Homebased telework")
 
-```
+#Working time arrangements
+EWCS_EU28$wa_set   <- as.numeric(EWCS_EU28$y15_Q42=="They are set by the company / organisation  with no possibility for changes                  ")
+EWCS_EU28$wa_fixed <- as.numeric(EWCS_EU28$y15_Q42=="You can choose between several fixed working schedules determined by the company/organisation")
+EWCS_EU28$wa_adapt <- as.numeric(EWCS_EU28$y15_Q42=="You can adapt your working hours within certain limits (e.g. flextime)                       ")
+EWCS_EU28$wa_self  <- as.numeric(EWCS_EU28$y15_Q42=="Your working hours are entirely determined by yourself                                       ")
 
-```{r}
+#Sleep
+EWCS_EU28$y15_Q79a <- ordered(EWCS_EU28$y15_Q79a, rev(levels(EWCS_EU28$y15_Q79a)))
+EWCS_EU28$y15_Q79b <- ordered(EWCS_EU28$y15_Q79b, rev(levels(EWCS_EU28$y15_Q79b)))
+EWCS_EU28$y15_Q79c <- ordered(EWCS_EU28$y15_Q79c, rev(levels(EWCS_EU28$y15_Q79c)))
+
 save(EWCS_EU28,file="data/EWCS_EU28.Rda")
-```
-
