@@ -23,9 +23,9 @@ source("EF_colours.R")
 load("data/EWCS_EU28.Rda")
 ```
 
-#Introduction
+# Introduction
 
-Wat is the link between ICT use and health and wellbeing? Some argue that the rise in intensification is due to technological change (e.g. Green, 2002). Chesley (2014) links the ICT use to working to three elements of job strain: working at high speed, interruptions and multitasking. She finds positive associations based on a US sample of employees. Salanova et al. (2013) argue that the use of ICTs is associated with technostrain (anxiety, fatigue, scepticism and inefficacy beliefs) and technoaddition. A systematic review by Berg-Beckhoff et al. (2017) shows that ICT use is associated with stress in cross-sectional studies, although not in intervention studies. Also, they find evidence for a link between ICT and burnout, but no links between ICT use and anxiety or mental health. Stadin et al (2016) use a longitudinal survey to show links between ICT demands with job strain, effort reward imbalance and lower self-rated health. Supporting a more favourable view on the effects of ICT use, Charalampous at al. (2018) show in a systematic review of the literature that teleworking is related to more positive emotions, higher job satisfaction, more autonomy andcommitment and amerioralte feelings of emotional exhaustion.
+Wat is the link between ICT use and health and wellbeing? Some argue that the rise in intensification is due to technological change (e.g. Green, 2002). Chesley (2014) links the ICT use to working to three elements of job strain: working at high speed, interruptions and multitasking. She finds positive associations based on a US sample of employees. Salanova et al. (2013) argue that the use of ICTs is associated with technostrain (anxiety, fatigue, scepticism and inefficacy beliefs) and technoaddition. A systematic review by Berg-Beckhoff et al. (2017) shows that ICT use is associated with stress in cross-sectional studies, although not in intervention studies. Also, they find evidence for a link between ICT and burnout, but no links between ICT use and anxiety or mental health. Stadin et al (2016) use a longitudinal survey to show links between ICT demands with job strain, effort reward imbalance and lower self-rated health. Supporting a more favourable view on the effects of ICT use, Charalampous at al. (2018) show in a systematic review of the literature that teleworking is related to more positive emotions, higher job satisfaction, more autonomy and commitment and ameliorate feelings of emotional exhaustion.
 
 Ter Hoeven et al. (2016) suggest a more nuanced view and focus not only on the negative but also on the positive aspects of ICT use, arguing that focusing on job demands only will show negative links between ICT use and health while focusing on job resources only will show positive links. They analyse the effect of ICT use by estimating a JD-R (job demands - resources) model that hypothesises that ICT use enhances effective communication and accessibilty as well as makes work more unpredictable and causes more interruptions. This model is supported by a sample of Dutch employees and also inlcudes links to burnout and engagement, showing that advantages and disadvantages of ICT use are equally strong with regards to burnout while the positive effects on engagements are bigger than the negative effects.  
 
@@ -41,11 +41,11 @@ include_graphics("SEM_diagram.png")
 
 It is important to note that the EWCS is cross sectional data. Although the models assumes a causal structure, we cannot test whether any association is in fact the result of a causal process. Structural equation modelling based on cross sectional data casts doubt on these causal assumptions if the model does not fit the data and makes them tentatively more plausible otherwise (Bollen and Pearl, 2013). 
 
-#Descriptive statistics and index check
+# Descriptive statistics and index check
 
 The following section shows descriptive statistics of the mediators by computer use as well as the mediators by the health outcomes. Some of these mediators in the model are constructed by means of latent variables. In this part several indexes or latent variables are created that will feed into the model. These latent variables are checked first to see if they have a good fit and reliability. Sometimes this is not possible when they are to small to be identified in an estimation. 
 
-##Quantiative demands
+## Quantiative demands
 
 To capture quantitative demands, we use the quantitative demands index as formulated in Eurofound (2017). The idea is that computer use will lead to more intensity. It includes the variables working at high speed and tight deadlines. 
 
@@ -95,20 +95,22 @@ p <- ggplot(df, aes(x=y15_Q30i, y=value, colour=variable)) +
            caption = "Source: EWCS, EU28 in 2015. Bars indicate 95% confidence interval. \nShowing those working at high speed or having tight deadlines 'All or most of the time'",
            x="Computer use",
            y=NULL) +
-      theme_minimal(base_size = 8) + 
+      theme_minimal(base_size = 10) + 
       theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
 
 p
 
-ggsave("Quantitative demands by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
+ggsave("Quantitative demands by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 6, units = "cm")
 write.csv(df, file="charts/Quantitative demands by computer use.csv")
 
 ```
 
-##Autonomy
+## Autonomy
 
 The latent variable measuring autonomy is based on Eurofound (2017), except for 'having a say in the choice of colleagues' because that lowers model fit (not shown). Having a computer would be a resources that allows for more autonomy in the job, which could in turn be associated with better health outcomes. 
 
@@ -173,20 +175,22 @@ p <- ggplot(df, aes(x=y15_Q30i, y=value, colour=variable)) +
            caption = "Source: EWCS, EU28 in 2015. Bars indicate 95% confidence interval.",
            x="Computer use",
            y=NULL) +
-        theme_minimal(base_size = 8) + 
+        theme_minimal(base_size = 10) + 
         theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
 
 p
 
-ggsave("Autonomy by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
+ggsave("Autonomy by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 6, units = "cm")
 write.csv(df, file="charts/Autonomy by computer use.csv")
 
 ```
 
-##Cognitive demands
+## Cognitive demands
 
 Based on EWCS6 overview report job quality index. It measures the extent to which workers apply their skills in the job and the extent to which they can learn on the job. This would impact their health positively and is seen as a resource. However, we find negative associations with health, so here it is framed as a demand. Cognitive aspects of the job are likely to be a double edged sword - on the one hand they provide the worker with more learning opportunties and interesting work, while on the other hand it also brings more responsibility. 
 
@@ -251,21 +255,23 @@ p <- ggplot(df, aes(x=y15_Q30i, y=value, colour=variable)) +
            caption = "Source: EWCS, EU28 in 2015. Bars indicate 95% confidence interval.",
            x="Computer use",
            y=NULL) +
-      theme_minimal(base_size = 8) + 
+      theme_minimal(base_size = 10) + 
       theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
 
 p
 
-ggsave("Cognitive demands by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
+ggsave("Cognitive demands by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 6, units = "cm")
 write.csv(df, file="charts/cognitive demands by computer use.csv")
 
 ```
 
 
-##Social support
+## Social support
 
 Social support is a latent variable that is measured by two questions:
 
@@ -310,20 +316,22 @@ p <- ggplot(df, aes(x=y15_Q30i, y=value, colour=variable)) +
            caption = "Source: EWCS, EU28 in 2015. Bars indicate 95% confidence interval. \nShowing those who answer 'allmost or all of the time'",
            x="Computer use",
            y=NULL) +
-      theme_minimal(base_size = 8) + 
+      theme_minimal(base_size = 10) + 
       theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
 
 p
 
-ggsave("Social support by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
+ggsave("Social support by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 6, units = "cm")
 write.csv(df, file="charts/Social support by computer use.csv")
 
 ```
 
-##Working hours
+## Working hours
 
 Positive relation between working hours and ICT use, again most strong correlation at the bottom. 
 
@@ -350,7 +358,7 @@ p <- ggplot(df) +
            caption = "Source: EWCS, EU28 in 2015.",
            x="Computer use",
            y=NULL) +
-      theme_minimal(base_size = 8) + 
+      theme_minimal(base_size = 10) + 
       theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
@@ -359,13 +367,15 @@ p
 
 colnames(df)[-1] <- c("5%","25%","50%","75%","95%")
 
-ggsave("Working hours by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
+ggsave("Working hours by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 5, units = "cm")
 write.csv(df, file="charts/Working hours by computer use.csv")
 
 ```
 
-##Frequent disruptive interruptions
+## Frequent disruptive interruptions
 
 Shows a positive correlation in a quite linear way. 
 
@@ -393,20 +403,22 @@ p <- ggplot(df, aes(x=y15_Q30i, y=value)) +
            caption = "Source: EWCS, EU28 in 2015. Bars indicate 95% confidence interval.",
            x="Computer use",
            y=NULL) +
-      theme_minimal(base_size = 8) + 
+      theme_minimal(base_size = 10) + 
       theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
 
 p
 
-ggsave("Frequent disruptive interruptions by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
+ggsave("Frequent disruptive interruptions by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 5, units = "cm")
 write.csv(df, file="charts/Frequent disruptive interruptions by computer use.csv")
 
 ```
 
-##Working in free time
+## Working in free time
 
 The question in the EWCS is: "Over the last 12 months, how often have you worked in your free time to meet work demands?". It shows a positive correlation, although mostly between 'never' and 'almost never' and the rest. 
 
@@ -434,19 +446,21 @@ p <- ggplot(df, aes(x=y15_Q30i, y=value)) +
            caption = "Source: EWCS, EU28 in 2015. Bars indicate 95% confidence interval. \nShowing those who respond 'Daily' or 'Several times a week'",
            x="Computer use",
            y=NULL) +
-      theme_minimal(base_size = 8) + 
+      theme_minimal(base_size = 10) + 
       theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
 p
 
-ggsave("Working in the free time for work demands by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
+ggsave("Working in the free time for work demands by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 5, units = "cm")
 write.csv(df, file="charts/Working in the free time for work demands by computer use.csv")
 
 ```
 
-##Able to take an hour off
+## Able to take an hour off
 
 The question in the EWCS is 'Would you say that for you arranging to take an hour or two off during working hours to take care of personal or family matters is...?'. The chart below shows a positive correlation between computer use and this question. The relationship seems to be quite linear. 
 
@@ -474,20 +488,22 @@ p <- ggplot(df, aes(x=y15_Q30i, y=value)) +
            caption = "Source: EWCS, EU28 in 2015. Bars indicate 95% confidence interval. \nShowing those who respond fairly or very easy",
            x="Computer use",
            y=NULL) +
-      theme_minimal(base_size = 8) + 
+      theme_minimal(base_size = 10) + 
       theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
 
 p
 
-ggsave("Ability to take an hour off by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
+ggsave("Ability to take an hour off by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 5, units = "cm")
 write.csv(df, file="charts/Ability to take an hour off by computer use.csv")
 
 ```
 
-##WHO5
+## WHO5
 
 Turning now to the health outcomes. WHO-5 is the measurement of mental wellbeing and is considered as an outcome variable in this analysis. The data fits the CFA very well and the index shows a high degree of reliability. 
 
@@ -526,54 +542,61 @@ p <- ggplot(df, aes(x=y15_Q30i, y=value)) +
            caption = "Source: EWCS, EU28 in 2015. Bars indicate 95% confidence interval.",
            x="Computer use",
            y=NULL) +
+      theme_minimal(base_size = 10) +
       theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
 p
 
-ggsave("Ability to take an hour off by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
-write.csv(df, file="charts/Ability to take an hour off by computer use.csv")
+ggsave("WHO5 by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 5, units = "cm")
+write.csv(df, file="charts/WHO5 by computer use.csv")
 
 ```
 
-##Self rated health
+## Self rated health
 
 The question in the EWCS is How is your health in general? Would you say it is … (very good - ... - very bad). The chart below shows the proportion of workers reporting 'bad' or 'very bad' health and it shows that those using a computer more often tend to report less often they have a bad health. Especially those who never use computers tend to report a bad health. Probably a lot of this is due to selection - those in manual occupations tend to use computers less and also tend to be of lower socio economic status, both of which is negatively related to health.
 
 
 ```{r, fig.height= 3.15, fig.width=4}
 df <- subset(EWCS_EU28, select=c(y15_Q30i,w5_EU28,y15_Q75), year==2015)
-df$badhealth <- as.numeric(df$y15_Q75=="Very bad                    " | df$y15_Q75=="Bad                         ")
+df$goodhealth <- as.numeric(df$y15_Q75=="Very good                   " | df$y15_Q75=="Good                        ")
 
 svydes <- svydesign(ids=~1, data=df, weights=~w5_EU28)
 
-df1 <- svyby(~badhealth, ~y15_Q30i, svydes, svymean, na.rm = TRUE)
+df1 <- svyby(~goodhealth, ~y15_Q30i, svydes, svymean, na.rm = TRUE)
 df1 <- cbind(df1, confint(df1))
-df1$value <- df1$badhealth 
-df1$variable <- "Bad health"
+df1$value <- df1$goodhealth 
+df1$variable <- "Good health"
 df <- df1[,-2]
 
 p <- ggplot(df, aes(x=y15_Q30i, y=value)) +
       geom_errorbar(aes(ymin=`2.5 %`, ymax=`97.5 %`), width=0.3, colour=EF_blue) +
       geom_point(size=2, colour=EF_blue) +
+      scale_y_continuous(expand = c(0, 0), limit = c(0.7,0.9), breaks = seq(0.7, 0.9, 0.05), labels = percent_format(accuracy = 1)) +
       coord_flip() +
-      labs(title = "Bad self reported health by computer use",
+      labs(title = "Good self reported health by computer use",
            caption = "Source: EWCS, EU28 in 2015. Bars indicate 95% confidence interval.",
            x="Computer use",
            y=NULL) +
+      theme_minimal(base_size = 10) +
       theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
 p
 
-ggsave("Bad self reported health by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
-write.csv(df, file="charts/Bad self reported health by computer use.csv")
+ggsave("Good self reported health by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 5, units = "cm")
+write.csv(df, file="charts/Good self reported health by computer use.csv")
 
 ```
 
-##Absenteeism and presenteeism 
+## Absenteeism and presenteeism 
 
 Chart below shows the proportion of workers who report being absent from work due to sick leave or health-related leave at least one day in the past 12 months. Also, it shows presenteeism - working while sick at least once in the past 12 months. Both show a positive correlation with computer use - the more frequent computer use, the more absenteeism as well as presenteeism. Being absent for at least 5 days shows no correlation with computer use. 
 
@@ -607,7 +630,7 @@ df <- rbind(df1,df2)
 df <- rbind(df,df3)
 
 p <- ggplot(df, aes(x=y15_Q30i, y=value, colour=variable)) +
-      geom_errorbar(aes(ymin=`2.5 %`, ymax=`97.5 %`), width=0.2, position = position_dodge(width=0.5)) +
+      geom_errorbar(aes(ymin=`2.5 %`, ymax=`97.5 %`), width=0.3, position = position_dodge(width=0.5)) +
       geom_point(size=2, position = position_dodge(width=0.5)) +
       coord_flip() +
       scale_colour_manual(NULL, values=EF_3c) +
@@ -616,20 +639,22 @@ p <- ggplot(df, aes(x=y15_Q30i, y=value, colour=variable)) +
            caption = "Source: EWCS, EU28 in 2015. Bars indicate 95% confidence interval.",
            x="Computer use",
            y=NULL) +
-      theme_minimal(base_size = 8) + 
+      theme_minimal(base_size = 10) + 
       theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
 
 p
 
-ggsave("Absenteeism and presenteeism by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
+ggsave("Absenteeism and presenteeism by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 6, units = "cm")
 write.csv(df, file="charts/Absenteeism and presenteeism by computer use.csv")
 
 ```
 
-##Headaches / eyestrain
+## Headaches / eyestrain
 
 Having headaches or eyestrain in the 12 months prior to the survey is reported mroe often by those who use computers. There is quite a linear positive correlation between the two.  
 
@@ -654,20 +679,22 @@ p <- ggplot(df, aes(x=y15_Q30i, y=value)) +
            caption = "Source: EWCS, EU28 in 2015. Bars indicate 95% confidence interval.",
            x="Computer use",
            y=NULL) +
-      theme_minimal(base_size = 8) + 
+      theme_minimal(base_size = 10) + 
       theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
 
 p
 
-ggsave("Headaches or eystrain by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
+ggsave("Headaches or eystrain by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 5, units = "cm")
 write.csv(df, file="charts/Headaches or eystrain by computer use.csv")
 
 ```
 
-##Anxiety, stress and fatigue
+## Anxiety, stress and fatigue
 
 Chart shows that anxiety and stress are correlated to computer use, but fatigue is not. 
 
@@ -710,20 +737,22 @@ p <- ggplot(df, aes(x=y15_Q30i, y=value, colour=variable)) +
            caption = "Source: EWCS, EU28 in 2015. Bars indicate 95% confidence interval.",
            x="Computer use",
            y=NULL) +
-      theme_minimal(base_size = 8) + 
+      theme_minimal(base_size = 10) + 
       theme(legend.position="bottom",
             axis.line = element_line(colour="grey"),
             plot.title = element_text(size=8))
 
 p
 
-ggsave("Anxiety, stress and fatigue by computer use.eps", plot = p, device = "eps", path="charts/",
-       scale = 1, width = 8, height = 8, units = "cm")
+ggsave("Anxiety, stress and fatigue by computer use.eps", 
+       plot = p + labs(title=NULL,caption=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 8, height = 6, units = "cm")
 write.csv(df, file="charts/Anxiety, stress and fatigue by computer use.csv")
 
 ```
 
-##Overall reliability check
+## Overall reliability check
 
 Most of the latent variables mentioned above cannot be identified in isolation. They can, however, if they are inlcuded in a larger structure. The output below shows that overall the fit as well as the reliabilty looks good (omega >0.7) except for the reliability of the congnitive dimension. 
 
@@ -741,9 +770,9 @@ reliability(fit)
     
 ```
 
-#Structural model
+# Structural model
 
-##Model estimation
+## Model estimation
 
 Creating a variable that is the interaction between the year 2015 and computer use. This should reflect the change in the question and control the other coefficients for that effect. Its equal to computer in 2015, and zero otherwise. 
 
@@ -1080,7 +1109,7 @@ The model fit is very good.
 fitmeasures(fit1,fit.measures=c("tli","cfi","rni","rmsea"))
 ```
 
-##Results
+## Results
 
 The first plot below shows the total direct and indirect (mediated) effect of computer use. The sum of the two would be the total effect. Generally the effect of computer use is unfavourable for the health and wellbeing outcomes, although there is no effect for WHO5, and small effects for self-rated health and absenteeism. Interestingly, the positive effect of computer use on presenteeism is much larger than the effect on absenteeism. This might support the hypothesis that digital work is more prone to presenteeism, i.e. its easier to work while sick the more work is done on a computer. 
 
@@ -1131,16 +1160,23 @@ df2$Outcome[df2$Outcome=="headeye"] <- "Headache / eyestrain"
 df2$sig[df2$pvalue<0.01] <- "p<0.01"
 df2$sig[df2$pvalue>=0.01] <- "p>=0.01"
 
-ggplot(subset(df2,x=="Indirect" | x=="Direct"), aes(x=Outcome, y=est.std, fill=x)) + 
-  geom_bar(stat="identity") + 
-#  geom_errorbar(aes(ymin=ci.lower, ymax=ci.upper), colour="black", width=.1) +
-  scale_fill_manual("Effect", values=EF_2c) +
-  coord_flip() + 
-  labs(title = "Effect of computer use on health indicators",
-       subtitle = "Standardised coefficients, direct and mediated through job demands and resources",
-       caption = "Source: EWCS 2010 and 2015", 
-       x= "Indicator", y = "Standardised coefficient") +
-  theme_minimal()
+p <-  ggplot(subset(df2,x=="Indirect" | x=="Direct"), aes(x=Outcome, y=est.std, fill=x)) + 
+        geom_bar(stat="identity") + 
+        scale_fill_manual("Effect", values=EF_2c) +
+        coord_flip() + 
+        labs(title = "Effect of computer use on health indicators",
+             subtitle = "Standardised coefficients, direct and mediated through job demands and resources",
+             caption = "Source: EWCS 2010 and 2015", 
+             x= "Indicator", y = "Standardised coefficient") +
+        theme_minimal(base_size=10) +
+        theme(axis.title.y = element_blank())
+p
+
+ggsave("Effect of computer use on health indicators.eps", 
+       plot = p + labs(title=NULL,caption=NULL, subtitle=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 16, height = 6, units = "cm")
+write.csv(df, file="charts/Effect of computer use on health indicators.csv")
 
 ```
 
@@ -1151,17 +1187,29 @@ The plot below shows the indirect effect of computer use by mediator and by outc
 df2$x2 <- "Direct"
 df2$x2[is.na(df2$x)] <- "Indirect"
 
-ggplot(subset(df2,is.na(x) | Mediator== "Computer (direct)"), aes(x=Mediator, y=est.std, fill=x2)) + 
-  facet_wrap( ~ Outcome , nrow=2  ) +
-  geom_bar(stat="identity") + 
-  scale_fill_manual("Effect", values=EF_2c) +
-  geom_errorbar(aes(ymin=ci.lower, ymax=ci.upper), colour="black", width=.1) +
-  labs(title = "Effect of ICT use mediated through job demands and resources",
-       subtitle = "Standardised coefficients, error bar showing 95% confidence interval",
-       caption = "Source: EWCS 2010 and 2015", 
-       y = "Standardised coefficient") +
-  coord_flip() + 
-  theme_bw() 
+p <-  ggplot(subset(df2,is.na(x) ), aes(x=Mediator, y=est.std, fill=x2)) + 
+        facet_wrap( ~ Outcome , nrow=2  ) +
+        geom_bar(stat="identity", fill=EF_orange) + 
+        geom_errorbar(aes(ymin=ci.lower, ymax=ci.upper), colour="black", width=.3, size=0.2) +
+        scale_y_continuous(expand = c(0, 0), limit = c(-0.04,0.05), breaks = seq(-0.04, 0.04, 0.02),labels = number_format(accuracy=0.01)) +
+        labs(title = "Effect of ICT use mediated through job demands and resources",
+             subtitle = "Standardised coefficients, error bar showing 95% confidence interval",
+             caption = "Source: EWCS 2010 and 2015", 
+             y = "Standardised coefficient") +
+        coord_flip() + 
+        theme_minimal(base_size=10) +
+        theme(panel.border = element_rect(fill=NA, colour= "grey"),
+              strip.background = element_rect(fill="grey88", colour="grey88"),
+              axis.title.y = element_blank(),
+              axis.title.x = element_text(size=8),
+              axis.text.x = element_text(size=6))
+p
+
+ggsave("Effect of ICT use mediated through job demands and resources.eps", 
+       plot = p + labs(title=NULL,caption=NULL, subtitle=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 16, height = 8, units = "cm")
+write.csv(subset(df2,is.na(x) ), file="charts/Effect of ICT use mediated through job demands and resources.csv")
 
 ```
 
@@ -1188,29 +1236,41 @@ df3$rhs[df3$rhs=="totalhour"] <- "Weekly working hours"
 df3$rhs[df3$rhs=="SS"] <- "Social support"
 df3$rhs[df3$rhs=="QD"] <- "Quantitative demands"
 df3$rhs[df3$rhs=="freq_dis_int"] <- "Frequent disruptive interruptions"
-df3$rhs[df3$rhs=="CD"] <- "Cognitive dimension"
+df3$rhs[df3$rhs=="CD"] <- "Cognitive demands"
 df3$rhs[df3$rhs=="AUT"] <- "Autonomy"
 df3$rhs[df3$rhs=="computer"] <- "Computer (direct)"
 
 df3$rhs <- factor(df3$rhs, levels=c("Weekly working hours","Work in free time","Quantitative demands","Frequent disruptive interruptions",
-                                    "Take hour off","Cognitive dimension","Autonomy","Social support","Computer"))
+                                    "Take hour off","Cognitive demands","Autonomy","Social support","Computer"))
 df3$rhs <- factor(df3$rhs, levels=rev(levels(df3$rhs)))
 
-ggplot(df3, aes(x=rhs, y=est.std)) + 
-  facet_wrap(~ lhs, nrow=2) +
-  geom_bar(stat="identity", fill=EF_blue) + 
-  geom_errorbar(aes(ymin=ci.lower, ymax=ci.upper), colour="black", width=.1) +
-  coord_flip() + 
-  labs(title = "Job demands and resources and health outcomes",
-       subtitle = "Standardised coefficients, error bar showing 95% confidence interval",
-       caption = "Source: EWCS 2010 and 2015", 
-       y = "Standardised coefficient") +
-  theme_bw()  + theme(axis.title.y=element_blank())
+p <-  ggplot(df3, aes(x=rhs, y=est.std)) + 
+        facet_wrap(~ lhs, nrow=2) +
+        geom_bar(stat="identity", fill=EF_green) + 
+        geom_errorbar(aes(ymin=ci.lower, ymax=ci.upper), colour="black", width=.2, size=0.2) +
+        coord_flip() + 
+        labs(title = "Job demands and resources and health outcomes",
+             subtitle = "Standardised coefficients, error bar showing 95% confidence interval",
+             caption = "Source: EWCS 2010 and 2015", 
+             y = "Standardised coefficient") +
+        theme_minimal(base_size=10)  + 
+        theme(panel.border = element_rect(fill=NA, colour= "grey"),
+              strip.background = element_rect(fill="grey88", colour="grey88"),
+              axis.title.y = element_blank(),
+              axis.title.x = element_text(size=8),
+              axis.text.x = element_text(size=7))
+p
+
+ggsave("Job demands and resources and health outcomes.eps", 
+       plot = p + labs(title=NULL,caption=NULL, subtitle=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 16, height = 8, units = "cm")
+write.csv(df3, file="charts/Job demands and resources and health outcomes.csv")
 
 ```
 
 
-#Model with ICT mobile workers
+# Model with ICT mobile workers
 
 This model takes structural model 1, but then replaces ICT use with the categories of ICT mobile workers. So we are hypothesising that ICT mobile worker categories have an effect on mediators, which in trun have an effect on health outcomes. Also, we hypothesise a direct effect of ICT mobile worker on health in addition. 
 
@@ -1743,7 +1803,7 @@ fit9_sol <- standardizedsolution(fit9)
 
 ```
 
-##Model fit
+## Model fit
 
 Model fit is good.
 
@@ -1751,7 +1811,7 @@ Model fit is good.
 fitmeasures(fit9,fit.measures=c("tli","cfi","rni","rmsea"))
 ```
 
-##Results
+## Results
 
 The figure below shows the effect of all ICT mobile worker categories taken together relative to the reference category 'other'. Generally the picture looks similar to the chart of the model that was just based on computer use. 
 
@@ -1780,11 +1840,11 @@ df2$Mediator[df2$Mediator=="totalhour"] <- "Weekly working hours"
 df2$Mediator[df2$Mediator=="SS"] <- "Social support"
 df2$Mediator[df2$Mediator=="QD"] <- "Quantitative demands"
 df2$Mediator[df2$Mediator=="freq_dis_int"] <- "Frequent disruptive interruptions"
-df2$Mediator[df2$Mediator=="CD"] <- "Cognitive dimension"
+df2$Mediator[df2$Mediator=="CD"] <- "Cognitive demands"
 df2$Mediator[df2$Mediator=="computer"] <- "Computer (direct)"
 
 df2$Mediator <- factor(df2$Mediator, levels=c("Weekly working hours","Work in free time","Quantitative demands","Frequent disruptive interruptions",
-                                    "Take hour off","Cognitive dimension","Autonomy","Social support","Computer (direct)"))
+                                    "Take hour off","Cognitive demands","Autonomy","Social support","Computer (direct)"))
 df2$Mediator <- factor(df2$Mediator, levels=rev(levels(df2$Mediator)))
 
 df2$Outcome[df2$Outcome=="y15_Q75"] <- "Self-rated health"
@@ -1798,16 +1858,26 @@ df2$Outcome[df2$Outcome=="headeye"] <- "Headache / eyestrain"
 df2$sig[df2$pvalue<0.01] <- "p<0.01"
 df2$sig[df2$pvalue>=0.01] <- "p>=0.01"
 
-ggplot(subset(df2,x=="Indirect" | x=="Direct"), aes(x=Outcome, y=est.std, fill=x)) + 
-  geom_bar(stat="identity") + 
-#  geom_errorbar(aes(ymin=ci.lower, ymax=ci.upper), colour="black", width=.1) +
-  scale_fill_manual("Effect", values=EF_2c) +
-  coord_flip() + 
-  labs(title = "Effect of ICT-mobile work use on health indicators",
-       subtitle = "Standardised coefficients, direct and mediated through job demands and resources",
-       caption = "Source: EWCS 2015", 
-       x= "Indicator", y = "Standardised coefficient") +
-  theme_minimal()
+p <-  ggplot(subset(df2,x=="Indirect" | x=="Direct"), aes(x=Outcome, y=est.std, fill=x)) + 
+      geom_bar(stat="identity") + 
+      scale_fill_manual("Effect", values=EF_2c) +
+      coord_flip() + 
+      labs(title = "Effect of ICT-mobile work use on health indicators",
+           subtitle = "Standardised coefficients, direct and mediated through job demands and resources",
+           caption = "Source: EWCS 2015", 
+           x= "Indicator", y = "Standardised coefficient") +
+      theme_minimal(base_size=10)  + 
+      theme(panel.border = element_rect(fill=NA, colour= "grey"),
+            strip.background = element_rect(fill="grey88", colour="grey88"),
+            axis.title.y = element_blank())
+p
+
+ggsave("Effect of ICT-mobile work use on health indicators.eps", 
+       plot = p + labs(title=NULL,caption=NULL, subtitle=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 16, height = 6, units = "cm")
+write.csv(df, file="charts/Effect of ICT-mobile work use on health indicators.csv")
+
 
 ```
 
@@ -1845,16 +1915,31 @@ df3$Outcome[df3$Outcome=="absenteeism"] <- "Absenteeism"
 df3$Outcome[df3$Outcome=="presenteeism"] <- "Presenteeism"
 df3$Outcome[df3$Outcome=="headeye"] <- "Headache / eyestrain"
 
-ggplot(df3, aes(x=group, y=est.std, fill=effect)) + 
-  facet_wrap( ~ Outcome , nrow=2  ) +
-  geom_bar(stat="identity") + 
-  scale_fill_manual("Effect", values=EF_2c) +
-  labs(title = "Effect of ICT mobile work",
-       subtitle = "Standardised coefficients, error bar showing 95% confidence interval",
-       caption = "Source: EWCS 2015", 
-       y = "Standardised coefficient") +
-  coord_flip() + 
-  theme_bw() 
+p <-  ggplot(df3, aes(x=group, y=est.std, fill=effect)) + 
+        facet_wrap( ~ Outcome , nrow=2  ) +
+        geom_bar(stat="identity") + 
+        scale_fill_manual("Effect", values=EF_2c) +
+        labs(title = "Effect of ICT mobile work",
+             caption = "Source: EWCS 2015", 
+             y = "Standardised coefficient") +
+        coord_flip() + 
+        scale_y_continuous(expand = c(0, 0), limit = c(-0.04,0.08), breaks = seq(-0.03, 0.06, 0.03),labels = number_format(accuracy=0.01)) +
+        theme_minimal(base_size=10)  + 
+        theme(legend.position = c(0.1, -0.10),
+              legend.direction = "horizontal",
+              legend.title = element_blank(),
+              legend.key.size = unit(0.4, "cm"),
+              panel.border = element_rect(fill=NA, colour= "grey"),
+              strip.background = element_rect(fill="grey88", colour="grey88"),
+              axis.title.y = element_blank(),
+              axis.title.x = element_text(size=8, hjust=1))
+p
+
+ggsave("Effect of ICT mobile work.eps", 
+       plot = p + labs(title=NULL,caption=NULL, subtitle=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 16, height = 8, units = "cm")
+write.csv(df3, file="charts/Effect of ICT mobile work.csv")
 
 ```
 
@@ -1865,21 +1950,30 @@ Chart below shows the indirect effects of the groups taken together, by their me
 df2$x2 <- "Direct"
 df2$x2[is.na(df2$x)] <- "Indirect"
 
-ggplot(subset(df2,is.na(x)), aes(x=Mediator, y=est.std, fill=x2)) + 
-  facet_wrap( ~ Outcome , nrow=2  ) +
-  geom_bar(stat="identity") + 
-  scale_fill_manual("Effect", values=EF_2c) +
-  geom_errorbar(aes(ymin=ci.lower, ymax=ci.upper), colour="black", width=.1) +
-  labs(title = "Effect of ICT mobile work mediated through job demands and resources",
-       subtitle = "Standardised coefficients, error bar showing 95% confidence interval",
-       caption = "Source: EWCS 2015", 
-       y = "Standardised coefficient") +
-  coord_flip() + 
-  theme_bw() 
+p <- ggplot(subset(df2,is.na(x)), aes(x=Mediator, y=est.std)) + 
+        facet_wrap( ~ Outcome , nrow=2) +
+        geom_bar(stat="identity", fill=EF_orange) + 
+        geom_errorbar(aes(ymin=ci.lower, ymax=ci.upper), colour="black", width=.3, size=0.2) +
+        labs(title = "Effect of ICT mobile work mediated through job demands and resources",
+             subtitle = "Standardised coefficients, error bar showing 95% confidence interval",
+             caption = "Source: EWCS 2015", 
+             y = "Standardised coefficient") +
+        coord_flip() +
+        theme_minimal(base_size=10) +
+        theme(panel.border = element_rect(fill=NA, colour= "grey"),
+              strip.background = element_rect(fill="grey88", colour="grey88"),
+              axis.title.y = element_blank())
+p
+
+ggsave("Effect of ICT mobile work mediated through job demands and resources.eps", 
+       plot = p + labs(title=NULL,caption=NULL, subtitle=NULL), 
+       device = "eps", path="charts/",
+       scale = 1, width = 16, height = 8, units = "cm")
+write.csv(df, file="charts/Effect of ICT mobile work mediated through job demands and resources.csv")
 
 ```
 
-#Literature
+# Literature
 
 * Berg-Beckhoff, G., Nielsen, G., & Ladekjær Larsen, E. (2017). Use of information communication technology and stress, burnout, and mental health in older, middle-aged, and younger workers–results from a systematic review. International journal of occupational and environmental health, 23(2), 160-171.
 * Bollen, K. A. and Pearl, J. (2013), ‘Eight myths about causality and structural equation models’, in Morgan, S.L. (ed.), Handbook of causal analysis for social research, Springer, New York, pp. 301–328. 
