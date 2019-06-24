@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.sav
+.Rda
+data/
+debug.log
+debug.log
+charts
+SEM_muscular.Rmd
+ordinal_computer.xslx
