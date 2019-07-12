@@ -1275,12 +1275,20 @@ write.csv(df3, file="charts/Job demands and resources and health outcomes.csv")
 This model takes structural model 1, but then replaces ICT use with the categories of ICT mobile workers. So we are hypothesising that ICT mobile worker categories have an effect on mediators, which in trun have an effect on health outcomes. Also, we hypothesise a direct effect of ICT mobile worker on health in addition. 
 
 ```{r}
-EWCS_EU28$alwaysoffice_1 <- as.numeric((EWCS_EU28$cat_ictmob=="Always Office, self-employed" & EWCS_EU28$computer<=5) | EWCS_EU28$cat_ictmob=="Always at employers premise w/o ICT, employee")
-EWCS_EU28$alwaysofficeICT_1 <-  as.numeric(EWCS_EU28$cat_ictmob=="Always at employers premise with ICT, employee")
-EWCS_EU28$teleworker_1 <- as.numeric(EWCS_EU28$cat_ictmob=="Home-based teleworker, employee")
-EWCS_EU28$highmob_1 <- as.numeric(EWCS_EU28$cat_ictmob=="High mobile T/ICTM, employee")
-EWCS_EU28$lowmob_1 <- as.numeric( EWCS_EU28$cat_ictmob=="Occasional T/ICTM, employee")
-EWCS_EU28$selfICTM <- as.numeric((EWCS_EU28$cat_ictmob=="Always Office, self-employed" & EWCS_EU28$computer>5) | EWCS_EU28$cat_ictmob=="Home-based ICT, self-employed" | EWCS_EU28$cat_ictmob=="High mobile ICT, self-employed" | EWCS_EU28$cat_ictmob=="Low-mobile ICT, self-employed" )
+#EWCS_EU28$alwaysoffice_1 <- as.numeric((EWCS_EU28$cat_ictmob=="Always Office, self-employed" & EWCS_EU28$computer<=5) | EWCS_EU28$cat_ictmob=="Always at employers premise w/o ICT, employee")
+#EWCS_EU28$alwaysofficeICT_1 <-  as.numeric(EWCS_EU28$cat_ictmob=="Always at employers premise with ICT, employee")
+#EWCS_EU28$teleworker_1 <- as.numeric(EWCS_EU28$cat_ictmob=="Home-based teleworker, employee")
+#EWCS_EU28$highmob_1 <- as.numeric(EWCS_EU28$cat_ictmob=="High mobile T/ICTM, employee")
+#EWCS_EU28$lowmob_1 <- as.numeric( EWCS_EU28$cat_ictmob=="Occasional T/ICTM, employee")
+#EWCS_EU28$selfICTM <- as.numeric((EWCS_EU28$cat_ictmob=="Always Office, self-employed" & EWCS_EU28$computer>5) | EWCS_EU28$cat_ictmob=="Home-based ICT, self-employed" | EWCS_EU28$cat_ictmob=="High mobile ICT, self-employed" | EWCS_EU28$cat_ictmob=="Low-mobile ICT, self-employed" )
+
+EWCS_EU28$alwaysoffice_1 <- as.numeric(EWCS_EU28$TICTM2=="Always at employers premise w/o ICT, employee")
+EWCS_EU28$alwaysofficeICT_1  <- as.numeric(EWCS_EU28$TICTM2=="Always at employers premise with ICT, employee" )
+EWCS_EU28$teleworker_1  <- as.numeric(EWCS_EU28$TICTM2=="Home-based teleworker, employee" )
+EWCS_EU28$highmob_1  <- as.numeric(EWCS_EU28$TICTM2=="High mobile T/ICTM, employee")
+EWCS_EU28$lowmob_1 <- as.numeric( EWCS_EU28$TICTM2=="Occasional T/ICTM, employee")
+EWCS_EU28$self_alwaysoffice <- as.numeric(EWCS_EU28$TICTM2=="Self-employed")
+EWCS_EU28$selfICTM <- as.numeric(EWCS_EU28$TICTM2=="Self-employed T/ICTM")
 
 ```
 
@@ -1299,6 +1307,7 @@ sm9  <- '#Measurement models
                           a0i3*highmob_1 +
                           a0i4*lowmob_1 +
                           a0i5*selfICTM +
+                          a0i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1315,6 +1324,7 @@ sm9  <- '#Measurement models
                           b0i3*highmob_1 +
                           b0i4*lowmob_1 +
                           b0i5*selfICTM +
+                          b0i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1331,6 +1341,7 @@ sm9  <- '#Measurement models
                           c0i3*highmob_1 +
                           c0i4*lowmob_1 + 
                           c0i5*selfICTM +
+                          c0i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1347,6 +1358,7 @@ sm9  <- '#Measurement models
                           d0i3*highmob_1 +
                           d0i4*lowmob_1 +
                           d0i5*selfICTM +
+                          d0i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1363,6 +1375,7 @@ sm9  <- '#Measurement models
                           e0i3*highmob_1 +
                           e0i4*lowmob_1 +
                           e0i5*selfICTM +
+                          e0i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1379,7 +1392,8 @@ sm9  <- '#Measurement models
                           f0i3*highmob_1 +
                           f0i4*lowmob_1 +
                           f0i5*selfICTM +
-                          f0i8*LowMobSE + age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
+                          f0i6*self_alwaysoffice +
+                          age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
                           countidGreece + countidSpain + countidFrance + countidIreland + countidItaly +
@@ -1395,6 +1409,7 @@ sm9  <- '#Measurement models
                           g0i3*highmob_1 +
                           g0i4*lowmob_1 +
                           g0i5*selfICTM +
+                          g0i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1411,6 +1426,7 @@ sm9  <- '#Measurement models
                           z0i3*highmob_1 +
                           z0i4*lowmob_1 +
                           z0i5*selfICTM +
+                          z0i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1431,6 +1447,7 @@ sm9  <- '#Measurement models
                           h1i3*highmob_1 +
                           h1i4*lowmob_1 +
                           h1i5*selfICTM +
+                          h1i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1448,6 +1465,7 @@ sm9  <- '#Measurement models
                           h2i3*highmob_1 +
                           h2i4*lowmob_1 +
                           h2i5*selfICTM +
+                          h2i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1465,6 +1483,7 @@ sm9  <- '#Measurement models
                           h3i3*highmob_1 +
                           h3i4*lowmob_1 +
                           h3i5*selfICTM +
+                          h3i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1482,6 +1501,7 @@ sm9  <- '#Measurement models
                           h4i3*highmob_1 +
                           h4i4*lowmob_1 +
                           h4i5*selfICTM +
+                          h4i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high + 
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1499,6 +1519,7 @@ sm9  <- '#Measurement models
                           h5i3*highmob_1 +
                           h5i4*lowmob_1 +
                           h5i5*selfICTM +
+                          h5i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1516,6 +1537,7 @@ sm9  <- '#Measurement models
                           h6i3*highmob_1 +
                           h6i4*lowmob_1 +
                           h6i5*selfICTM +
+                          h6i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1533,6 +1555,7 @@ sm9  <- '#Measurement models
                           h7i3*highmob_1 +
                           h7i4*lowmob_1 + 
                           h7i5*selfICTM +
+                          h7i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high  +
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1550,6 +1573,7 @@ sm9  <- '#Measurement models
                           h8i3*highmob_1 +
                           h8i4*lowmob_1 +
                           h8i5*selfICTM +
+                          h8i6*self_alwaysoffice +
                           age + woman + ISCO_d2 + ISCO_d3 + ISCO_d4 + ISCO_d5 + ISCO_d6 + ISCO_d7 + ISCO_d8 + ISCO_d9 + edu_low + edu_high +
                           nace_d2 + nace_d3 + nace_d4 + nace_d5 + nace_d6 + nace_d7 + nace_d8 + nace_d9 + nace_d10 +
                           countidBulgaria + countidCzech_Republic + countidDenmark + countidGermany + countidEstonia +
@@ -1581,89 +1605,89 @@ sm9  <- '#Measurement models
 
          #Indirect effects
            
-           QD0_WHO5         := a0i0*a1 + a0i1*a1 + a0i2*a1 + a0i3*a1 + a0i4*a1 + a0i5*a1
-           QD0_y15_Q75      := a0i0*a2 + a0i1*a2 + a0i2*a2 + a0i3*a2 + a0i4*a2 + a0i5*a2
-           QD0_anxiety      := a0i0*a3 + a0i1*a3 + a0i2*a3 + a0i3*a3 + a0i4*a3 + a0i5*a3
-           QD0_fatigue      := a0i0*a4 + a0i1*a4 + a0i2*a4 + a0i3*a4 + a0i4*a4 + a0i5*a4
-           QD0_stress       := a0i0*a5 + a0i1*a5 + a0i2*a5 + a0i3*a5 + a0i4*a5 + a0i5*a5
-           QD0_absenteeism  := a0i0*a6 + a0i1*a6 + a0i2*a6 + a0i3*a6 + a0i4*a6 + a0i5*a6
-           QD0_presenteeism := a0i0*a7 + a0i1*a7 + a0i2*a7 + a0i3*a7 + a0i4*a7 + a0i5*a7
-           QD0_headeye      := a0i0*a8 + a0i1*a8 + a0i2*a8 + a0i3*a8 + a0i4*a8 + a0i5*a8
+           QD0_WHO5         := a0i0*a1 + a0i1*a1 + a0i2*a1 + a0i3*a1 + a0i4*a1 + a0i5*a1 + a0i6*a1
+           QD0_y15_Q75      := a0i0*a2 + a0i1*a2 + a0i2*a2 + a0i3*a2 + a0i4*a2 + a0i5*a2 + a0i6*a2
+           QD0_anxiety      := a0i0*a3 + a0i1*a3 + a0i2*a3 + a0i3*a3 + a0i4*a3 + a0i5*a3 + a0i6*a3
+           QD0_fatigue      := a0i0*a4 + a0i1*a4 + a0i2*a4 + a0i3*a4 + a0i4*a4 + a0i5*a4 + a0i6*a4
+           QD0_stress       := a0i0*a5 + a0i1*a5 + a0i2*a5 + a0i3*a5 + a0i4*a5 + a0i5*a5 + a0i6*a5
+           QD0_absenteeism  := a0i0*a6 + a0i1*a6 + a0i2*a6 + a0i3*a6 + a0i4*a6 + a0i5*a6 + a0i6*a6
+           QD0_presenteeism := a0i0*a7 + a0i1*a7 + a0i2*a7 + a0i3*a7 + a0i4*a7 + a0i5*a7 + a0i6*a7
+           QD0_headeye      := a0i0*a8 + a0i1*a8 + a0i2*a8 + a0i3*a8 + a0i4*a8 + a0i5*a8 + a0i6*a8
 
-           AUT0_WHO5         := b0i0*b1 + b0i1*b1 + b0i2*b1 + b0i3*b1 + b0i4*b1 + b0i5*b1
-           AUT0_y15_Q75      := b0i0*b2 + b0i1*b2 + b0i2*b2 + b0i3*b2 + b0i4*b2 + b0i5*b2
-           AUT0_anxiety      := b0i0*b3 + b0i1*b3 + b0i2*b3 + b0i3*b3 + b0i4*b3 + b0i5*b3
-           AUT0_fatigue      := b0i0*b4 + b0i1*b4 + b0i2*b4 + b0i3*b4 + b0i4*b4 + b0i5*b4
-           AUT0_stress       := b0i0*b5 + b0i1*b5 + b0i2*b5 + b0i3*b5 + b0i4*b5 + b0i5*b5
-           AUT0_absenteeism  := b0i0*b6 + b0i1*b6 + b0i2*b6 + b0i3*b6 + b0i4*b6 + b0i5*b6
-           AUT0_presenteeism := b0i0*b7 + b0i1*b7 + b0i2*b7 + b0i3*b7 + b0i4*b7 + b0i5*b7
-           AUT0_headeye      := b0i0*b8 + b0i1*b8 + b0i2*b8 + b0i3*b8 + b0i4*b8 + b0i5*b8
+           AUT0_WHO5         := b0i0*b1 + b0i1*b1 + b0i2*b1 + b0i3*b1 + b0i4*b1 + b0i5*b1 + b0i6*b1 
+           AUT0_y15_Q75      := b0i0*b2 + b0i1*b2 + b0i2*b2 + b0i3*b2 + b0i4*b2 + b0i5*b2 + b0i6*b2
+           AUT0_anxiety      := b0i0*b3 + b0i1*b3 + b0i2*b3 + b0i3*b3 + b0i4*b3 + b0i5*b3 + b0i6*b3
+           AUT0_fatigue      := b0i0*b4 + b0i1*b4 + b0i2*b4 + b0i3*b4 + b0i4*b4 + b0i5*b4 + b0i6*b4
+           AUT0_stress       := b0i0*b5 + b0i1*b5 + b0i2*b5 + b0i3*b5 + b0i4*b5 + b0i5*b5 + b0i6*b5
+           AUT0_absenteeism  := b0i0*b6 + b0i1*b6 + b0i2*b6 + b0i3*b6 + b0i4*b6 + b0i5*b6 + b0i6*b6
+           AUT0_presenteeism := b0i0*b7 + b0i1*b7 + b0i2*b7 + b0i3*b7 + b0i4*b7 + b0i5*b7 + b0i6*b7
+           AUT0_headeye      := b0i0*b8 + b0i1*b8 + b0i2*b8 + b0i3*b8 + b0i4*b8 + b0i5*b8 + b0i6*b8
 
-           CD0_WHO5         := c0i0*c1 + c0i1*c1 + c0i2*c1 + c0i3*c1 + c0i4*c1 + c0i5*c1
-           CD0_y15_Q75      := c0i0*c2 + c0i1*c2 + c0i2*c2 + c0i3*c2 + c0i4*c2 + c0i5*c2
-           CD0_anxiety      := c0i0*c3 + c0i1*c3 + c0i2*c3 + c0i3*c3 + c0i4*c3 + c0i5*c3
-           CD0_fatigue      := c0i0*c4 + c0i1*c4 + c0i2*c4 + c0i3*c4 + c0i4*c4 + c0i5*c4
-           CD0_stress       := c0i0*c5 + c0i1*c5 + c0i2*c5 + c0i3*c5 + c0i4*c5 + c0i5*c5
-           CD0_absenteeism  := c0i0*c6 + c0i1*c6 + c0i2*c6 + c0i3*c6 + c0i4*c6 + c0i5*c6
-           CD0_presenteeism := c0i0*c7 + c0i1*c7 + c0i2*c7 + c0i3*c7 + c0i4*c7 + c0i5*c7
-           CD0_headeye      := c0i0*c8 + c0i1*c8 + c0i2*c8 + c0i3*c8 + c0i4*c8 + c0i5*c8
+           CD0_WHO5         := c0i0*c1 + c0i1*c1 + c0i2*c1 + c0i3*c1 + c0i4*c1 + c0i5*c1 + c0i6*c1
+           CD0_y15_Q75      := c0i0*c2 + c0i1*c2 + c0i2*c2 + c0i3*c2 + c0i4*c2 + c0i5*c2 + c0i6*c2
+           CD0_anxiety      := c0i0*c3 + c0i1*c3 + c0i2*c3 + c0i3*c3 + c0i4*c3 + c0i5*c3 + c0i6*c3
+           CD0_fatigue      := c0i0*c4 + c0i1*c4 + c0i2*c4 + c0i3*c4 + c0i4*c4 + c0i5*c4 + c0i6*c4
+           CD0_stress       := c0i0*c5 + c0i1*c5 + c0i2*c5 + c0i3*c5 + c0i4*c5 + c0i5*c5 + c0i6*c5
+           CD0_absenteeism  := c0i0*c6 + c0i1*c6 + c0i2*c6 + c0i3*c6 + c0i4*c6 + c0i5*c6 + c0i6*c6
+           CD0_presenteeism := c0i0*c7 + c0i1*c7 + c0i2*c7 + c0i3*c7 + c0i4*c7 + c0i5*c7 + c0i6*c7
+           CD0_headeye      := c0i0*c8 + c0i1*c8 + c0i2*c8 + c0i3*c8 + c0i4*c8 + c0i5*c8 + c0i6*c8
 
-           SS0_WHO5         := d0i0*d1 + d0i1*d1 + d0i2*d1 + d0i3*d1 + d0i4*d1 + d0i5*d1
-           SS0_y15_Q75      := d0i0*d2 + d0i1*d2 + d0i2*d2 + d0i3*d2 + d0i4*d2 + d0i5*d2
-           SS0_anxiety      := d0i0*d3 + d0i1*d3 + d0i2*d3 + d0i3*d3 + d0i4*d3 + d0i5*d3
-           SS0_fatigue      := d0i0*d4 + d0i1*d4 + d0i2*d4 + d0i3*d4 + d0i4*d4 + d0i5*d4
-           SS0_stress       := d0i0*d5 + d0i1*d5 + d0i2*d5 + d0i3*d5 + d0i4*d5 + d0i5*d5
-           SS0_absenteeism  := d0i0*d6 + d0i1*d6 + d0i2*d6 + d0i3*d6 + d0i4*d6 + d0i5*d6
-           SS0_presenteeism := d0i0*d7 + d0i1*d7 + d0i2*d7 + d0i3*d7 + d0i4*d7 + d0i5*d7
-           SS0_headeye      := d0i0*d8 + d0i1*d8 + d0i2*d8 + d0i3*d8 + d0i4*d8 + d0i5*d8
+           SS0_WHO5         := d0i0*d1 + d0i1*d1 + d0i2*d1 + d0i3*d1 + d0i4*d1 + d0i5*d1 + d0i6*d1
+           SS0_y15_Q75      := d0i0*d2 + d0i1*d2 + d0i2*d2 + d0i3*d2 + d0i4*d2 + d0i5*d2 + d0i6*d2
+           SS0_anxiety      := d0i0*d3 + d0i1*d3 + d0i2*d3 + d0i3*d3 + d0i4*d3 + d0i5*d3 + d0i6*d3
+           SS0_fatigue      := d0i0*d4 + d0i1*d4 + d0i2*d4 + d0i3*d4 + d0i4*d4 + d0i5*d4 + d0i6*d4
+           SS0_stress       := d0i0*d5 + d0i1*d5 + d0i2*d5 + d0i3*d5 + d0i4*d5 + d0i5*d5 + d0i6*d5
+           SS0_absenteeism  := d0i0*d6 + d0i1*d6 + d0i2*d6 + d0i3*d6 + d0i4*d6 + d0i5*d6 + d0i6*d6
+           SS0_presenteeism := d0i0*d7 + d0i1*d7 + d0i2*d7 + d0i3*d7 + d0i4*d7 + d0i5*d7 + d0i6*d7
+           SS0_headeye      := d0i0*d8 + d0i1*d8 + d0i2*d8 + d0i3*d8 + d0i4*d8 + d0i5*d8 + d0i6*d8
 
-           freq_dis_int0_WHO5         := e0i0*e1 + e0i1*e1 + e0i2*e1 + e0i3*e1 + e0i4*e1 + e0i5*e1
-           freq_dis_int0_y15_Q75      := e0i0*e2 + e0i1*e2 + e0i2*e2 + e0i3*e2 + e0i4*e2 + e0i5*e2
-           freq_dis_int0_anxiety      := e0i0*e3 + e0i1*e3 + e0i2*e3 + e0i3*e3 + e0i4*e3 + e0i5*e3
-           freq_dis_int0_fatigue      := e0i0*e4 + e0i1*e4 + e0i2*e4 + e0i3*e4 + e0i4*e4 + e0i5*e4
-           freq_dis_int0_stress       := e0i0*e5 + e0i1*e5 + e0i2*e5 + e0i3*e5 + e0i4*e5 + e0i5*e5
-           freq_dis_int0_absenteeism  := e0i0*e6 + e0i1*e6 + e0i2*e6 + e0i3*e6 + e0i4*e6 + e0i5*e6
-           freq_dis_int0_presenteeism := e0i0*e7 + e0i1*e7 + e0i2*e7 + e0i3*e7 + e0i4*e7 + e0i5*e7
-           freq_dis_int0_headeye      := e0i0*e8 + e0i1*e8 + e0i2*e8 + e0i3*e8 + e0i4*e8 + e0i5*e8
+           freq_dis_int0_WHO5         := e0i0*e1 + e0i1*e1 + e0i2*e1 + e0i3*e1 + e0i4*e1 + e0i5*e1 + e0i6*e1
+           freq_dis_int0_y15_Q75      := e0i0*e2 + e0i1*e2 + e0i2*e2 + e0i3*e2 + e0i4*e2 + e0i5*e2 + e0i6*e2
+           freq_dis_int0_anxiety      := e0i0*e3 + e0i1*e3 + e0i2*e3 + e0i3*e3 + e0i4*e3 + e0i5*e3 + e0i6*e3
+           freq_dis_int0_fatigue      := e0i0*e4 + e0i1*e4 + e0i2*e4 + e0i3*e4 + e0i4*e4 + e0i5*e4 + e0i6*e4
+           freq_dis_int0_stress       := e0i0*e5 + e0i1*e5 + e0i2*e5 + e0i3*e5 + e0i4*e5 + e0i5*e5 + e0i6*e5
+           freq_dis_int0_absenteeism  := e0i0*e6 + e0i1*e6 + e0i2*e6 + e0i3*e6 + e0i4*e6 + e0i5*e6 + e0i6*e6
+           freq_dis_int0_presenteeism := e0i0*e7 + e0i1*e7 + e0i2*e7 + e0i3*e7 + e0i4*e7 + e0i5*e7 + e0i6*e7
+           freq_dis_int0_headeye      := e0i0*e8 + e0i1*e8 + e0i2*e8 + e0i3*e8 + e0i4*e8 + e0i5*e8 + e0i6*e8
 
-           totalhour0_WHO5         := f0i0*f1 + f0i1*f1 + f0i2*f1 + f0i3*f1 + f0i4*f1 + f0i5*f1
-           totalhour0_y15_Q75      := f0i0*f2 + f0i1*f2 + f0i2*f2 + f0i3*f2 + f0i4*f2 + f0i5*f2
-           totalhour0_anxiety      := f0i0*f3 + f0i1*f3 + f0i2*f3 + f0i3*f3 + f0i4*f3 + f0i5*f3
-           totalhour0_fatigue      := f0i0*f4 + f0i1*f4 + f0i2*f4 + f0i3*f4 + f0i4*f4 + f0i5*f4
-           totalhour0_stress       := f0i0*f5 + f0i1*f5 + f0i2*f5 + f0i3*f5 + f0i4*f5 + f0i5*f5
-           totalhour0_absenteeism  := f0i0*f6 + f0i1*f6 + f0i2*f6 + f0i3*f6 + f0i4*f6 + f0i5*f6
-           totalhour0_presenteeism := f0i0*f7 + f0i1*f7 + f0i2*f7 + f0i3*f7 + f0i4*f7 + f0i5*f7
-           totalhour0_headeye      := f0i0*f8 + f0i1*f8 + f0i2*f8 + f0i3*f8 + f0i4*f8 + f0i5*f8
+           totalhour0_WHO5         := f0i0*f1 + f0i1*f1 + f0i2*f1 + f0i3*f1 + f0i4*f1 + f0i5*f1 + f0i6*f1
+           totalhour0_y15_Q75      := f0i0*f2 + f0i1*f2 + f0i2*f2 + f0i3*f2 + f0i4*f2 + f0i5*f2 + f0i6*f2
+           totalhour0_anxiety      := f0i0*f3 + f0i1*f3 + f0i2*f3 + f0i3*f3 + f0i4*f3 + f0i5*f3 + f0i6*f3
+           totalhour0_fatigue      := f0i0*f4 + f0i1*f4 + f0i2*f4 + f0i3*f4 + f0i4*f4 + f0i5*f4 + f0i6*f4
+           totalhour0_stress       := f0i0*f5 + f0i1*f5 + f0i2*f5 + f0i3*f5 + f0i4*f5 + f0i5*f5 + f0i6*f5
+           totalhour0_absenteeism  := f0i0*f6 + f0i1*f6 + f0i2*f6 + f0i3*f6 + f0i4*f6 + f0i5*f6 + f0i6*f6
+           totalhour0_presenteeism := f0i0*f7 + f0i1*f7 + f0i2*f7 + f0i3*f7 + f0i4*f7 + f0i5*f7 + f0i6*f7
+           totalhour0_headeye      := f0i0*f8 + f0i1*f8 + f0i2*f8 + f0i3*f8 + f0i4*f8 + f0i5*f8 + f0i6*f8
 
-           y15_Q470_WHO5         := g0i0*g1 + g0i1*g1 + g0i2*g1 + g0i3*g1 + g0i4*g1 + g0i5*g1
-           y15_Q470_y15_Q75      := g0i0*g2 + g0i1*g2 + g0i2*g2 + g0i3*g2 + g0i4*g2 + g0i5*g2
-           y15_Q470_anxiety      := g0i0*g3 + g0i1*g3 + g0i2*g3 + g0i3*g3 + g0i4*g3 + g0i5*g3
-           y15_Q470_fatigue      := g0i0*g4 + g0i1*g4 + g0i2*g4 + g0i3*g4 + g0i4*g4 + g0i5*g4
-           y15_Q470_stress       := g0i0*g5 + g0i1*g5 + g0i2*g5 + g0i3*g5 + g0i4*g5 + g0i5*g5
-           y15_Q470_absenteeism  := g0i0*g6 + g0i1*g6 + g0i2*g6 + g0i3*g6 + g0i4*g6 + g0i5*g6
-           y15_Q470_presenteeism := g0i0*g7 + g0i1*g7 + g0i2*g7 + g0i3*g7 + g0i4*g7 + g0i5*g7
-           y15_Q470_headeye      := g0i0*g8 + g0i1*g8 + g0i2*g8 + g0i3*g8 + g0i4*g8 + g0i5*g8
+           y15_Q470_WHO5         := g0i0*g1 + g0i1*g1 + g0i2*g1 + g0i3*g1 + g0i4*g1 + g0i5*g1 + g0i6*g1
+           y15_Q470_y15_Q75      := g0i0*g2 + g0i1*g2 + g0i2*g2 + g0i3*g2 + g0i4*g2 + g0i5*g2 + g0i6*g2
+           y15_Q470_anxiety      := g0i0*g3 + g0i1*g3 + g0i2*g3 + g0i3*g3 + g0i4*g3 + g0i5*g3 + g0i6*g3
+           y15_Q470_fatigue      := g0i0*g4 + g0i1*g4 + g0i2*g4 + g0i3*g4 + g0i4*g4 + g0i5*g4 + g0i6*g4
+           y15_Q470_stress       := g0i0*g5 + g0i1*g5 + g0i2*g5 + g0i3*g5 + g0i4*g5 + g0i5*g5 + g0i6*g5
+           y15_Q470_absenteeism  := g0i0*g6 + g0i1*g6 + g0i2*g6 + g0i3*g6 + g0i4*g6 + g0i5*g6 + g0i6*g6
+           y15_Q470_presenteeism := g0i0*g7 + g0i1*g7 + g0i2*g7 + g0i3*g7 + g0i4*g7 + g0i5*g7 + g0i6*g7
+           y15_Q470_headeye      := g0i0*g8 + g0i1*g8 + g0i2*g8 + g0i3*g8 + g0i4*g8 + g0i5*g8 + g0i6*g8
 
-           y15_Q46_r0_WHO5         := z0i0*z1 + z0i1*z1 + z0i2*z1 + z0i3*z1 + z0i4*z1 + z0i5*z1
-           y15_Q46_r0_y15_Q75      := z0i0*z2 + z0i1*z2 + z0i2*z2 + z0i3*z2 + z0i4*z2 + z0i5*z2
-           y15_Q46_r0_anxiety      := z0i0*z3 + z0i1*z3 + z0i2*z3 + z0i3*z3 + z0i4*z3 + z0i5*z3
-           y15_Q46_r0_fatigue      := z0i0*z4 + z0i1*z4 + z0i2*z4 + z0i3*z4 + z0i4*z4 + z0i5*z4
-           y15_Q46_r0_stress       := z0i0*z5 + z0i1*z5 + z0i2*z5 + z0i3*z5 + z0i4*z5 + z0i5*z5
-           y15_Q46_r0_absenteeism  := z0i0*z6 + z0i1*z6 + z0i2*z6 + z0i3*z6 + z0i4*z6 + z0i5*z6
-           y15_Q46_r0_presenteeism := z0i0*z7 + z0i1*z7 + z0i2*z7 + z0i3*z7 + z0i4*z7 + z0i5*z7
-           y15_Q46_r0_headeye      := z0i0*z8 + z0i1*z8 + z0i2*z8 + z0i3*z8 + z0i4*z8 + z0i5*z8
+           y15_Q46_r0_WHO5         := z0i0*z1 + z0i1*z1 + z0i2*z1 + z0i3*z1 + z0i4*z1 + z0i5*z1 + z0i6*z1
+           y15_Q46_r0_y15_Q75      := z0i0*z2 + z0i1*z2 + z0i2*z2 + z0i3*z2 + z0i4*z2 + z0i5*z2 + z0i6*z2
+           y15_Q46_r0_anxiety      := z0i0*z3 + z0i1*z3 + z0i2*z3 + z0i3*z3 + z0i4*z3 + z0i5*z3 + z0i6*z3
+           y15_Q46_r0_fatigue      := z0i0*z4 + z0i1*z4 + z0i2*z4 + z0i3*z4 + z0i4*z4 + z0i5*z4 + z0i6*z4
+           y15_Q46_r0_stress       := z0i0*z5 + z0i1*z5 + z0i2*z5 + z0i3*z5 + z0i4*z5 + z0i5*z5 + z0i6*z5
+           y15_Q46_r0_absenteeism  := z0i0*z6 + z0i1*z6 + z0i2*z6 + z0i3*z6 + z0i4*z6 + z0i5*z6 + z0i6*z6
+           y15_Q46_r0_presenteeism := z0i0*z7 + z0i1*z7 + z0i2*z7 + z0i3*z7 + z0i4*z7 + z0i5*z7 + z0i6*z7
+           y15_Q46_r0_headeye      := z0i0*z8 + z0i1*z8 + z0i2*z8 + z0i3*z8 + z0i4*z8 + z0i5*z8 + z0i6*z8
 
 
 
          #Direct effects
-           computer0_WHO5         := h1i0 + h1i1 + h1i2 + h1i3 + h1i4 + h1i5
-           computer0_y15_Q75      := h2i0 + h2i1 + h2i2 + h2i3 + h2i4 + h2i5
-           computer0_anxiety      := h3i0 + h3i1 + h3i2 + h3i3 + h3i4 + h3i5
-           computer0_fatigue      := h4i0 + h4i1 + h4i2 + h4i3 + h4i4 + h4i5
-           computer0_stress       := h5i0 + h5i1 + h5i2 + h5i3 + h5i4 + h5i5
-           computer0_absenteeism  := h6i0 + h6i1 + h6i2 + h6i3 + h6i4 + h6i5
-           computer0_presenteeism := h7i0 + h7i1 + h7i2 + h7i3 + h7i4 + h7i5
-           computer0_headeye      := h8i0 + h8i1 + h8i2 + h8i3 + h8i4 + h8i5
+           computer0_WHO5         := h1i0 + h1i1 + h1i2 + h1i3 + h1i4 + h1i5 + h1i6
+           computer0_y15_Q75      := h2i0 + h2i1 + h2i2 + h2i3 + h2i4 + h2i5 + h2i6
+           computer0_anxiety      := h3i0 + h3i1 + h3i2 + h3i3 + h3i4 + h3i5 + h3i6
+           computer0_fatigue      := h4i0 + h4i1 + h4i2 + h4i3 + h4i4 + h4i5 + h4i6
+           computer0_stress       := h5i0 + h5i1 + h5i2 + h5i3 + h5i4 + h5i5 + h5i6
+           computer0_absenteeism  := h6i0 + h6i1 + h6i2 + h6i3 + h6i4 + h6i5 + h6i6
+           computer0_presenteeism := h7i0 + h7i1 + h7i2 + h7i3 + h7i4 + h7i5 + h7i6
+           computer0_headeye      := h8i0 + h8i1 + h8i2 + h8i3 + h8i4 + h8i5 + h8i6
 
          #Total indirect effects
            T0__totalindirect0_WHO5         := QD0_WHO5         + AUT0_WHO5         + CD0_WHO5         + SS0_WHO5         + freq_dis_int0_WHO5         + totalhour0_WHO5         + y15_Q470_WHO5          + y15_Q46_r0_WHO5         
@@ -1741,6 +1765,16 @@ sm9  <- '#Measurement models
            indirect_selfICTM0_presenteeism := a0i5*a7 + b0i5*b7 + c0i5*c7 + d0i5*d7 + e0i5*e7 + f0i5*f7 + g0i5*g7
            indirect_selfICTM0_headeye      := a0i5*a8 + b0i5*b8 + c0i5*c8 + d0i5*d8 + e0i5*e8 + f0i5*f8 + g0i5*g8
 
+           indirect_self_alwaysoffice0_WHO5         := a0i6*a1 + b0i6*b1 + c0i6*c1 + d0i6*d1 + e0i6*e1 + f0i6*f1 + g0i6*g1
+           indirect_self_alwaysoffice0_y15_Q75      := a0i6*a2 + b0i6*b2 + c0i6*c2 + d0i6*d2 + e0i6*e2 + f0i6*f2 + g0i6*g2
+           indirect_self_alwaysoffice0_anxiety      := a0i6*a3 + b0i6*b3 + c0i6*c3 + d0i6*d3 + e0i6*e3 + f0i6*f3 + g0i6*g3
+           indirect_self_alwaysoffice0_fatigue      := a0i6*a4 + b0i6*b4 + c0i6*c4 + d0i6*d4 + e0i6*e4 + f0i6*f4 + g0i6*g4
+           indirect_self_alwaysoffice0_stress       := a0i6*a5 + b0i6*b5 + c0i6*c5 + d0i6*d5 + e0i6*e5 + f0i6*f5 + g0i6*g5
+           indirect_self_alwaysoffice0_absenteeism  := a0i6*a6 + b0i6*b6 + c0i6*c6 + d0i6*d6 + e0i6*e6 + f0i6*f6 + g0i6*g6
+           indirect_self_alwaysoffice0_presenteeism := a0i6*a7 + b0i6*b7 + c0i6*c7 + d0i6*d7 + e0i6*e7 + f0i6*f7 + g0i6*g7
+           indirect_self_alwaysoffice0_headeye      := a0i6*a8 + b0i6*b8 + c0i6*c8 + d0i6*d8 + e0i6*e8 + f0i6*f8 + g0i6*g8
+
+
            direct_alwaysoffice0_WHO5          := h1i0
            direct_alwaysoffice0_y15_Q75       := h2i0
            direct_alwaysoffice0_anxiety       := h3i0
@@ -1794,6 +1828,15 @@ sm9  <- '#Measurement models
            direct_selfICTM0_absenteeism   := h6i5
            direct_selfICTM0_presenteeism  := h7i5
            direct_selfICTM0_headeye       := h8i5
+
+           direct_self_alwaysoffice0_WHO5          := h1i6
+           direct_self_alwaysoffice0_y15_Q75       := h2i6
+           direct_self_alwaysoffice0_anxiety       := h3i6
+           direct_self_alwaysoffice0_fatigue       := h4i6
+           direct_self_alwaysoffice0_stress        := h5i6
+           direct_self_alwaysoffice0_absenteeism   := h6i6
+           direct_self_alwaysoffice0_presenteeism  := h7i6
+           direct_self_alwaysoffice0_headeye       := h8i6
 
 '
 
@@ -1895,12 +1938,15 @@ df3 <- subset(df3, (grepl("indirect_",df3$`x[, 1]`) | grepl("direct_",df3$`x[, 1
 
 df3$group  <- gsub('indirect_','', df3$`x[, 1]`)
 df3$group  <- gsub('direct_','', df3$group)
-df3$group[df3$group=="teleworker"] <- "Teleworker"
-df3$group[df3$group=="lowmob"] <- "Low mobile TICTM"
-df3$group[df3$group=="highmob"] <- "High mobile TICTM"
-df3$group[df3$group=="alwaysofficeICT"] <- "Always at the office with ICT"
-df3$group[df3$group=="alwaysoffice"] <- "Always at the office without ICT"
+df3$group[df3$group=="teleworker"] <- "Home-based teleworker, employee"
+df3$group[df3$group=="lowmob"] <- "Occasional TICTM, employee"
+df3$group[df3$group=="highmob"] <- "High mobile TICTM, employee"
+df3$group[df3$group=="alwaysofficeICT"] <- "Always at employers premise with ICT, employee"
+df3$group[df3$group=="alwaysoffice"] <- "Always at employers premise w/o ICT, employee"
 df3$group[df3$group=="selfICTM"] <- "Self-employed TICTM"
+df3$group[df3$group=="self_alwaysoffice"] <- "Self-employed - Fixed place"
+
+df3$group <- factor(df3$group, levels=c("Always at employers premise w/o ICT, employee","Always at employers premise with ICT, employee","Home-based teleworker, employee","High mobile TICTM, employee","Occasional TICTM, employee","Self-employed - Fixed place","Self-employed TICTM"))
 
 df3$effect <- ""
 df3$effect[grepl("indirect_",df3$`x[, 1]`)==TRUE] <- "Indirect"
@@ -1923,7 +1969,8 @@ p <-  ggplot(df3, aes(x=group, y=est.std, fill=effect)) +
              caption = "Source: EWCS 2015", 
              y = "Standardised coefficient") +
         coord_flip() + 
-        scale_y_continuous(expand = c(0, 0), limit = c(-0.04,0.08), breaks = seq(-0.03, 0.06, 0.03),labels = number_format(accuracy=0.01)) +
+        scale_y_continuous(expand = c(0, 0), limit = c(-0.05,0.08), breaks = seq(-0.03, 0.06, 0.03),labels = number_format(accuracy=0.01)) +
+        scale_x_discrete(limits = rev(levels(df3$group))) +
         theme_minimal(base_size=10)  + 
         theme(legend.position = c(0.1, -0.10),
               legend.direction = "horizontal",
